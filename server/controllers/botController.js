@@ -54,9 +54,19 @@ const BotAdd = async (req,res)=> {
     res.json({ message: "Bot kaydedildi.", bot })
 }
 
-const GetBots = async(req,res)=> {
+const GetBots = async (req,res)=> {
     const bots = await Bot.find({});
     res.json(bots)
+}
+
+const GetFeatures = async (req,res)=> {
+    const { token } = req.body
+    const IBot = Bot.findOne({ token: token })
+    if (!IBot) return res.status(400).json({ 
+        status: true,
+        message: "Bu tokena ait bot yok." 
+    })
+    
 }
 
 export {
