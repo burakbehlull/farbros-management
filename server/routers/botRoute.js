@@ -8,7 +8,7 @@ import {
 
 const router = express.Router();
 
-router.post("/add", BotAdd);
+router.post("/", BotAdd);
 router.post("/:id/start", BotStart);
 router.post("/:id/stop", BotStop);
 router.get("/", GetBots);
