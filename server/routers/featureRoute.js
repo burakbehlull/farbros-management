@@ -8,10 +8,10 @@ import {
 
 const router = express.Router();
 
-router.get("/:id/features", GetFeatures);
-router.post("/:id/feature", AddFeature);
-router.put("/:id/features", UpdateFeatures);
-router.put("/:id/feature", UpdateSingleFeature);
+router.get("/:id", GetFeatures);
+router.post("/:id", AddFeature);
+router.put("/:id/", UpdateFeatures);
+router.patch("/:id", UpdateSingleFeature);
 
  
 

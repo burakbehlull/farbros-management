@@ -72,6 +72,6 @@ export const BotStop = async (req, res) => {
 }
 
 export const GetBots = async (req, res) => {
-    const bots = await Bot.find()
+    const bots = await Bot.find({})
     res.json(bots)
 }
