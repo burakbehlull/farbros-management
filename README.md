@@ -17,18 +17,18 @@ MONGO_URI // MONGODB STRING
 ### **/api**
 | Route | Opposite |
 | -------- | -------- |
-| **/bot** | Basic instructions regarding the bot |
-| **/feature** | Basic instructions regarding the bot's features |
+| **/bots** | Basic instructions regarding the bot |
+| **/features** | Basic instructions regarding the bot's features |
 
 ### **/bot**
 | Route | About | Values | Request |
 | -------- | -------- | -------- | -------- |
 | **/** | Lists bots | ... |  GET |
-| **/add** | Adds boots | token | POST |
+| **/** | Adds bots | token | POST |
 | **/{bot_id}/start** | Starts the bot | ... |  POST |
 | **/{bot_id}/stop** | Stops the bot | ... |  POST |
 
-### **/feature**
+### **/features**
 | Route | About | Values | Request |
 | -------- | -------- | -------- | -------- |
 | **/{bot_id}** | Adds features to the bot | name, status, value | POST |
