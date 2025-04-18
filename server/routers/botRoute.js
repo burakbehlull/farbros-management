@@ -1,10 +1,16 @@
-import express from 'express'
+import express from "express";
+import {
+    BotAdd,
+    BotStart,
+    BotStop,
+    GetBots
+} from "../controllers/botController.js";
+
 const router = express.Router();
 
-import { BotStart, BotAdd, GetBots } from '../controllers/botController.js'
-
-router.route('/start').post(BotStart)
-router.route('/add').post(BotAdd)
-router.route('/bots').get(GetBots)
+router.post("/add", BotAdd);
+router.post("/:id/start", BotStart);
+router.post("/:id/stop", BotStop);
+router.get("/", GetBots);
 
 export default router;

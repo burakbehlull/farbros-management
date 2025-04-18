@@ -1,6 +1,7 @@
 import Bot from "../models/Bot.js";
 import Feature from "../models/Feature.js";
 import { Client, GatewayIntentBits } from "discord.js";
+import { IBot } from '../index.js';
 
 const botList = [];
 
@@ -47,23 +48,10 @@ export const BotStart = async (req, res) => {
         intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
     });
 
-    client.on("messageCreate", async message => {
-        if (message.author.bot) return;
-
-        const features = await Feature.find({ bot: bot._id });
-
-        for (const feature of features) {
-            if (!feature.status) continue;
-
-            if (feature.name === "hello" && message.content === "hello") {
-                message.channel.send(feature.value || "Hello there!");
-            }
-        }
-    });
 
     try {
-        await client.login(bot.token);
-        botList.push({ token: bot.token, client });
+        await IBot.login(bot.token);
+        botList.push({ token: bot.token, IBot });
         res.json({ status: true, message: `Bot başlatıldı: ${client.user.tag}` });
     } catch (err) {
         res.status(500).json({ status: false, message: "Bot başlatılamadı", error: err.message })

@@ -21,7 +21,7 @@ app.use(morgan('dev'))
 
 DB()
 
-export const bot = new Base()
+export const IBot = new Base()
 
 app.get('/',(req, res)=>{
     res.send('hello farbros')

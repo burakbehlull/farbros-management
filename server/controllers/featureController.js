@@ -44,3 +44,20 @@ export const UpdateFeatures = async (req, res) => {
 
     res.json({ message: "Özellikler güncellendi.", features: created });
 };
+
+export const UpdateSingleFeature = async (req, res) => {
+    const { id } = req.params;
+    const { name, status, value } = req.body;
+
+    if (!name) return res.status(400).json({ message: "name alanı zorunlu." });
+
+    const feature = await Feature.findOne({ bot: id, name });
+    if (!feature) return res.status(404).json({ message: "Özellik bulunamadı." });
+
+    if (status !== undefined) feature.status = status;
+    if (value !== undefined) feature.value = value;
+
+    await feature.save();
+    res.json({ message: "Özellik güncellendi.", feature });
+};
+
