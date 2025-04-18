@@ -2,8 +2,10 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import 'dotenv/config'
+
 import { DB } from './config/index.js'
 import { Base } from './helpers/index.js'
+import { apiRouter } from './routers/index.js'
 
 const app = express()
 
@@ -24,6 +26,8 @@ export const bot = new Base()
 app.get('/',(req, res)=>{
     res.send('hello farbros')
 })
+
+app.use('/api', apiRouter)
 
 
 app.listen(process.env.PORT, ()=>{
