@@ -12,6 +12,12 @@ const botSchema = new Schema({
         unique: true, 
         required: true 
     },
+    botId: { 
+        type: String 
+    },
+    username: { 
+        type: String 
+    }, 
     features: [featureSchema]
 })
 
