@@ -1,4 +1,4 @@
-# Discord Multi Bot Managment System
+# Discord Multi Bot Management System
 
 ### path: 
 ` npm install ` or ` yarn `
