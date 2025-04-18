@@ -32,6 +32,6 @@ MONGO_URI // MONGODB STRING
 | Route | About | Values | Request |
 | -------- | -------- | -------- | -------- |
 | **/{bot_id}** | Adds features to the bot | name, status, value | POST |
-| **/{bot_id}** | Lists features to the bot | name, status, value | GET |
-| **/{bot_id}** | Multiple updates to bot's features | name, status, value | PUT |
+| **/{bot_id}** | Lists features to the bot | ... | GET |
+| **/{bot_id}** | Multiple updates to bot's features | features | PUT |
 | **/{bot_id}** | Single update to bot's features | name, status, value | PATCH |
