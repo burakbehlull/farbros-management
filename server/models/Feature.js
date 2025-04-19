@@ -1,23 +1,19 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
 const featureSchema = new mongoose.Schema({
-    bot: { 
-		type: mongoose.Schema.Types.ObjectId, 
-		ref: "Bot", 
-		required: true 
-	},
     name: { 
 		type: String, 
 		required: true 
 	},
-    status: { 
-		type: Boolean, 
-		default: false 
-	},
-    value: { 
+    description: { 
 		type: String, 
 		default: "" 
-	}
-})
+	}, 
+    type: { 
+		type: String, 
+		enum: ["prefix-command", "slash-command", "event"], 
+		required: true 
+	},
+});
 
 export default mongoose.model("Feature", featureSchema)
