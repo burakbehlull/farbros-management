@@ -1,7 +1,6 @@
 import Bot from "../models/Bot.js";
 import Feature from "../models/Feature.js";
 import { Client, GatewayIntentBits } from "discord.js";
-import { IBot } from '../index.js';
 
 const botList = [];
 
@@ -37,41 +36,45 @@ export const BotAdd = async (req, res) => {
 
 export const BotStart = async (req, res) => {
     const { id } = req.params;
-    const bot = await Bot.findById(id);
+    const bot = await Bot.findOne({ botId: id });
+
     if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
 
     if (findClientByToken(bot.token)) {
         return res.json({ status: true, message: "Bu bot zaten çalışıyor." });
     }
 
-    const client = new Client({
-        intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent]
-    });
-
-
     try {
-        await IBot.login(bot.token);
-        botList.push({ token: bot.token, IBot });
-        res.json({ status: true, message: `Bot başlatıldı: ${client.user.tag}` });
+        const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+        await client.login(bot.token);
+        botList.push({ token: bot.token, client });
+        res.json({ status: true, message: `Bot başlatıldı.` });
     } catch (err) {
-        res.status(500).json({ status: false, message: "Bot başlatılamadı", error: err.message })
+        res.status(500).json({ status: false, message: "Bot başlatılamadı", error: err.message });
     }
 };
 
 export const BotStop = async (req, res) => {
-    const { id } = req.params
-    const bot = await Bot.findById(id)
-    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." })
+    const { id } = req.params;
 
-    const index = botList.findIndex(b => b.token === bot.token)
-    if (index === -1) return res.json({ message: "Bot zaten çalışmıyor." })
+    let bot = null;
+    if (/^[0-9a-fA-F]{24}$/.test(id)) {
+        bot = await Bot.findById(id);
+    } else {
+        bot = await Bot.findOne({ botId: id });
+    }
 
-    await botList[index].client.destroy()
-    botList.splice(index, 1)
-    res.json({ message: "Bot durduruldu." })
-}
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const index = botList.findIndex(b => b.token === bot.token);
+    if (index === -1) return res.json({ message: "Bot zaten çalışmıyor." });
+
+    await botList[index].client.destroy();
+    botList.splice(index, 1);
+    res.json({ status: true, message: "Bot durduruldu." });
+};
 
 export const GetBots = async (req, res) => {
-    const bots = await Bot.find({})
-    res.json(bots)
-}
+    const bots = await Bot.find({});
+    res.json(bots);
+};

@@ -7,10 +7,14 @@ class Base {
     constructor(client){
         this.client = client
     }
-    async loadCommands() {
+    async loadCommands(prefix) {
         const client = this.client
         client.prefixCommands = new Collection();
         client.slashCommands = new Collection();
+		
+		client.config = {
+            PREFIX: prefix
+        }
         const filename = fileURLToPath(import.meta.url);
         const dirname = path.dirname(filename);
       
@@ -143,11 +147,8 @@ class Base {
         }
     }
     
-    login(){
-        this.client.config = {
-            PREFIX: process.env.PREFIX
-        }
-        this.client.login(process.env.TOKEN)
+    login(token){
+        this.client.login(token)
     }
 }
 
