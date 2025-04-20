@@ -1,5 +1,4 @@
 import Bot from "../models/Bot.js";
-import Feature from "../models/Feature.js";
 import { Client, GatewayIntentBits } from "discord.js";
 
 const botList = [];

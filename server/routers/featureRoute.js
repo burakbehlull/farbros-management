@@ -1,18 +1,9 @@
 import express from "express";
-import {
-    GetFeatures,
-    AddFeature,
-    UpdateFeatures,
-	UpdateSingleFeature 
-} from "../controllers/featureController.js";
+import { addFeature, getFeatures } from "../controllers/FeatureController.js";
 
 const router = express.Router();
 
-router.get("/:id", GetFeatures);
-router.post("/:id", AddFeature);
-router.put("/:id/", UpdateFeatures);
-router.patch("/:id", UpdateSingleFeature);
-
- 
+router.post("/", addFeature);
+router.get("/", getFeatures);
 
 export default router;

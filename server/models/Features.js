@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const featureSchema = new mongoose.Schema({
+const featuresSchema = new mongoose.Schema({
     name: { 
 		type: String, 
 		required: true 
@@ -16,4 +16,4 @@ const featureSchema = new mongoose.Schema({
 	},
 });
 
-export default mongoose.model("Feature", featureSchema)
+export default mongoose.model("Features", featuresSchema)
