@@ -11,7 +11,8 @@
   "imports": {
     "#config": "./config/index.js",
     "#routers": "./routers/index.js",
-    "#controllers": "./controllers/index.js"
+    "#controllers": "./controllers/index.js",
+    "#lib": "./lib/index.js"
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
