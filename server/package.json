@@ -1,5 +1,5 @@
 {
-  "name": "farbros-managament-server",
+  "name": "farbros-management-server",
   "version": "1.0.0",
   "description": "",
   "main": "main.js",
@@ -12,7 +12,8 @@
     "#config": "./config/index.js",
     "#routers": "./routers/index.js",
     "#controllers": "./controllers/index.js",
-    "#lib": "./lib/index.js"
+    "#lib": "./lib/index.js",
+    "#models": "./models/index.js"
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",

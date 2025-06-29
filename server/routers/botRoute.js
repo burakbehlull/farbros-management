@@ -1,9 +1,9 @@
 import express from 'express';
-import { Test } from '#controllers';
+import { BotAdd } from '#controllers';
 
 const router = express.Router();
 
-router.get('/', Test);
+router.get('/', BotAdd);
 
 
 export default router;
