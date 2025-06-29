@@ -1,0 +1,14 @@
+{
+  "name": "farbros-managament-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js",
+    "dev": "node main.js"
+  },
+  "keywords": [],
+  "author": "Burak Behlül <@burakbehlull>",
+  "license": "ISC"
+}
