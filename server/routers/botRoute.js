@@ -3,7 +3,8 @@ import { BotAdd } from '#controllers';
 
 const router = express.Router();
 
-router.get('/', BotAdd);
+router.get('/', GetBots)
+router.post('/', BotAdd);
 
 
 export default router;
