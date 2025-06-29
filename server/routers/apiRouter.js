@@ -2,7 +2,8 @@ import express from 'express';
 
 const apiRouter = express.Router();
 
+import { botRoute } from "#routers"
 
-// apiRouter.use('/route', routeFunc)
+apiRouter.use('/bots', botRoute)
 
 export default apiRouter;
