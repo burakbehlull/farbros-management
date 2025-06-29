@@ -1,7 +1,14 @@
 import { Bot } from "#models"
 import { Client, GatewayIntentBits } from "discord.js"
 
-export const BotAdd = async (req,res) => {
+export const botList = [] 
+
+export const Test = async (req, res) => {
+	
+	res.status(200).json({status: true})
+}
+
+export const BotAdd = async (req, res) => {
 	try {
 		const { token } = req.body
 		if (!token) return res.status(400).json({ message: "Token zorunludur." })
@@ -10,12 +17,14 @@ export const BotAdd = async (req,res) => {
         if (botDoc) return res.status(409).json({ message: "Bu bot zaten kayıtlı." })
 	
 		const botClient = new Client({ intents: Object.keys(GatewayIntentBits).map((intent) => GatewayIntentBits[intent]) })
-	
+		await botClient.login(token)
+		
 		const newBot = new Bot({
             token,
             botId: botClient.user.id,
             username: botClient.user.username
         });
+		
 		await newBot.save();
         await botClient.destroy();
         res.status(201).json({ message: "Bot kaydedildi.", bot: newBot });
@@ -36,4 +45,15 @@ export const GetBots = async (req, res) => {
         res.status(500).json({ message: "Botlar alınırken hata oluştu.", error: err.message })
     }
 };
+
+export const BotStart = async (req, res) => {
+	try {
+		
+	} catch(err){
+        console.error("[bot controller - BotStart]: Botu başlatma hatası:", err)
+        res.status(500).json({ message: "Bot bağlanamadı.", error: err.message });
+		
+	}
+}
+
 
