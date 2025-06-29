@@ -1,5 +1,6 @@
 import { Bot } from "#models"
-import { Client, GatewayIntentBits } from "discord.js"
+import { Client } from "discord.js"
+import { intentsAll, findClientByToken } from "#helpers"
 
 export const botList = [] 
 
@@ -16,7 +17,7 @@ export const BotAdd = async (req, res) => {
 		const botDoc = await Bot.findOne({ token })
         if (botDoc) return res.status(409).json({ message: "Bu bot zaten kayıtlı." })
 	
-		const botClient = new Client({ intents: Object.keys(GatewayIntentBits).map((intent) => GatewayIntentBits[intent]) })
+		const botClient = new Client({ intents: intentsAll() })
 		await botClient.login(token)
 		
 		const newBot = new Bot({
@@ -48,7 +49,20 @@ export const GetBots = async (req, res) => {
 
 export const BotStart = async (req, res) => {
 	try {
-		
+		const { id } = req.params;
+		const bot = await Bot.findOne({ botId: id });
+        if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+        if (findClientByToken(botList, bot.token)) {
+            return res.status(200).json({ status: true, message: "Bot zaten çalışıyor." });
+        }
+
+        const client = new Client({ intents: intentsAll() });
+        await client.login(bot.token);
+
+        botList.push({ token: bot.token, client });
+
+        res.status(200).json({ status: true, message: "Bot başlatıldı." });
 	} catch(err){
         console.error("[bot controller - BotStart]: Botu başlatma hatası:", err)
         res.status(500).json({ message: "Bot bağlanamadı.", error: err.message });

@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get('/', GetBots)
 router.post('/', BotAdd);
+router.post('/:id/start', BotStart);
 router.get('/test', Test);
 
 
