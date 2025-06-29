@@ -8,6 +8,10 @@
     "start": "node main.js",
     "dev": "node main.js"
   },
+  "imports": {
+    "#config": "./config/index.js",
+    "#routers": "./routers/index.js"
+  },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
   "license": "ISC",
