@@ -5,7 +5,6 @@ import { intentsAll, findClientByToken } from "#helpers"
 export const botList = [] 
 
 export const Test = async (req, res) => {
-	
 	res.status(200).json({status: true})
 }
 
@@ -64,10 +63,34 @@ export const BotStart = async (req, res) => {
 
         res.status(200).json({ status: true, message: "Bot başlatıldı." });
 	} catch(err){
-        console.error("[bot controller - BotStart]: Botu başlatma hatası:", err)
+        console.error("[bot controller - BotStart]: Botu başlatma hatası: ", err)
         res.status(500).json({ message: "Bot bağlanamadı.", error: err.message });
 		
 	}
 }
 
+export const BotStop = async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        let bot;
+        if (/^[0-9a-fA-F]{24}$/.test(id)) {
+            bot = await Bot.findById(id);
+        } else {
+            bot = await Bot.findOne({ botId: id });
+        }
+
+        if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+        const index = botList.findIndex(b => b.token === bot.token);
+        if (index === -1) return res.status(400).json({ message: "Bot zaten çalışmıyor." });
+
+        await botList[index].client.destroy();
+        botList.splice(index, 1);
+
+        res.status(200).json({ status: true, message: "Bot durduruldu." });
+    } catch (err) {
+        console.error("[bot controller - BotStop]: Bot durdurma hatası:", err);
+        res.status(500).json({ status: false, message: "Bot durdurulamadı.", error: err.message });
+    }
+};
