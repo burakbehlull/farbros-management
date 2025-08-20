@@ -1,9 +1,14 @@
 import { GatewayIntentBits } from "discord.js"
 
-export function findClientByToken(data, token) {
-    return botList.find(b => b.token === token);
+function findClientByToken(data, token) {
+    return data.find(b => b.token === token);
 }
 
-export function intentsAll() {
+function intentsAll() {
 	return Object.keys(GatewayIntentBits).map((intent) => GatewayIntentBits[intent])
+}
+
+export {
+    findClientByToken,
+    intentsAll
 }

@@ -25,19 +25,19 @@ const getFeaturesByBotId = async (botId) => {
 
 }
 
-const setFeatureStatus = async (panelId, status) => {
+const setFeatureStatus = async (panelId, botId, status) => {
     try {
         const updatedBotFeature = await BotFeature.findOneAndUpdate(
-            { panelId },
+            { panelId, bot: botId },
             { status },
             { new: true, runValidators: true }
         );
         if (!updatedBotFeature) {
-            throw new Error(`Bot feature with panelId ${panelId} not found`);
+            throw new Error(`Bot feature with panelId ${panelId} for bot ${botId} not found`);
         }
         return updatedBotFeature;
     } catch (error) {
-        console.error(`[setFeatureStatus] Error updating feature status for panelId ${panelId}:`, error);
+        console.error(`[setFeatureStatus] Error updating feature status for panelId ${panelId} bot ${botId}:`, error);
         throw new Error(`Error updating feature status for panelId ${panelId}`);
     }
 };
