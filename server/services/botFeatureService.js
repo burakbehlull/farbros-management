@@ -11,6 +11,29 @@ const addBotFeature = async (botFeatureData) => {
     }
 }
 
+const addManyBotFeatures = async (featuresData) => {
+    try {
+        const botFeatures = await BotFeature.insertMany(featuresData);
+        return botFeatures;
+    } catch (error) {
+        console.error("[addManyBotFeatures] Error adding multiple bot features:", error);
+        throw new Error("Error adding multiple bot features");
+    }
+};
+
+const removeBotFeature = async (panelId, botId) => {
+    try {
+        const deletedFeature = await BotFeature.findOneAndDelete({ panelId, bot: botId });
+        if (!deletedFeature) {
+            throw new Error(`Bot feature with panelId ${panelId} for bot ${botId} not found`);
+        }
+        return deletedFeature;
+    } catch (error) {
+        console.error(`[removeBotFeature] Error removing feature with panelId ${panelId} bot ${botId}:`, error);
+        throw new Error(`Error removing feature with panelId ${panelId}`);
+    }
+};
+
 const getFeaturesByBotId = async (botId) => {
     try {
         const botFeatures = await BotFeature.find({ bot: botId }).populate("feature");
@@ -44,6 +67,8 @@ const setFeatureStatus = async (panelId, botId, status) => {
 
 export {
     addBotFeature,
+    addManyBotFeatures,
+    removeBotFeature,
     getFeaturesByBotId,
     setFeatureStatus
 };
