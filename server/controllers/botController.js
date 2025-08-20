@@ -4,11 +4,11 @@ import { intentsAll, findClientByToken } from "#helpers"
 
 export const botList = [] 
 
-export const Test = async (req, res) => {
+const Test = async (req, res) => {
 	res.status(200).json({status: true})
 }
 
-export const BotAdd = async (req, res) => {
+const BotAdd = async (req, res) => {
 	try {
 		const { token } = req.body
 		if (!token) return res.status(400).json({ message: "Token zorunludur." })
@@ -36,7 +36,7 @@ export const BotAdd = async (req, res) => {
 }
 
 
-export const GetBots = async (req, res) => {
+const GetBots = async (req, res) => {
     try {
         const bots = await Bot.find({})
         res.status(200).json(bots)
@@ -46,7 +46,7 @@ export const GetBots = async (req, res) => {
     }
 };
 
-export const BotStart = async (req, res) => {
+const BotStart = async (req, res) => {
 	try {
 		const { id } = req.params;
 		const bot = await Bot.findOne({ botId: id });
@@ -69,7 +69,7 @@ export const BotStart = async (req, res) => {
 	}
 }
 
-export const BotStop = async (req, res) => {
+const BotStop = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -94,3 +94,11 @@ export const BotStop = async (req, res) => {
         res.status(500).json({ status: false, message: "Bot durdurulamadı.", error: err.message });
     }
 };
+
+export {
+    Test,
+    BotAdd,
+    GetBots,
+    BotStart,
+    BotStop
+}
