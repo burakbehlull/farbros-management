@@ -1,6 +1,3 @@
-
-// feature all
-
 import { Feature } from "#models";
 
 const getFeatureList = async () => {
