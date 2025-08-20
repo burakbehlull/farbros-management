@@ -58,8 +58,8 @@ export const BotStart = async (req, res) => {
 
         const client = new Client({ intents: intentsAll() });
         await client.login(bot.token);
-
-        botList.push({ token: bot.token, client });
+		
+        botList.push({ token: bot.token, client: client });
 
         res.status(200).json({ status: true, message: "Bot başlatıldı." });
 	} catch(err){

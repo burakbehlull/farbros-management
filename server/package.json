@@ -12,7 +12,6 @@
     "#config": "./config/index.js",
     "#routers": "./routers/index.js",
     "#controllers": "./controllers/index.js",
-    "#lib": "./lib/index.js",
     "#models": "./models/index.js",
     "#helpers": "./helpers/index.js"
   },
