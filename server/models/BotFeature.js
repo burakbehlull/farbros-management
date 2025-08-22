@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const botFeatureSchema = new mongoose.Schema({
-    panelId: { type: String, required: true },
+    // panelId: { type: String, required: true },
 	feature: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Feature", 

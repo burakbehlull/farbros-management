@@ -6,7 +6,6 @@ export default {
     .setDescription('Ping command, replies with pong.'),
   panelId: 'slash:ping',
   async execute(interaction) {
-    // await interaction.reply('Pong! 🏓');
-	console.log("slash:ping")
+    await interaction.reply('Pong! 🏓');
   },
 };

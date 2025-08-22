@@ -6,7 +6,6 @@ export default {
     .setDescription('Hello command, replies with hello.'),
   panelId: 'slash:ping',
   async execute(interaction) {
-    // await interaction.reply('slash Pong! 🏓');
-	console.log("slash:hello")
+    await interaction.reply('slash Pong! 🏓');
   },
 };
