@@ -23,6 +23,51 @@ async function getFilesRecursively(dir) {
   return results;
 }
 
+
+async function globalLoads(){
+	// prefix
+	const prefixCommands = []
+	const slashCommands = []
+	const events = []
+	
+	const prefixCommandsPath = path.join(__dirname, "../commands/prefix-commands");
+	const prefixCommandFiles = await getFilesRecursively(prefixCommandsPath);
+	
+	for (const prefixFilePath of prefixCommandFiles) {
+		const prefixCommand = (await import(`file://${prefixFilePath}`)).default;
+		if (!prefixCommand?.name) continue;
+		prefixCommands.push({...prefixCommand, type: "prefix"})
+		
+		console.log(`[LOADER] 📢 Prefix komutu yüklendi: ${prefixCommand.name}`);
+	}
+	
+	// slash
+	const slashCommandsPath = path.join(__dirname, "../commands/slash-commands");
+	const slashCommandFiles = await getFilesRecursively(slashCommandsPath);
+	
+	for (const slashFilePath of slashCommandFiles) {
+		const slashCommand = (await import(`file://${slashFilePath}`)).default;
+		
+		if (!slashCommand?.data?.name) continue;
+		slashCommands.push({...slashCommand, type: "slash"})
+		
+		console.log(`[LOADER] slash komutu yüklendi: ${slashCommand.name}`);
+	}
+	
+	// event
+	const eventsPath = path.join(__dirname, "../events");
+	const eventFiles = fs.readdirSync(eventsPath).filter(f => f.endsWith(".js") || f.endsWith(".ts"));
+	
+	for (const file of eventFiles) {
+		const event = (await import(`file://${path.join(eventsPath, file)}`)).default;
+		if (event) {
+		  events.push({...event, type: "event"})
+		} 
+		console.log(`[LOADER] 🎯 Event yüklendi: ${event.name}`);
+	}
+	console.log(prefixCommands, "[-]", slashCommands, "[+]", events)
+}
+
 async function loadPrefixCommands(client) {
   const commandsPath = path.join(__dirname, "../commands/prefix-commands");
   const commandFiles = await getFilesRecursively(commandsPath);
@@ -64,7 +109,10 @@ async function loadEvents(client) {
   }
 }
 
+await globalLoads()
+
 export {
+	globalLoads,
     loadPrefixCommands,
     loadSlashCommands,
     loadEvents
