@@ -1,4 +1,3 @@
-import BotFeature from "./models/BotFeature.js";
 import { Bot, BotFeature } from "#models";
 
 async function checkFeature(panelId, botId) {
@@ -11,6 +10,28 @@ async function checkFeature(panelId, botId) {
     return feature.status;
 }
 
+function allowToFeatures(allowData, features) {
+  const allows = []
+  for (const feature of features) {
+    const result = allowData.find(allow => allow.panelId === feature.panelId);
+    if(result) allows.push(result);
+  }
+  console.log(allows)
+  return allows;
+}
+
+function eventExecuter(client, events){
+	for (const event of events) {
+		if (event.once) {
+		  client.once(event.name, (...args) => event.execute(client, ...args));
+		} else {
+		  client.on(event.name, (...args) => event.execute(client, ...args));
+		}
+	}
+}
+
 export {
-    checkFeature
+    checkFeature,
+	allowToFeatures,
+	eventExecuter
 }
