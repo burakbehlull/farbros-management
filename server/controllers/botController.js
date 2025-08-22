@@ -5,7 +5,7 @@ import { intentsAll, findClientByToken } from "#helpers";
 const { addBot, getAllBots, getBotById } = botService
 export const botList = [];
 
-export const BotAdd = async (req, res) => {
+const BotAdd = async (req, res) => {
   try {
     const { token } = req.body;
     if (!token) {
@@ -36,7 +36,7 @@ export const BotAdd = async (req, res) => {
   }
 };
 
-export const GetBots = async (req, res) => {
+const GetBots = async (req, res) => {
   try {
     const bots = await getAllBots();
     return res.status(200).json(bots);
@@ -46,7 +46,7 @@ export const GetBots = async (req, res) => {
   }
 };
 
-export const BotStart = async (req, res) => {
+const BotStart = async (req, res) => {
   try {
     const { id } = req.params;
     const bot = await getBotById(id);
@@ -67,7 +67,7 @@ export const BotStart = async (req, res) => {
   }
 };
 
-export const BotStop = async (req, res) => {
+const BotStop = async (req, res) => {
   try {
     const { id } = req.params;
     const bot = await getBotById(id);
@@ -85,3 +85,11 @@ export const BotStop = async (req, res) => {
     return res.status(500).json({ status: false, message: "Bot durdurulamadı.", error: err.message });
   }
 };
+
+
+export {
+	BotAdd,
+	GetBots,
+	BotStart,
+	BotStop
+}
