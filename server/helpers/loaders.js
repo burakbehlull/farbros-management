@@ -22,15 +22,6 @@ async function getFilesRecursively(dir) {
   return results;
 }
 
-async function globalLoads(){
-  const x1 = await loadPrefixCommands()
-  const x2 = await loadSlashCommands()
-  const x3 = await loadEvents()
-  const x = [...x1, ...x2, ...x3]
-  console.log("[x]", x)
-}
-
-
 async function loadPrefixCommands() {
   const prefixCommands = []
   const commandsPath = path.join(__dirname, "../commands/prefix-commands");
@@ -80,11 +71,7 @@ async function loadEvents() {
 }
 
 
-
-
-
 export {
-	globalLoads,
     loadPrefixCommands,
     loadSlashCommands,
     loadEvents,

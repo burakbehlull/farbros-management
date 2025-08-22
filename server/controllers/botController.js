@@ -35,7 +35,6 @@ const BotAdd = async (req, res) => {
 	}
 }
 
-
 const GetBots = async (req, res) => {
     try {
         const bots = await Bot.find({})
