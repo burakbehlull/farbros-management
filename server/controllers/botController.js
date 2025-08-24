@@ -1,12 +1,13 @@
 import { botFeatureService, botService, featureService } from "#services";
 import { Client, Collection } from "discord.js";
-import { intentsAll, findClientByToken, allowToFeatures } from "#helpers";
+import { intentsAll, findClientByToken, allowToFeatures, loadEvents, loadPrefixCommands, loadSlashCommands } from "#helpers";
 
 const { addBot, getAllBots, getBotById } = botService
-const { getFeatureList } = featureService
+const { getFeatureList, addManyFeatures } = featureService
 const { getFeaturesByBotId } = botFeatureService
 
 export const botList = [];
+
 
 const BotAdd = async (req, res) => {
   try {
@@ -64,12 +65,13 @@ const BotStart = async (req, res) => {
     client.prefixCommands = new Collection()
     client.slashCommands = new Collection()
 
-    const featureList = await getFeatureList();
+    const featureList = null; // # load
     const botFeatures = await getFeaturesByBotId(bot.botId);
 
     const allowedFeatures = allowToFeatures(botFeatures, featureList);
 
     console.log(allowedFeatures)
+
     await client.login(bot.token);
 
     botList.push({ token: bot.token, client });
