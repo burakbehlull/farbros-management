@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-
+import { checkFeature } from '#helpers';
 
 export default {
   name: Events.MessageCreate, 
@@ -7,8 +7,9 @@ export default {
   async execute(client, message) {
     const prefix = "."
 	
-	if(message.author.bot) return
+	  if(message.author.bot) return
 	
+    const botId = message.client.user.id;
 
     if (!message.content.startsWith(prefix)) return;
 
@@ -16,8 +17,11 @@ export default {
     const commandName = args.shift().toLowerCase();
 
     const command = client.prefixCommands.get(commandName);
-
     if (!command) return;
+
+    const isAllowed = await checkFeature(command.panelId, botId);
+    if (!isAllowed) return;
+
 
     try {
       await command(client, message, args);
