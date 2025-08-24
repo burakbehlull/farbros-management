@@ -5,7 +5,7 @@ import { loadEvents, loadPrefixCommands, loadSlashCommands } from "#helpers";
 
 const { addManyFeatures } = featureService
 
-const UploadFeatures = async (req, res) => {
+const uploadFeatures = async (req, res) => {
   try {
     const slashCommands = await loadSlashCommands();
     const prefixCommands = await loadPrefixCommands();
@@ -21,5 +21,5 @@ const UploadFeatures = async (req, res) => {
 };
 
 export {
-    UploadFeatures
+    uploadFeatures
 }

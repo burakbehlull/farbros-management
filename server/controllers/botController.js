@@ -1,6 +1,6 @@
 import { botFeatureService, botService, featureService } from "#services";
 import { Client, Collection } from "discord.js";
-import { intentsAll, findClientByToken, allowToFeatures, loadEvents, loadPrefixCommands, loadSlashCommands } from "#helpers";
+import { intentsAll, findClientByToken, allowToFeatures, loadEvents, loadPrefixCommands, loadSlashCommands, eventExecuter } from "#helpers";
 
 const { addBot, getAllBots, getBotById } = botService
 const { getFeatureList, addManyFeatures } = featureService
@@ -65,12 +65,35 @@ const BotStart = async (req, res) => {
     client.prefixCommands = new Collection()
     client.slashCommands = new Collection()
 
-    const featureList = null; // # load
+    const events = await loadEvents();
+    const prefixCommands = await loadPrefixCommands();
+    const slashCommands = await loadSlashCommands();
+
+    const featureList = [...events, ...prefixCommands, ...slashCommands];
     const botFeatures = await getFeaturesByBotId(bot.botId);
 
-    const allowedFeatures = allowToFeatures(botFeatures, featureList);
+    if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
 
-    console.log(allowedFeatures)
+    const allowedFeatures = allowToFeatures(featureList, botFeatures);
+
+    const eventTypeControl = allowedFeatures.filter(af => af.type === 'event');
+
+
+    // executers
+    eventExecuter(client, eventTypeControl);
+
+    for (const commands1 of allowedFeatures) {
+      if (commands1.type === 'prefix') {
+        client.prefixCommands.set(commands1.name, commands1.execute);
+      }
+    }
+
+    for (const commands2 of allowedFeatures) {
+      if (commands2.type === 'slash') {
+        client.slashCommands.set(commands2.data.name, commands2.execute);
+      }
+    }
+
 
     await client.login(bot.token);
 

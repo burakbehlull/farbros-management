@@ -31,7 +31,7 @@ function eventExecuter(client, events){
 }
 
 export {
-    checkFeature,
+  checkFeature,
 	allowToFeatures,
 	eventExecuter
 }
