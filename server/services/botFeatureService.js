@@ -47,9 +47,7 @@ const removeBotFeature = async (featureId, botId) => {
 const getFeaturesByBotId = async (botId) => {
   try {
     const botFeatures = await BotFeature.find({ bot: botId }).populate("feature");
-    if (!botFeatures || botFeatures.length === 0) {
-      throw new Error(`No features found for bot with ID ${botId}`);
-    }
+    if (!botFeatures || botFeatures.length === 0) return [];
     return botFeatures;
   } catch (error) {
     console.error(

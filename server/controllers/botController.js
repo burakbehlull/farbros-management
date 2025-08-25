@@ -54,6 +54,7 @@ const BotStart = async (req, res) => {
   try {
     const { id } = req.params;
     const bot = await getBotById(id);
+    
     if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
 
     if (findClientByToken(botList, bot.token)) {
@@ -70,7 +71,7 @@ const BotStart = async (req, res) => {
     const slashCommands = await loadSlashCommands();
 
     const featureList = [...events, ...prefixCommands, ...slashCommands];
-    const botFeatures = await getFeaturesByBotId(bot.botId);
+    const botFeatures = await getFeaturesByBotId(bot._id);
 
     if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
 
