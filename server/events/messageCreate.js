@@ -18,8 +18,9 @@ export default {
 
     const command = client.prefixCommands.get(commandName);
     if (!command) return;
-
-    const isAllowed = await checkFeature(command.panelId, botId);
+    
+    const isAllowed = await checkFeature(`prefix:${commandName}`, botId);
+    console.log("isAllowed:", isAllowed);
     if (!isAllowed) return;
 
 

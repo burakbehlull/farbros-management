@@ -3,8 +3,8 @@ import { Bot, BotFeature } from "#models";
 async function checkFeature(panelId, botId) {
     const bot = await Bot.findOne({ botId });
     if (!bot) return false;
-
-    const feature = await BotFeature.findOne({ panelId, bot: bot._id });
+    const botFeature = await BotFeature.find({ bot: bot._id }).populate('feature');
+    const feature = botFeature.find(f => f.feature.panelId === panelId);
     if (!feature || !feature.status) return false;
 
     return feature.status;

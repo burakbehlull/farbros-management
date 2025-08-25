@@ -17,7 +17,7 @@ export default {
       return;
     }
 
-    const isAllowed = await checkFeature(command.panelId, botId);
+    const isAllowed = await checkFeature(`slash:${interaction.commandName}`, botId);
     if (!isAllowed) return;
 
     try {
