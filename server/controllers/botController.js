@@ -254,7 +254,6 @@ const reloadSlashCommands = async (req, res) => {
   }
 };
 
-
 const reloadEvents = async (req, res) => {
   try {
     const { id } = req.params;
