@@ -20,7 +20,6 @@ export default {
     if (!command) return;
     
     const isAllowed = await checkFeature(`prefix:${commandName}`, botId);
-    console.log("isAllowed:", isAllowed);
     if (!isAllowed) return;
 
 

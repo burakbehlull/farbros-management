@@ -81,7 +81,7 @@ const BotStart = async (req, res) => {
 
 
     // executers
-    eventExecuter(client, eventTypeControl);
+    await eventExecuter(client, eventTypeControl, id);
 
     for (const commands1 of allowedFeatures) {
       if (commands1.type === 'prefix') {

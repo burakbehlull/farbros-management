@@ -20,13 +20,23 @@ function allowToFeatures(allowData, features) {
   return allows;
 }
 
-function eventExecuter(client, events){
+async function eventExecuter(client, events, botId){
 	for (const event of events) {
+    // event execution
 		if (event.once) {
-		  client.once(event.name, (...args) => event.execute(client, ...args));
+		    client.once(event.name, async (...args) => {
+          const isAllowed = await checkFeature(event.panelId, botId);
+          if(!isAllowed) return
+          event.execute(client, ...args)
+        });
 		} else {
-		  client.on(event.name, (...args) => event.execute(client, ...args));
+		    client.on(event.name, async (...args) => {
+          const isAllowed = await checkFeature(event.panelId, botId);
+          if(!isAllowed) return
+          event.execute(client, ...args)
+        });
 		}
+
 	}
 }
 
