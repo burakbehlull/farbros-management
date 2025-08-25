@@ -2,9 +2,8 @@
 
 import { featureService } from "#services";
 import { loadEvents, loadPrefixCommands, loadSlashCommands } from "#helpers";
-import { updateFeature } from "../services/featureService";
 
-const { addManyFeatures, addFeature, getFeatureList } = featureService
+const { addManyFeatures, addFeature, getFeatureList, getFeatureByPanelId, updateFeature } = featureService
 
 // get all features
 const featureList = async (req, res) => {
@@ -14,6 +13,21 @@ const featureList = async (req, res) => {
   } catch (err) {
     console.error("[bot controller - Get Features]:", err);
     return res.status(500).json({ message: "Özellikler getirilemedi.", error: err.message });
+  }
+}
+
+// get one feature by panelId
+const featureToById = async (req, res) => {
+  try {
+    const { panelId } = req.body;
+    const feature = await getFeatureByPanelId(panelId);
+    if (!feature) {
+      return res.status(404).json({ status: false, message: "Özellik bulunamadı." });
+    }
+    return res.status(200).json({ status: true, data: feature });
+  } catch (err) {
+    console.error("[bot controller - Get Feature By ID]:", err);
+    return res.status(500).json({ message: "Özellik getirilemedi.", error: err.message });
   }
 }
 
@@ -58,10 +72,12 @@ const updateToFeature = async (req, res) => {
 }
 
 
-
 export {
   featureList,
+  featureToById,
+
   uploadFeatures,
   addToFeature,
+
   updateToFeature
 }

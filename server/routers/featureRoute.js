@@ -1,9 +1,10 @@
 import express from 'express';
-import { botList, uploadFeatures, addToFeature, updateToFeature, featureList } from '#controllers'
+import { uploadFeatures, addToFeature, updateToFeature, featureList, featureToById } from '#controllers'
 
 const router = express.Router();
 
 router.get('/', featureList);
+router.post('/by', featureToById);
 
 router.post("/sync", uploadFeatures);
 
