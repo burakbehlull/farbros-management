@@ -61,7 +61,7 @@ const getFeaturesByBotId = async (botId) => {
 };
 
 
-const setFeatureStatus = async (featureId, botId, status) => {
+const setBotFeatureStatus = async (featureId, botId, status) => {
   try {
     const updatedBotFeature = await BotFeature.findOneAndUpdate(
       { feature: featureId, bot: botId },
@@ -88,5 +88,6 @@ export {
   addManyBotFeatures,
   removeBotFeature,
   getFeaturesByBotId,
-  setFeatureStatus,
+  
+  setBotFeatureStatus,
 };
