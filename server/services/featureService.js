@@ -38,12 +38,21 @@ const addFeature = async (featureData) => {
 
 const addManyFeatures = async (featuresData) => {
     try {
-        const features = await Feature.insertMany(featuresData);
-        return features;
-    }
-    catch (error) {
-        console.error("[addManyFeatures] Error adding features:", error);
-        throw new Error("Error adding features");
+        const results = [];
+
+        for (const feature of featuresData) {
+            const updated = await Feature.findOneAndUpdate(
+                { panelId: feature.panelId },
+                { $set: feature },
+                { upsert: true, new: true }
+            );
+            results.push(updated);
+        }
+
+        return results;
+    } catch (error) {
+        console.error("[addManyFeatures] Error adding/updating features:", error);
+        throw new Error("Error adding/updating features");
     }
 };
 

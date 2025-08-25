@@ -1,4 +1,4 @@
-import { BotFeature } from "#models";
+import { Bot, BotFeature } from "#models";
 
 const addBotFeature = async (botFeatureData) => {
   try {
@@ -46,7 +46,13 @@ const removeBotFeature = async (featureId, botId) => {
 
 const getFeaturesByBotId = async (botId) => {
   try {
-    const botFeatures = await BotFeature.find({ bot: botId }).populate("feature");
+
+    const bot = await Bot.findOne({botId});
+    if (!bot) {
+      throw new Error(`Bot with id ${botId} not found`);
+    }
+
+    const botFeatures = await BotFeature.find({ bot: bot._id }).populate("feature");
     if (!botFeatures || botFeatures.length === 0) return [];
     return botFeatures;
   } catch (error) {

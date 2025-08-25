@@ -46,7 +46,7 @@ async function loadSlashCommands() {
     const command = (await import(`file://${filePath}`)).default;
     if (!command?.data) continue;
 
-	slashCommands.push({...command, type: 'slash'});
+	slashCommands.push({...command, name: command.data.name, type: 'slash'});
     console.log(`⚡ Slash komutu yüklendi: ${command.data.name}`);
   }
   return slashCommands

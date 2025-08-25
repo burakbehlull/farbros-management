@@ -1,7 +1,8 @@
 // feature codes..
-import { botFeatureService } from "#services";
+import { botFeatureService, botService } from "#services";
 
 const { getFeaturesByBotId, addManyBotFeatures, addBotFeature, removeBotFeature, setBotFeatureStatus } = botFeatureService;
+const { getBotById } = botService;
 
 
 // Get Bot Feature By Id
@@ -17,8 +18,14 @@ const GetBotFeatureById = async (req,res) => {
 
 // Add Many To Bot Features
 const AddManyToBotFeatures = async (req,res) => {
+    const { botId, data } = req.body;
     try {
-        const features = await addManyBotFeatures(req.body.botId, req.body.features);
+        const bot = await getBotById(botId);
+        if (!bot) {
+            return res.status(200).json({ status: true, message: "Bot not found" });
+        }
+
+        const features = await addManyBotFeatures(bot._id, data);
         return res.status(200).json({ status: true, data: features });
     } catch (err) {
         console.error("[bot feature controller  - Add Many To Bot Features]:", err);
@@ -28,9 +35,15 @@ const AddManyToBotFeatures = async (req,res) => {
 
 // Add One To Bot Feature
 const AddOneToBotFeature = async (req, res) => {
+    const { botId, feature } = req.body;
     try {
-        const feature = await addBotFeature(req.body.botId, req.body.feature);
-        return res.status(200).json({ status: true, data: feature });
+        const bot = await getBotById(botId);
+        if (!bot) {
+            return res.status(200).json({ status: true, message: "Bot not found" });
+        }
+
+        const result = await addBotFeature({ feature, bot: bot._id });
+        return res.status(200).json({ status: true, data: result });
     } catch (err) {
         console.error("[bot feature controller  - Add One To Bot Feature]:", err);
         return res.status(500).json({ message: "Özellik eklenemedi.", error: err.message });

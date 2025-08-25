@@ -10,7 +10,7 @@ const botFeatureSchema = new mongoose.Schema({
     bot: { 
         type: mongoose.Schema.Types.ObjectId, 
         ref: "Bot", 
-        required: false 
+        required: true 
     },
     status: { type: Boolean, default: false },
 });
