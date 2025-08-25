@@ -17,7 +17,6 @@ export default {
       return;
     }
 
-    
     const isAllowed = await checkFeature(command.panelId, botId);
     if (!isAllowed) return;
 

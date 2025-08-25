@@ -71,7 +71,7 @@ const BotStart = async (req, res) => {
     const slashCommands = await loadSlashCommands();
 
     const featureList = [...events, ...prefixCommands, ...slashCommands];
-    const botFeatures = await getFeaturesByBotId(bot._id);
+    const botFeatures = await getFeaturesByBotId(id);
 
     if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
 
