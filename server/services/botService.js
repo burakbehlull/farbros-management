@@ -65,6 +65,18 @@ const removeBot = async (botId) => {
   }
 };
 
+const getPrefix = async (botId) => {
+    try {
+        const bot = await Bot.findOne({ botId });
+        if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+        return bot.prefix;
+    } catch (error) {
+        console.error(`[getBotById] Error fetching bot with token ${token}:`, error);
+        res.status(500).json({ message: "Prefix alınırken hata oluştu.", error: err.message });
+    }
+};
+
 export {
 	addBot,
 	removeBot,
@@ -72,5 +84,7 @@ export {
 	getAllBots,
 	getBotById,
 	
-	getBotByToken
+	getBotByToken,
+
+  getPrefix
 }

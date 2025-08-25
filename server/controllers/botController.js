@@ -125,10 +125,33 @@ const BotStop = async (req, res) => {
   }
 };
 
+const updatePrefix = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { prefix } = req.body;
+
+    if (!prefix) {
+      return res.status(400).json({ message: "Yeni prefix belirtilmelidir." });
+    }
+
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    bot.prefix = prefix;
+    await bot.save();
+
+    return res.status(200).json({ message: "Prefix güncellendi.", bot });
+  } catch (err) {
+    console.error("[bot controller - updatePrefix]:", err);
+    return res.status(500).json({ message: "Prefix güncellenirken hata oluştu.", error: err.message });
+  }
+};
 
 export {
 	BotAdd,
 	GetBots,
 	BotStart,
-	BotStop
+	BotStop,
+
+	updatePrefix
 }

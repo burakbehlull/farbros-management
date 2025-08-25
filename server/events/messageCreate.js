@@ -1,15 +1,17 @@
 import { Events } from 'discord.js';
 import { checkFeature } from '#helpers';
+import { botService } from '#services';
 
+const { getPrefix } = botService;
 export default {
   name: Events.MessageCreate, 
   panelId: "event:prefixCommandExecuter",
   async execute(client, message) {
-    const prefix = "."
 	
 	  if(message.author.bot) return
 	
     const botId = message.client.user.id;
+    const prefix = await getPrefix(botId);
 
     if (!message.content.startsWith(prefix)) return;
 
