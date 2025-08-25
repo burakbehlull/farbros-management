@@ -1,5 +1,5 @@
 import express from 'express';
-import { GetBots, BotAdd, BotStart, BotStop, updatePrefix } from '#controllers';
+import { GetBots, BotAdd, BotStart, BotStop, updatePrefix, reloadEvents, reloadSlashCommands, reloadPrefixCommands, reloadAll } from '#controllers';
 
 const router = express.Router();
 
@@ -9,5 +9,10 @@ router.post('/:id/start', BotStart);
 router.post('/:id/stop', BotStop);
 
 router.patch('/:id/prefix', updatePrefix);
+
+router.post('/:id/reload', reloadAll);
+router.post('/:id/reload/prefix', reloadPrefixCommands);
+router.post('/:id/reload/slash', reloadSlashCommands);
+router.post('/:id/reload/event', reloadEvents);
 
 export default router;

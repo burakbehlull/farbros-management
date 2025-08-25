@@ -147,11 +147,151 @@ const updatePrefix = async (req, res) => {
   }
 };
 
+// reload function
+const reloadAll = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const IClient = findClientByToken(botList, bot.token);
+    IClient.client.prefixCommands.clear();
+    IClient.client.slashCommands.clear();
+
+    const events = await loadEvents();
+    const prefixCommands = await loadPrefixCommands();
+    const slashCommands = await loadSlashCommands();
+
+    const featureList = [...events, ...prefixCommands, ...slashCommands];
+    const botFeatures = await getFeaturesByBotId(id);
+
+    if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
+
+    const allowedFeatures = allowToFeatures(featureList, botFeatures);
+
+    const eventTypeControl = allowedFeatures.filter(af => af.type === 'event');
+
+
+    // executers
+    await eventExecuter(IClient.client, eventTypeControl, id);
+
+    for (const commands1 of allowedFeatures) {
+      if (commands1.type === 'prefix') {
+        IClient.client.prefixCommands.set(commands1.name, commands1.execute);
+      }
+    }
+
+    for (const commands2 of allowedFeatures) {
+      if (commands2.type === 'slash') {
+        IClient.client.slashCommands.set(commands2.data.name, commands2.execute);
+      }
+    }
+
+
+    
+    return res.status(200).json({ status: true, message: "Bot başlatıldı." });
+  } catch (err) {
+    console.error("[bot controller - BotStart]:", err);
+    return res.status(500).json({ message: "Bot bağlanamadı.", error: err.message });
+  }
+};
+
+const reloadPrefixCommands = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const IClient = findClientByToken(botList, bot.token);
+    IClient.client.prefixCommands.clear();
+
+    const prefixCommands = await loadPrefixCommands();
+    const botFeatures = await getFeaturesByBotId(id);
+
+    if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
+
+    const allowedFeatures = allowToFeatures(prefixCommands, botFeatures);
+    const prefixTypeControl = allowedFeatures.filter(af => af.type === 'prefix');
+
+
+    for (const command of prefixTypeControl) {
+      IClient.client.prefixCommands.set(command.name, command.execute);
+    }
+
+    return res.status(200).json({ status: true, message: "Prefix komutları yeniden yüklendi." });
+  } catch (err) {
+    console.error("[bot controller - ReloadPrefixCommands]:", err);
+    return res.status(500).json({ message: "Prefix komutları yeniden yüklenirken hata oluştu.", error: err.message });
+  }
+};
+
+const reloadSlashCommands = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const IClient = findClientByToken(botList, bot.token);
+    IClient.client.slashCommands.clear();
+
+    const slashCommands = await loadSlashCommands();
+    const botFeatures = await getFeaturesByBotId(id);
+
+    if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
+
+    const allowedFeatures = allowToFeatures(slashCommands, botFeatures);
+    const slashTypeControl = allowedFeatures.filter(af => af.type === 'slash');
+
+
+    for (const command of slashTypeControl) {
+      IClient.client.slashCommands.set(command.data.name, command.execute);
+    }
+
+    return res.status(200).json({ status: true, message: "Slash komutları yeniden yüklendi." });
+  } catch (err) {
+    console.error("[bot controller - ReloadSlashCommands]:", err);
+    return res.status(500).json({ message: "Slash komutları yeniden yüklenirken hata oluştu.", error: err.message });
+  }
+};
+
+
+const reloadEvents = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const IClient = findClientByToken(botList, bot.token);
+
+    const events = await loadEvents();
+    const botFeatures = await getFeaturesByBotId(id);
+
+    if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
+
+    const allowedFeatures = allowToFeatures(events, botFeatures);
+    const eventTypeControl = allowedFeatures.filter(af => af.type === 'event');
+
+    await eventExecuter(IClient.client, eventTypeControl, id);
+
+    return res.status(200).json({ status: true, message: "Eventler yeniden yüklendi." });
+  } catch (err) {
+    console.error("[bot controller - ReloadEvents]:", err);
+    return res.status(500).json({ message: "Eventler yeniden yüklenirken hata oluştu.", error: err.message });
+  }
+};
+
 export {
 	BotAdd,
 	GetBots,
 	BotStart,
 	BotStop,
 
-	updatePrefix
+	updatePrefix,
+
+  reloadAll,
+
+  reloadEvents,
+  reloadPrefixCommands,
+  reloadSlashCommands
+
 }
