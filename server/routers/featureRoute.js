@@ -4,12 +4,13 @@ import { uploadFeatures, addToFeature, updateToFeature, featureList, featureToBy
 const router = express.Router();
 
 router.get('/', featureList);
+
 router.post('/by', featureToById);
 
 router.post("/sync", uploadFeatures);
 
 router.post("/add", addToFeature);
-router.put("/update", updateToFeature);
+router.put("/", updateToFeature);
 
 
 export default router;

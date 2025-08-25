@@ -10,9 +10,9 @@ router.get('/', GetBotFeatureById);
 router.post('/one', AddOneToBotFeature);
 router.post('/many', AddManyToBotFeatures);
 
-router.put('/update', UpdateBotFeatureStatus);
+router.put('/', UpdateBotFeatureStatus);
 
-router.delete('/remove', RemoveFromBotFeature);
+router.delete('/', RemoveFromBotFeature);
 
 
 export default router;
