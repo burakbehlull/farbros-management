@@ -47,6 +47,28 @@ const DeleteUser = async (userId) => {
     }
 };
 
+const LoginUser = async ({ username, password }) => {
+    try {
+        const user = await GetUserByUsername(username);
+        if (!user) return {message: "User not found", status: false};
+
+        if(user.password !== password) return {message: "Invalid password", status: false};
+
+        return {message: "Login successful", status: true, user};
+    } catch (error) {
+        throw new Error("Error logging in");
+    }
+};
+
+const RegisterUser = async ({ username, password }) => {
+    try {
+        const user = await CreateUser({ username, password });
+        return { message: "Registration successful", status: true, user };
+    } catch (error) {
+        throw new Error("Error registering user");
+    }
+}
+
 export {
     CreateUser,
 
@@ -54,5 +76,8 @@ export {
     GetUserByUsername,
 
     UpdateUser,
-    DeleteUser
+    DeleteUser,
+
+    LoginUser,
+    RegisterUser
 };
