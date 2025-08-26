@@ -3,7 +3,7 @@ import {userService } from "#services";
 const { CreateUser } = userService;
 
 
-const userCreate = async (req,res)=> {
+const UserCreate = async (req,res)=> {
     const { username, password } = req.body;
     try {
         const user = await CreateUser({ username, password });
@@ -15,5 +15,5 @@ const userCreate = async (req,res)=> {
 
 
 export {
-    userCreate
+    UserCreate
 }
