@@ -29,8 +29,30 @@ const GetUserByUsername = async (username) => {
     }
 };
 
+const UpdateUser = async (userId, updateData) => {
+    try {
+        const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
+        return user;
+    } catch (error) {
+        throw new Error("Error updating user");
+    }
+};
+
+const DeleteUser = async (userId) => {
+    try {
+        const result = await User.findByIdAndDelete(userId);
+        return result;
+    } catch (error) {
+        throw new Error("Error deleting user");
+    }
+};
+
 export {
     CreateUser,
+
     GetUserById,
-    GetUserByUsername
-}
+    GetUserByUsername,
+
+    UpdateUser,
+    DeleteUser
+};
