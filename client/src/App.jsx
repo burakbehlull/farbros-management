@@ -1,8 +1,9 @@
+import { Layout } from "@pages"
 function App() {
 
   return (
     <>
-      HELLO FARBROS MANAGEMENT!
+      <Layout />
     </>
   )
 }

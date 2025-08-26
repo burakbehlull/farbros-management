@@ -16,7 +16,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '~': way('src'),
-      '@requests': way('src/helpers/requests')
+      '@requests': way('src/helpers/requests'),
+      '@pages': way('src/pages/index'),
     },
   },
 })

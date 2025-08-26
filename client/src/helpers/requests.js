@@ -38,16 +38,16 @@ const featureAPI = {
 }
 
 const userAPI = {
-    createUser: (data, config) => API.post('/', data, config),
+    createUser: (data, config) => API.post('/user/', data, config),
 
-    getUser: (id, config) => API.get(`/users/${id}`, config),
-    updateUser: (id, data, config) => API.put(`/users/${id}`, data, config),
-    deleteUser: (id, config) => API.delete(`/users/${id}`, config),
+    getUser: (id, config) => API.get(`/user/${id}`, config),
+    updateUser: (id, data, config) => API.put(`/user/${id}`, data, config),
+    deleteUser: (id, config) => API.delete(`/user/${id}`, config),
 
-    register: (data, config) => API.post('/users/register', data, config),
-    login: (data, config) => API.post('/users/login', data, config),
+    register: (data, config) => API.post('/user/register', data, config),
+    login: (data, config) => API.post('/user/login', data, config),
 
-    getUserBots: (id, config) => API.get(`/users/${id}/bots`, config)
+    getUserBots: (id, config) => API.get(`/user/${id}/bots`, config)
 
 }
 
