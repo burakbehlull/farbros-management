@@ -1,4 +1,4 @@
-import { Container } from "@chakra-ui/react"
+// import { Container } from "@chakra-ui/react"
 import Routes from "../routes/index"
 import Helmet from 'react-helmet';
 

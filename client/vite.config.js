@@ -18,6 +18,8 @@ export default defineConfig({
       '~': way('src'),
       '@requests': way('src/helpers/requests'),
       '@pages': way('src/pages/index'),
+      '@ui': way('src/components/ui/index'),
+      '@components': way('src/components/index'),
     },
   },
 })
