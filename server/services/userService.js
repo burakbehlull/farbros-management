@@ -1,4 +1,4 @@
-import { User } from "#models";
+import { Bot, User } from "#models";
 
 const CreateUser = async (userData) => {
     try {
@@ -47,6 +47,8 @@ const DeleteUser = async (userId) => {
     }
 };
 
+// auth actions
+
 const LoginUser = async ({ username, password }) => {
     try {
         const user = await GetUserByUsername(username);
@@ -69,6 +71,17 @@ const RegisterUser = async ({ username, password }) => {
     }
 }
 
+// users bot
+const GetUserBots = async (userId) => {
+    try {
+        const bots = await Bot.find({ user: userId }).populate('user');
+
+        return { status: true, bots };
+    } catch (error) {
+        throw new Error("Error fetching user bots");
+    }
+};
+
 export {
     CreateUser,
 
@@ -77,7 +90,10 @@ export {
 
     UpdateUser,
     DeleteUser,
-
+    // auth actions
     LoginUser,
-    RegisterUser
+    RegisterUser,
+
+    // users bot
+    GetUserBots
 };

@@ -1,6 +1,6 @@
 import { userService, tokenService } from "#services";
 
-const { CreateUser, LoginUser, RegisterUser, GetUserById } = userService;
+const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots } = userService;
 const { verifyRefreshAndGenerateAccess } = tokenService;
 
 const UserCreate = async (req,res)=> {
@@ -49,9 +49,20 @@ const UserRegister = async (req, res) => {
     }
 };
 
+const GetUsersBot = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const bots = await GetUserBots(userId);
+        res.status(200).json({ status: true, bots });
+    } catch (error) {
+        res.status(500).json({ status: false, error: error.message });
+    }
+}
+
 export {
     UserCreate,
     UserProfile,
+    GetUsersBot,
     
     UserLogin,
     UserRegister
