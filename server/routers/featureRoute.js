@@ -9,8 +9,8 @@ router.post('/by', featureToById);
 
 router.post("/sync", uploadFeatures);
 
-router.post("/add", addToFeature);
-router.put("/", updateToFeature);
+router.post("/", addToFeature);
+router.patch("/", updateToFeature);
 
 
 export default router;
