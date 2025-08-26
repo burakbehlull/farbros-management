@@ -47,7 +47,8 @@ const userAPI = {
     register: (data, config) => API.post('/users/register', data, config),
     login: (data, config) => API.post('/users/login', data, config),
 
-    
+    getUserBots: (id, config) => API.get(`/users/${id}/bots`, config)
+
 }
 
 export {
