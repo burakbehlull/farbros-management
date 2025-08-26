@@ -10,11 +10,14 @@ const botAPI = {
     deleteBot: (id) => API.delete(`/bots/${id}`),
 
     updatePrefix: (id, data, config) => API.patch(`/bots/${id}/prefix`, data, config),
-    
+
     reloadAll: (id) => API.post(`/bots/${id}/reload`),
     reloadPrefixCommands: (id) => API.post(`/bots/${id}/reload/prefix`),
     reloadSlashCommands: (id) => API.post(`/bots/${id}/reload/slash`),
     reloadEvents: (id) => API.post(`/bots/${id}/reload/events`),
 };
 
+export {
+    botAPI
+}
 
