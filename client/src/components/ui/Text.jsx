@@ -1,9 +1,9 @@
 import { Text } from "@chakra-ui/react"
 
-const TextUI = ({text,...props}) => {
+const TextUI = ({children,...props}) => {
 	return <Text {...props}
 		_dark={{color: "white"}}
-	>{text}</Text>
+	>{children}</Text>
 }
 
 export default TextUI
