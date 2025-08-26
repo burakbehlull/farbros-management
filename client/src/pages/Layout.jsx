@@ -1,4 +1,4 @@
-// import { Container } from "@chakra-ui/react"
+import { Container } from '@chakra-ui/react';
 import Routes from "../routes/index"
 import Helmet from 'react-helmet';
 
@@ -17,8 +17,14 @@ function Layout() {
                 <title>Farbros Management</title>
             </Helmet>
             
-            
-            <Routes />
+            <Container
+                padding={0}
+                margin={0}
+                minH="100vh"
+                maxW="100vw"
+		    >
+                <Routes />
+            </Container>
             
         </>
     )
