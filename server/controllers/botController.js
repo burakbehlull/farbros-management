@@ -11,7 +11,7 @@ export const botList = [];
 
 const BotAdd = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { token, userId } = req.body;
     if (!token) {
       return res.status(400).json({ message: "Token zorunludur." });
     }
@@ -28,6 +28,7 @@ const BotAdd = async (req, res) => {
       token,
       botId: botClient.user.id,
       username: botClient.user.username,
+      userId: userId
     };
 
     const newBot = await addBot(newBotData);
