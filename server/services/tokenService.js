@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken"
 
-const generateAccessToken = (user) => {
-    return jwt.sign({ id: user.id }, process.env.JWT_ACCESS_SECRET, {
+const generateAccessToken = (data) => {
+    return jwt.sign(data, process.env.JWT_ACCESS_SECRET, {
         expiresIn: "1h",
     });
 };
 
-const generateRefreshToken = (user) => {
-    return jwt.sign({ id: user.id }, process.env.JWT_REFRESH_SECRET, {
+const generateRefreshToken = (data) => {
+    return jwt.sign(data, process.env.JWT_REFRESH_SECRET, {
         expiresIn: "12h",
     });
 };
@@ -15,7 +15,7 @@ const generateRefreshToken = (user) => {
 const verifyAccessToken = (token) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-        return { id: decoded.id };
+        return decoded;
     } catch (err) {
         return null;
     }
@@ -24,7 +24,7 @@ const verifyAccessToken = (token) => {
 const verifyRefreshToken = (token) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-        return { id: decoded.id };
+        return decoded;
     } catch (err) {
         return null;
     }
