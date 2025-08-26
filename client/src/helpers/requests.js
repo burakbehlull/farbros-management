@@ -37,9 +37,23 @@ const featureAPI = {
     updateFeature: (data, config) => API.patch(`/features`, data, config)
 }
 
+const userAPI = {
+    createUser: (data, config) => API.post('/', data, config),
+
+    getUser: (id, config) => API.get(`/users/${id}`, config),
+    updateUser: (id, data, config) => API.put(`/users/${id}`, data, config),
+    deleteUser: (id, config) => API.delete(`/users/${id}`, config),
+
+    register: (data, config) => API.post('/users/register', data, config),
+    login: (data, config) => API.post('/users/login', data, config),
+
+    
+}
+
 export {
     botAPI,
     botFeatureAPI,
-    featureAPI
+    featureAPI,
+    userAPI
 }
 

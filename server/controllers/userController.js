@@ -1,6 +1,6 @@
 import { userService, tokenService } from "#services";
 
-const { CreateUser, LoginUser, RegisterUser} = userService;
+const { CreateUser, LoginUser, RegisterUser, GetUserById } = userService;
 const { verifyRefreshAndGenerateAccess } = tokenService;
 
 const UserCreate = async (req,res)=> {
@@ -8,6 +8,18 @@ const UserCreate = async (req,res)=> {
     try {
         const user = await CreateUser({ username, password });
         res.status(201).json({ status: true, user });
+    } catch (error) {
+        res.status(500).json({ status: false, error: error.message });
+    }
+};
+
+const UserProfile = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const user = await GetUserById(userId);
+        if (!user) return res.status(404).json({ status: false, error: "User not found" });
+
+        res.status(200).json({ status: true, user });
     } catch (error) {
         res.status(500).json({ status: false, error: error.message });
     }
@@ -39,6 +51,8 @@ const UserRegister = async (req, res) => {
 
 export {
     UserCreate,
+    UserProfile,
+    
     UserLogin,
     UserRegister
 }
