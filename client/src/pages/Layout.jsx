@@ -20,7 +20,8 @@ function Layout() {
             <Container
                 padding={0}
                 margin={0}
-                minH="100vh"
+                // bg={{ base: "red", _dark: "gray.900" }}
+                minH="84vh"
                 maxW="100vw"
 		    >
                 <Routes />

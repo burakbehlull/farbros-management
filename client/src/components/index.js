@@ -1,1 +1,5 @@
-// compoennts
+import Navbar from "./Navbar";
+
+export { 
+    Navbar 
+};
