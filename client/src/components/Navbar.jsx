@@ -4,12 +4,12 @@ import { TextUI } from "@ui";
 export default function Navbar() {
     return (
             <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1rem"
-            width="100%"
+                as="nav"
+                align="center"
+                justify="space-between"
+                wrap="wrap"
+                padding="1rem"
+                width="100%"
             >
                 <Box flex="1">
                     <TextUI fontSize="xl" fontWeight="bold" color={{ base: "black", _dark: "white" }}>

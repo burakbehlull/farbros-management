@@ -22,7 +22,7 @@ export default function Home() {
                         >Your one-stop solution for all management needs.</Highlight>
                     </TextUI>
 
-                    <Box mt={5}>
+                    <Box mt={7}>
                         <ButtonUI size="lg">Start</ButtonUI>
                     </Box>
                 </Box>
