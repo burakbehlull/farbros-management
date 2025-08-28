@@ -1,5 +1,6 @@
 import { useRoutes } from 'react-router-dom'
 import { Home, Authentication } from '@pages'
+import { DashboardLayout } from '../pages'
 export default function Routes(){
 
     return useRoutes([
@@ -9,11 +10,11 @@ export default function Routes(){
         },
         {
             path: '/dashboard',
-            element: <Authentication />,
+            element: <DashboardLayout><Authentication /></DashboardLayout>,
             children: [
                 {
                     path: '',
-                    element: <>aaaDashbdaoard</>
+                    element: <div>Dashboard Ana Sayfası</div>
                 }
             ]
         }
