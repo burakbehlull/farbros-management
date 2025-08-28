@@ -15,6 +15,10 @@ export default function Routes(){
                 {
                     path: '',
                     element: <div>Dashboard Ana Sayfası</div>
+                },
+                {
+                    path: 'bots',
+                    element: <div>Botlar Sayfası</div>
                 }
             ]
         }

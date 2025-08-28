@@ -14,6 +14,12 @@ export default function Navbar() {
                 wrap="wrap"
                 padding="1rem"
                 width="100%"
+                gap={5}
+                mt={{
+                    base: 10,
+                    md: 0,
+                    lg: 0,
+                }}
             >
                 <Box flex="1">
                     <TextUI fontSize="xl" fontWeight="bold" color={{ base: "black", _dark: "white" }}>

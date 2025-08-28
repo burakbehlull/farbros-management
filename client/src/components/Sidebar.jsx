@@ -1,19 +1,36 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { ButtonUI, TextUI } from "@ui";
+import { useLocation } from "react-router-dom";
 
 
 export default function Sidebar() {
+  const location = useLocation();
+  const currentPath = location.pathname.split('/');
+  console.log(`${currentPath[1]} - ${currentPath[2]}`);
+
   return (
     <Box
-      width="15vw"
-      height="60vh"
+      width={{
+        base: "100%",
+        md: "260px",
+        lg: "260px",
+      }}
+      height={{
+        base: "auto",
+        md: "60vh",
+        lg: "60vh",
+      }}
       bg="white"
       p="4"
       justifyContent="center"
       borderStyle="solid"
-      borderRightWidth={"1px"}
+      borderRightWidth={{
+        base: "0px",
+        md: "1px",
+        lg: "1px",
+      }}
       // borderTopWidth={"1px"}
-      borderColor="gray.300"
+      // borderColor="gray.300"
       borderRadius="md"
     >
       

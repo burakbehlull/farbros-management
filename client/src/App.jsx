@@ -13,11 +13,7 @@ function App() {
           alignItems="center"
           justifyContent="center"
           // bg={{ base: "blue.500", _dark: "gray.800" }}
-          px={{
-            base: 4,
-            md: 8,
-            lg: 16,
-          }}
+          px={{base: 0, sm: 8, md: 8}}
         >
           <Navbar />
         </Box>
