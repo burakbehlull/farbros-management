@@ -21,7 +21,7 @@ export default function Routes(){
                     element: <BotsPage />
                 },
                 {
-                    path: 'bots/create',
+                    path: 'create-bot',
                     element: <BotCreatePage />
                 }
             ]

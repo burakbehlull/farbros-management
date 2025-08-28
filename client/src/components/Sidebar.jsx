@@ -53,12 +53,15 @@ export default function Sidebar() {
             Menü
         </TextUI>
 
-
+        
         <ButtonUI
           leftIcon={<h1>file</h1>}
           justifyContent="flex-start"
-          variant="ghost"
+          variant="ghost"   
+          bg={currentPath[2] === 'create-bot' && 'gray.800'}
+          color={currentPath[2] === 'create-bot' && 'white'}
           _hover={{ bg: "gray.100" }}
+          onClick={() => handleNavigation('/dashboard/create-bot')}
         >
           Bot Oluştur
         </ButtonUI>
@@ -67,6 +70,9 @@ export default function Sidebar() {
           leftIcon={<h1>Bell</h1>}
           justifyContent="flex-start"
           variant="ghost"
+          bg={currentPath[2] === 'bots' && 'gray.800'}
+          color={currentPath[2] === 'bots' && 'white'}
+
           _hover={{ bg: "gray.100" }}
           onClick={() => handleNavigation('/dashboard/bots')}
         >
@@ -78,6 +84,7 @@ export default function Sidebar() {
           justifyContent="flex-start"
           variant="ghost"
           _hover={{ bg: "gray.100" }}
+          
         >
           Bota Özellik Ekle
         </ButtonUI>
