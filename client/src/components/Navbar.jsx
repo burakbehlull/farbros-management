@@ -24,7 +24,6 @@ export default function Navbar() {
                 </Flex>
 
                 <Box flex="1">
-
                 </Box>
             </Flex>
     );
