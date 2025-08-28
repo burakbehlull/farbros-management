@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom'
-import { Home, Authentication } from '@pages'
-import { DashboardLayout } from '../pages'
+import { Home, Authentication, DashboardLayout,
+    BotCreatePage, BotsPage, Dashboard } from '@pages'
 export default function Routes(){
 
     return useRoutes([
@@ -14,11 +14,15 @@ export default function Routes(){
             children: [
                 {
                     path: '',
-                    element: <div>Dashboard Ana Sayfası</div>
+                    element: <Dashboard />
                 },
                 {
                     path: 'bots',
-                    element: <div>Botlar Sayfası</div>
+                    element: <BotsPage />
+                },
+                {
+                    path: 'bots/create',
+                    element: <BotCreatePage />
                 }
             ]
         }

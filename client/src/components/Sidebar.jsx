@@ -1,11 +1,19 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { ButtonUI, TextUI } from "@ui";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export default function Sidebar() {
+
   const location = useLocation();
+  const navigate = useNavigate();
+
   const currentPath = location.pathname.split('/');
+  
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   console.log(`${currentPath[1]} - ${currentPath[2]}`);
 
   return (
@@ -60,6 +68,7 @@ export default function Sidebar() {
           justifyContent="flex-start"
           variant="ghost"
           _hover={{ bg: "gray.100" }}
+          onClick={() => handleNavigation('/dashboard/bots')}
         >
           Botlar
         </ButtonUI>
