@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom'
-import { Home } from '@pages'
+import { Home, Authentication } from '@pages'
 export default function Routes(){
 
     return useRoutes([
@@ -8,8 +8,14 @@ export default function Routes(){
             element: <Home />,
         },
         {
-            element: <h1>404 Not Found</h1>,
-            children: []
+            path: '/dashboard',
+            element: <Authentication />,
+            children: [
+                {
+                    path: '',
+                    element: <>aaaDashbdaoard</>
+                }
+            ]
         }
     ])
 }

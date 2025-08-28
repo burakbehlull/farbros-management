@@ -1,6 +1,12 @@
 import { Box, Flex, Highlight } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
+
 import { TextUI, ButtonUI } from '@ui';
+
 export default function Home() {
+    const navigate = useNavigate();
+    const handleNavigate = (path) => navigate(path);
+    
     return (
         <>
             <Flex
@@ -23,7 +29,7 @@ export default function Home() {
                     </TextUI>
 
                     <Box mt={7}>
-                        <ButtonUI size="lg">Start</ButtonUI>
+                        <ButtonUI size="lg" onClick={() => handleNavigate('/dashboard')}>Start</ButtonUI>
                     </Box>
                 </Box>
             </Flex>

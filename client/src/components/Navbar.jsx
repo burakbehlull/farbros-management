@@ -1,7 +1,11 @@
 import { Box, Flex, Link } from "@chakra-ui/react";
 import { TextUI } from "@ui";
+import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
+    const navigate = useNavigate();
+    const handleNavigate = (path) => navigate(path);
+    
     return (
             <Flex
                 as="nav"
@@ -18,9 +22,9 @@ export default function Navbar() {
                 </Box>
 
                 <Flex flex="1" justify="center" gap="2rem">
-                    <Link>Home</Link>
-                    <Link>About</Link>
-                    <Link>Contact</Link>
+                    <Link onClick={()=> handleNavigate('/')}>Home</Link>
+                    <Link onClick={() => handleNavigate("/about")}>About</Link>
+                    <Link onClick={() => handleNavigate("/contact")}>Contact</Link>
                 </Flex>
 
                 <Box flex="1">
