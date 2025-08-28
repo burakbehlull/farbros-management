@@ -6,6 +6,10 @@ export default function Routes(){
         {
             path: '/',
             element: <Home />,
+        },
+        {
+            element: <h1>404 Not Found</h1>,
+            children: []
         }
     ])
 }
