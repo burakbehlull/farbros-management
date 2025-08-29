@@ -1,11 +1,14 @@
+import { User } from "#models";
 import { userService, tokenService } from "#services";
 
 const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots } = userService;
-const { verifyRefreshAndGenerateAccess } = tokenService;
+const {  } = tokenService;
 
 const UserCreate = async (req,res)=> {
     const { username, password } = req.body;
     try {
+        const existingUser = await User.findOne({ username });
+        if (existingUser) return res.status(409).json({ status: false, error: "User already exists" });
         const user = await CreateUser({ username, password });
         res.status(201).json({ status: true, user });
     } catch (error) {

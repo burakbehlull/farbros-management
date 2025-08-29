@@ -1,50 +1,74 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
+import { User } from "#models";
 
-const generateAccessToken = (data) => {
-    return jwt.sign(data, process.env.JWT_ACCESS_SECRET, {
-        expiresIn: "1h",
-    });
-};
+const ACCESS_KEY = process.env.JWT_ACCESS_SECRET
+const REFRESH_KEY = process.env.JWT_REFRESH_SECRET 
 
-const generateRefreshToken = (data) => {
-    return jwt.sign(data, process.env.JWT_REFRESH_SECRET, {
-        expiresIn: "12h",
-    });
-};
+function generateAccessToken(payload) {
+    return jwt.sign(payload, ACCESS_KEY, { expiresIn: "30m" });
+}
 
-const verifyAccessToken = (token) => {
+
+function generateRefreshToken(payload) {
+    return jwt.sign(payload, REFRESH_KEY, { expiresIn: "7d" });
+}
+
+
+function verifyAccessToken(token) {
     try {
-        const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET);
-        return decoded;
-    } catch (err) {
-        return null;
-    }
-};
-
-const verifyRefreshToken = (token) => {
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-        return decoded;
-    } catch (err) {
-        return null;
-    }
-};
-
-const verifyRefreshAndGenerateAccess = (refreshToken) => {
-    try {
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
-        const accessToken = generateAccessToken({ id: decoded.id });
-        return { accessToken };
+        return jwt.verify(token, ACCESS_KEY);
     } catch (err) {
         return null;
     }
 }
 
+function verifyRefreshToken(token) {
+    try {
+        return jwt.verify(token, REFRESH_KEY);
+    } catch (err) {
+        return null;
+    }
+}
+
+function isExpired(token) {
+    try {
+        jwt.verify(token, ACCESS_KEY);
+        return { expired: false };
+    } catch (err) {
+        if (err.name === "TokenExpiredError") {
+        return { expired: true };
+        }
+        return { expired: false, invalid: true };
+    }
+}
+
+async function updateUserRefreshToken(username, refreshToken) {
+    const user = await User.findOne({ username });
+    if (!user) return null;
+    user.token = refreshToken;
+    await user.save();
+    return user;
+}
+
+async function refreshAccessToken(refreshToken) {
+    const decoded = verifyRefreshToken(refreshToken);
+    if (!decoded) return null;
+
+    const user = await User.findOne({ username: decoded.username });
+    if (!user) return null;
+
+    if (user.token !== refreshToken) return null;
+
+    const newAccessToken = generateAccessToken({ username: user.username });
+    return newAccessToken;
+}
 
 export {
     generateAccessToken,
     generateRefreshToken,
     verifyAccessToken,
     verifyRefreshToken,
-    verifyRefreshAndGenerateAccess
-}
+    isExpired,
+    updateUserRefreshToken,
+    refreshAccessToken
+};
