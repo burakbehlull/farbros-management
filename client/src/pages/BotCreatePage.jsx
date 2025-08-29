@@ -1,6 +1,8 @@
 import { Flex, Group } from "@chakra-ui/react";
 import { InputAndTextUI, ButtonUI, TextUI } from "@ui"
 import { BotCreateSchema } from "@schemas"
+import { botAPI } from "@requests"
+import { showToast } from "@partials"
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,8 +13,32 @@ export default function BotCreatePage(){
         resolver: yupResolver(BotCreateSchema)
     });
 
+    const handleCreateBot = async (data) => {
+        try {
+            const response = await botAPI.addBot({
+                token: data.token,
+                userId: "68ae0bbe6642cd4b63ed9dcd"
+            })
+            console.log('Bot created successfully:', response);
+            showToast({
+                message: `${response.bot.username} Bot başarıyla oluşturuldu.`,
+                type: 'success',
+                id: 'bot-create-success',
+                duration: 3000
+            });
+        } catch (error) {
+            showToast({
+                message: 'Bot oluşturulamadı.',
+                type: 'error',
+                id: 'bot-create-error',
+                duration: 3000
+            });
+            console.error('Error creating bot:', error);
+        }
+    };
+
     const onSubmit = (data) => {
-        console.log(data);
+        handleCreateBot(data);
     };
 
     return (

@@ -28,7 +28,7 @@ const BotAdd = async (req, res) => {
       token,
       botId: botClient.user.id,
       username: botClient.user.username,
-      userId: userId
+      user: userId
     };
 
     const newBot = await addBot(newBotData);
