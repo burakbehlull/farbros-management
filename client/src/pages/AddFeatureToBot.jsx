@@ -1,7 +1,8 @@
+import { CardUI, SelectUI } from "@ui"
 export default function AddFeatureToBot(){
     return (
         <>
-            <h1>Bota Özellik Ekle</h1>
+            <CardUI title="Bota Özellik Ekle" description="Bu alandan bota yeni özellikler ekleyebilirsiniz." />
         </>
     );
 }
