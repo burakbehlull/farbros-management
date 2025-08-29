@@ -83,8 +83,11 @@ export default function Sidebar() {
           leftIcon={<h1>s</h1>}
           justifyContent="flex-start"
           variant="ghost"
+          bg={currentPath[2] === 'add-feature' && 'gray.800'}
+          color={currentPath[2] === 'add-feature' && 'white'}
+
           _hover={{ bg: "gray.100" }}
-          
+          onClick={() => handleNavigation('/dashboard/add-feature')}
         >
           Bota Özellik Ekle
         </ButtonUI>

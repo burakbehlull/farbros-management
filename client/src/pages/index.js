@@ -6,6 +6,7 @@ import DashboardLayout from "./DashboardLayout";
 import BotsPage from "./BotsPage";
 import Dashboard from "./Dashboard";
 import BotCreatePage from "./BotCreatePage";
+import AddFeatureToBot from "./AddFeatureToBot"
 
 
 export {
@@ -16,5 +17,6 @@ export {
 
     BotsPage,
     Dashboard,
-    BotCreatePage
+    BotCreatePage,
+    AddFeatureToBot
 };
