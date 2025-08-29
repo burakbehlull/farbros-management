@@ -22,6 +22,7 @@ export default defineConfig({
       '@components': way('src/components/index'),
       '@icons': way('src/components/Icons'),
       '@partials': way('src/components/partials/index'),
+      '@schemas': way('src/schemas/index'),
     },
   },
 })

@@ -2,7 +2,7 @@ import { User } from "#models";
 import { userService, tokenService } from "#services";
 
 const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots } = userService;
-const {  } = tokenService;
+const { generateAccessToken } = tokenService;
 
 const UserCreate = async (req,res)=> {
     const { username, password } = req.body;
