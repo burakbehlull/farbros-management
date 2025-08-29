@@ -1,5 +1,8 @@
 import { Icon } from "@chakra-ui/react"
 import { TbSlash } from "react-icons/tb";
+import { VscSymbolEvent } from "react-icons/vsc";
+import { TbTilde } from "react-icons/tb";
+
 
 const IconUI = ({ as, boxSize, color, bg }) => {
     return (
@@ -10,10 +13,19 @@ const IconUI = ({ as, boxSize, color, bg }) => {
 const TbSlashIcon = () => {
     return <IconUI as={TbSlash} />
 }
+const VscSymbolEventIcon = () => {
+    return <IconUI as={VscSymbolEvent} />
+}
+
+const TbTildeIcon = () => {
+    return <IconUI as={TbTilde} />
+}
 
 export { 
     IconUI, 
-    
+
     // icons
-    TbSlashIcon 
+    TbSlashIcon as SlashIcon,
+    VscSymbolEventIcon as EventIcon,
+    TbTildeIcon as PrefixIcon
 }
