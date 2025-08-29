@@ -20,6 +20,7 @@ export default defineConfig({
       '@pages': way('src/pages/index'),
       '@ui': way('src/components/ui/index'),
       '@components': way('src/components/index'),
+      '@icons': way('src/components/Icons'),
     },
   },
 })
