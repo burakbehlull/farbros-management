@@ -75,7 +75,6 @@ const RegisterUser = async ({ username, password }) => {
 const GetUserBots = async (userId) => {
     try {
         const bots = await Bot.find({ user: userId }).populate('user');
-        console.log("BOTS", bots)
 
         return { status: true, bots };
     } catch (error) {

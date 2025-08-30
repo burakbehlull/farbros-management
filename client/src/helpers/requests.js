@@ -18,7 +18,7 @@ const botAPI = {
 };
 
 const botFeatureAPI = {
-    getFeatures: () => API.get('/bot-feature'),
+    getFeatures: ({page, limit}) => API.get('/bot-feature', { params: { page, limit } }),
 
     addOneFeature: (data, config) => API.post('/bot-feature/one', data, config),
     addManyFeatures: (data, config) => API.post('/bot-feature/many', data, config),

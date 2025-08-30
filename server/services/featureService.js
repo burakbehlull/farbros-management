@@ -1,15 +1,28 @@
 import { Feature } from "#models";
 
-const getFeatureList = async () => {
+const getFeatureList = async ({ page = 1, limit = 9 } = {}) => {
     try {
-        const features = await Feature.find({});
-        return features;
+        page = parseInt(page);
+        limit = parseInt(limit);
+
+        const totalItems = await Feature.countDocuments();
+
+        const features = await Feature.find({})
+        .skip((page - 1) * limit)
+        .limit(limit);
+
+        return {
+            features,
+            totalItems,
+            totalPages: Math.ceil(totalItems / limit),
+            page,
+            limit,
+        };
     } catch (error) {
         console.error("[getFeatureList] Error fetching features:", error);
         throw new Error("Error fetching feature list");
     }
 };
-
 
 const getFeatureByPanelId = async (panelId) => {
     try {

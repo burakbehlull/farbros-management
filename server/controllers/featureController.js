@@ -8,8 +8,18 @@ const { addManyFeatures, addFeature, getFeatureList, getFeatureByPanelId, update
 // get all features
 const featureList = async (req, res) => {
   try {
-    const features = await getFeatureList();
-    return res.status(200).json({ status: true, data: features });
+    const { page, limit } = req.query;
+
+    const result = await getFeatureList({ page, limit });
+
+    return res.status(200).json({
+      status: true,
+      data: result.features,
+      page: result.page,
+      limit: result.limit,
+      totalItems: result.totalItems,
+      totalPages: result.totalPages,
+    });
   } catch (err) {
     console.error("[bot controller - Get Features]:", err);
     return res.status(500).json({ message: "Özellikler getirilemedi.", error: err.message });
