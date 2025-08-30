@@ -9,10 +9,10 @@ export default function Provider(props) {
 
     return (
         <ChakraProvider value={defaultSystem}>
-        <ColorModeProvider 
-            forcedTheme={theme}
-            {...props} 
-        />
+            <ColorModeProvider 
+                forcedTheme={theme}
+                {...props} 
+            />
         </ChakraProvider>
     )
 }

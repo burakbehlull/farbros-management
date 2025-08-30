@@ -4,11 +4,11 @@ const CardUI = ({title, description, icon}) => {
     return (
         <Card.Root width="320px">
             <Card.Body gap="2">
-                <Avatar.Root size="lg" shape="rounded"
+                {icon && <Avatar.Root size="lg" shape="rounded"
                     bg={"white"}
                 >
-                {icon && icon}
-                </Avatar.Root>
+                    {icon && icon}
+                </Avatar.Root>}
                 <Card.Title mt="2">{title}</Card.Title>
                 <Card.Description>
                     {description}
