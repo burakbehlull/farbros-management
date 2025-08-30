@@ -21,9 +21,11 @@ const PaginationUI = ({ totalItems, limit, currentPage, onPageChange }) => {
                 <Pagination.Items
                 render={(page) => (
                     <IconButton
-                    key={page.value}
-                    variant={{ base: "ghost", _selected: "outline" }}
-                    >
+                        key={page.value}
+                        aria-label={`Sayfa ${page.value}`}
+                        variant={{ base: "ghost", _selected: "outline" }}
+                        onClick={() => onPageChange(page.value)}
+                        >
                         {page.value}
                     </IconButton>
                 )}

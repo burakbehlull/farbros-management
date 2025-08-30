@@ -8,16 +8,24 @@ import { featureAPI } from "@requests";
 export default function AddFeatureToBot() {
 
     const [features, setFeatures] = useState([]);
+    const [page, setPage] = useState(1);
+    const [totalItems, setTotalItems] = useState(0);
+    const limit = 9;
+
+    const fetchFeatures = async () => {
+        const response = await featureAPI.getFeatures(page, limit );
+        console.log(response);
+        setFeatures(response.data);
+        setTotalItems(response.totalItems);
+    };
 
     useEffect(() => {
-        const fetchFeatures = async () => {
-            const response = await featureAPI.getFeatures();
-            console.log(response);
-            setFeatures(response.data);
-        };
-
-        fetchFeatures();
+        fetchFeatures();        
     }, []);
+
+    useEffect(() => {
+        fetchFeatures(2, limit);
+    }, [page]);
 
 
     return (
@@ -42,7 +50,12 @@ export default function AddFeatureToBot() {
                 )}
             </Flex>
             <Flex mt={10} justify="center">
-                <PaginationUI />
+                <PaginationUI 
+                    totalItems={totalItems}
+                    limit={limit}
+                    currentPage={page}
+                    onPageChange={(newPage) => setPage(newPage)}
+                />
             </Flex>
         </Flex>
     );

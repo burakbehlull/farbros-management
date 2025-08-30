@@ -18,7 +18,7 @@ const botAPI = {
 };
 
 const botFeatureAPI = {
-    getFeatures: ({page, limit}) => API.get('/bot-feature', { params: { page, limit } }),
+    getFeatures: (data, config) => API.get('/bot-feature', { params: data }, config),
 
     addOneFeature: (data, config) => API.post('/bot-feature/one', data, config),
     addManyFeatures: (data, config) => API.post('/bot-feature/many', data, config),
@@ -30,7 +30,7 @@ const botFeatureAPI = {
 const featureAPI = {
     sync: (data, config) => API.post(`/features/sync`, data, config),
 
-    getFeatures: () => API.get('/features'),
+    getFeatures: (page, limit) => API.get('/features', { page, limit }),
     getFeatureById: (panelId) => API.post(`/by`, { panelId }),
 
     addFeature: (data, config) => API.post(`/features`, data, config),
