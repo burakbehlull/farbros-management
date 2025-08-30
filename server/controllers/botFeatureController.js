@@ -1,4 +1,5 @@
 // feature codes..
+import { BotFeature } from "#models";
 import { botFeatureService, botService } from "#services";
 
 const { getFeaturesByBotId, addManyBotFeatures, addBotFeature, removeBotFeature, setBotFeatureStatus } = botFeatureService;
@@ -21,9 +22,7 @@ const AddManyToBotFeatures = async (req,res) => {
     const { botId, data } = req.body;
     try {
         const bot = await getBotById(botId);
-        if (!bot) {
-            return res.status(200).json({ status: true, message: "Bot not found" });
-        }
+        if (!bot) return res.status(200).json({ status: true, message: "Bot not found" })
 
         const features = await addManyBotFeatures(bot._id, data);
         return res.status(200).json({ status: true, data: features });
@@ -38,9 +37,10 @@ const AddOneToBotFeature = async (req, res) => {
     const { botId, feature } = req.body;
     try {
         const bot = await getBotById(botId);
-        if (!bot) {
-            return res.status(200).json({ status: true, message: "Bot not found" });
-        }
+        if (!bot) return res.status(200).json({ status: true, message: "Bot not found" });
+
+        const featureExists = await BotFeature.findOne({ feature, bot: bot._id })
+        if (featureExists) return res.status(200).json({ status: true, message: "Feature already exists for this bot" });
 
         const result = await addBotFeature({ feature, bot: bot._id });
         return res.status(200).json({ status: true, data: result });

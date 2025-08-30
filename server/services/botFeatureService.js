@@ -13,7 +13,7 @@ const addBotFeature = async (botFeatureData) => {
 
 const addManyBotFeatures = async (featuresData) => {
   try {
-    const botFeatures = await BotFeature.insertMany(featuresData);
+    const botFeatures = await BotFeature.insertMany(featuresData, { ordered: false, });
     return botFeatures;
   } catch (error) {
     console.error("[addManyBotFeatures] Error adding multiple bot features:", error);
