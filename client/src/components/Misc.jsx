@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { CardUI } from "@ui";
+import { SlashIcon, EventIcon, PrefixIcon } from "@icons";
 
 const CardItemUI = ({ title, description, icon, ...props }) => {
     return (
@@ -9,6 +10,20 @@ const CardItemUI = ({ title, description, icon, ...props }) => {
     )
 };
 
+const controlIconType = (type) => {
+        switch(type){
+            case 'prefix':
+                return <PrefixIcon />;
+            case 'slash':
+                return <SlashIcon />;
+            case 'event':
+                return <EventIcon />;
+            default:
+                return null;
+        }
+    }
+
 export {
-    CardItemUI
+    CardItemUI,
+    controlIconType
 }

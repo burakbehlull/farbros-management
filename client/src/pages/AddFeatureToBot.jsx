@@ -1,10 +1,25 @@
+import { useEffect, useState } from "react";
 import { Flex, Group } from "@chakra-ui/react";
 
 import { PaginationUI, TextUI } from "@ui";
-import { SlashIcon, EventIcon, PrefixIcon } from "@icons";
-import { CardItemUI } from "@misc";
+import { CardItemUI, controlIconType } from "@misc";
+import { featureAPI } from "@requests";
 
 export default function AddFeatureToBot() {
+
+    const [features, setFeatures] = useState([]);
+
+    useEffect(() => {
+        const fetchFeatures = async () => {
+            const response = await featureAPI.getFeatures();
+            console.log(response);
+            setFeatures(response.data);
+        };
+
+        fetchFeatures();
+    }, []);
+
+
     return (
         <Flex direction="column" p={4}>
 
@@ -18,10 +33,13 @@ export default function AddFeatureToBot() {
                 </TextUI>
             </Group>
             <Flex wrap="wrap" gap={4} mb={4} justify="flex-start">
-                <CardItemUI title="Kart 1" description="Açıklama 1" icon={<PrefixIcon />} />
-                <CardItemUI title="Kart 2" description="Açıklama 2" icon={<SlashIcon />} />
-                <CardItemUI title="Kart 3" description="Açıklama 3" icon={<EventIcon />} />
-                <CardItemUI title="Kart 4" description="Açıklama 4" icon={<PrefixIcon />} />
+                {features.length > 0 ? (
+                    features.map((feature, fid) => (
+                        <CardItemUI key={fid} title={feature.name} description={feature.description || "Açıklama yok"} icon={controlIconType(feature.type)} />
+                    ))
+                ) : (
+                    <TextUI>Botunuz yok.</TextUI>
+                )}
             </Flex>
             <Flex mt={10} justify="center">
                 <PaginationUI />
