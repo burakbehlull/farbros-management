@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
+import helmet from 'helmet';
 import 'dotenv/config';
 
 import { db } from "#config"
@@ -14,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({ origin: true, credentials: true }));
 app.use(morgan('dev'));
+app.use(helmet());
 
 
 app.get('/', (req, res) => {
