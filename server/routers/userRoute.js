@@ -9,6 +9,6 @@ router.post('/', UserCreate);
 router.post('/login', UserLogin);
 router.post('/register', UserRegister);
 router.get('/:id', UserProfile);
-router.get('/:id/bots', GetUsersBot);
+router.get('/:userId/bots', GetUsersBot);
 
 export default router;

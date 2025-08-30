@@ -53,7 +53,7 @@ const UserRegister = async (req, res) => {
 };
 
 const GetUsersBot = async (req, res) => {
-    const userId = req.params.id;
+    const userId = req.params.userId;
     try {
         const bots = await GetUserBots(userId);
         res.status(200).json({ status: true, bots });
