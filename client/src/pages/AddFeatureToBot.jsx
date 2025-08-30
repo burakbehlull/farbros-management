@@ -24,7 +24,7 @@ export default function AddFeatureToBot() {
     }, []);
 
     useEffect(() => {
-        fetchFeatures(2, limit);
+        fetchFeatures(page, limit);
     }, [page]);
 
 

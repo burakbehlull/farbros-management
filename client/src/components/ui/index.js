@@ -6,6 +6,8 @@ import CardUI from "./Card";
 import SelectUI from "./Select";
 import PaginationUI from "./Pagination";
 
+export * from "./Modal";
+
 export {
     ChakraProvider,
     ButtonUI,
