@@ -8,6 +8,8 @@ import Dashboard from "./Dashboard";
 import BotCreatePage from "./BotCreatePage";
 import AddFeatureToBot from "./AddFeatureToBot"
 
+import BotPage from "./bot/BotPage"
+
 
 export {
     Home,
@@ -18,5 +20,6 @@ export {
     BotsPage,
     Dashboard,
     BotCreatePage,
-    AddFeatureToBot
+    AddFeatureToBot,
+    BotPage
 };
