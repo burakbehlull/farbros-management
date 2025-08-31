@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Flex, Group } from "@chakra-ui/react";
 
 import { PaginationUI, TextUI } from "@ui";
 import { CardItemUI, controlIconType } from "@misc";
 import { featureAPI } from "@requests";
+import { AddFeatureModal } from "@modals";
 
 export default function AddFeatureToBot() {
 
     const [features, setFeatures] = useState([]);
+    const [selectedFeature, setSelectedFeature] = useState(null);
     const [page, setPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
     const limit = 9;
@@ -27,6 +29,7 @@ export default function AddFeatureToBot() {
         fetchFeatures(page, limit);
     }, [page]);
 
+    const clickRef = useRef();
 
     return (
         <Flex direction="column" p={4}>
@@ -43,14 +46,30 @@ export default function AddFeatureToBot() {
             <Flex wrap="wrap" gap={4} mb={4} justify="flex-start">
                 {features.length > 0 ? (
                     features.map((feature, fid) => (
-                        <CardItemUI key={fid} title={feature.name} description={feature.description || "Açıklama yok"} icon={controlIconType(feature.type)} 
-                            detailButton="Detay" detailClick={() => alert(`Detay for ${feature.name}`)}
-                            addButton="Ekle" addClick={() => alert(`Ekle for ${feature.name}`)}
+                        <CardItemUI 
+                            key={fid} 
+                            title={feature.name} 
+                            description={feature.description || "Açıklama yok"} 
+                            icon={controlIconType(feature.type)} 
+
+                            detailButton="Detay" 
+                            detailClick={() => alert(`Detay for ${feature.name}`)}
+
+                            addButton="Ekle" 
+                            addClick={()=> {
+                                setSelectedFeature(feature);
+                                clickRef.current.click();
+                            }}
                         />
+
                     ))
                 ) : (
-                    <TextUI>Botunuz yok.</TextUI>
+                    <TextUI>Özellik yok.</TextUI>
                 )}
+                <AddFeatureModal 
+                    clickRef={clickRef} 
+                    data={selectedFeature} 
+                />
             </Flex>
             <Flex mt={10} justify="center">
                 <PaginationUI 

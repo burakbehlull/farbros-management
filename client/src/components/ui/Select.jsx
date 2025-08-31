@@ -17,7 +17,7 @@ const SelectUI = ({title}) => {
             </Select.Control>
             <Portal>
                 <Select.Positioner>
-                <Select.Content>
+                <Select.Content zIndex={99999999}>
                     {frameworks.items.map((framework) => (
                     <Select.Item item={framework} key={framework.value}>
                         {framework.label}
