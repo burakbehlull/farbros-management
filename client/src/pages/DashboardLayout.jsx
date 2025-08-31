@@ -19,7 +19,7 @@ export default function DashboardLayout() {
             </Box>
 
             <Box flex="0 0 70%" p="4">
-                <Outlet />
+                <Outlet context={{ someData: "test" }} />
             </Box>
         </Flex>
     );
