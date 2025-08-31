@@ -43,7 +43,10 @@ export default function AddFeatureToBot() {
             <Flex wrap="wrap" gap={4} mb={4} justify="flex-start">
                 {features.length > 0 ? (
                     features.map((feature, fid) => (
-                        <CardItemUI key={fid} title={feature.name} description={feature.description || "Açıklama yok"} icon={controlIconType(feature.type)} />
+                        <CardItemUI key={fid} title={feature.name} description={feature.description || "Açıklama yok"} icon={controlIconType(feature.type)} 
+                            detailButton="Detay" detailClick={() => alert(`Detay for ${feature.name}`)}
+                            addButton="Ekle" addClick={() => alert(`Ekle for ${feature.name}`)}
+                        />
                     ))
                 ) : (
                     <TextUI>Botunuz yok.</TextUI>

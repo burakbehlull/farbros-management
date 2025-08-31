@@ -30,7 +30,10 @@ export default function BotsPage() {
             </Group>
             <Flex wrap="wrap" gap={4} mb={4} justify="flex-start">
                 {bots.length > 0 ? bots.map((bot) => (
-                    <CardItemUI key={bot.id} title={bot.username} subtitle={`id: ${bot.botId} | prefix: ${bot.prefix}`} />
+                    <CardItemUI key={bot.id} title={bot.username} subtitle={`id: ${bot.botId} | prefix: ${bot.prefix}`}
+                        detailButton="Detay" detailClick={() => alert(`Detay for ${bot.username}`)}
+                        addButton="Ekle" addClick={() => alert(`Ekle for ${bot.username}`)}
+                    />
                 )) : (
                     <TextUI>Botunuz yok.</TextUI>
                 )}
