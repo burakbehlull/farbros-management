@@ -151,18 +151,19 @@ const updatePrefix = async (req, res) => {
 const updateBotInfo = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, token } = req.body;
+    const { name, token, prefix } = req.body;
 
     const bot = await getBotById(id);
     if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
 
-    bot.name = name;
-    bot.token = token;
+    if (name) bot.username = name;
+    if (token) bot.token = token;
+    if (prefix) bot.prefix = prefix;
     await bot.save();
 
     return res.status(200).json({ message: "Bot güncellendi.", bot });
   } catch (err) {
-    console.error("[bot controller - updateBot]:", err);
+    console.error("[bot controller - updateBotInfo]:", err);
     return res.status(500).json({ message: "Bot güncellenirken hata oluştu.", error: err.message });
   }
 };
