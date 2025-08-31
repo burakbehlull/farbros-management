@@ -5,6 +5,7 @@ import InputAndTextUI from "./InputAndTextUI";
 import CardUI from "./Card";
 import SelectUI from "./Select";
 import PaginationUI from "./Pagination";
+import SwitchUI from "./Switch";
 
 export * from "./Modal";
 
@@ -15,5 +16,6 @@ export {
     InputAndTextUI,
     CardUI,
     SelectUI,
-    PaginationUI
+    PaginationUI,
+    SwitchUI
 }
