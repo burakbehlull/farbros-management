@@ -16,7 +16,6 @@ export default function AddFeatureToBot() {
 
     const fetchFeatures = async () => {
         const response = await featureAPI.getFeatures(page, limit );
-        console.log(response);
         setFeatures(response.data);
         setTotalItems(response.totalItems);
     };
@@ -53,7 +52,7 @@ export default function AddFeatureToBot() {
                             icon={controlIconType(feature.type)} 
 
                             detailButton="Detay" 
-                            detailClick={() => alert(`Detay for ${feature.name}`)}
+                            detailClick={() => null}
 
                             addButton="Ekle" 
                             addClick={()=> {

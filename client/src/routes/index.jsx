@@ -9,30 +9,37 @@ export default function Routes(){
             element: <Home />,
         },
         {
-            path: '/dashboard',
-            element: <DashboardLayout><Authentication /></DashboardLayout>,
+            element: <Authentication />,
             children: [
                 {
-                    path: '',
-                    element: <Dashboard />
-                },
-                {
-                    path: 'bots',
-                    element: <BotsPage />
-                },
-                {
-                    path: 'create-bot',
-                    element: <BotCreatePage />
-                },
-                {
-                    path: 'add-feature',
-                    element: <AddFeatureToBot />
-                },
-                {
-                    path: 'bots/:botId',
-                    element: <BotPage />
+                    path: '/dashboard',
+                    element: <DashboardLayout />,
+                    children: [
+                        {
+                            path: '',
+                            element: <Dashboard />
+                        },
+                        {
+                            path: 'bots',
+                            element: <BotsPage />
+                        },
+                        {
+                            path: 'create-bot',
+                            element: <BotCreatePage />
+                        },
+                        {
+                            path: 'add-feature',
+                            element: <AddFeatureToBot />
+                        },
+                        {
+                            path: 'bots/:botId',
+                            element: <BotPage />
+                        }
+                    ]
                 }
             ]
-        }
+            
+        },
     ])
 }
+

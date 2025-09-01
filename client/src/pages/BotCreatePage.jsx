@@ -19,7 +19,6 @@ export default function BotCreatePage(){
                 token: data.token,
                 userId: "68ae0bbe6642cd4b63ed9dcd"
             })
-            console.log('Bot created successfully:', response);
             showToast({
                 message: `${response.bot.username} Bot başarıyla oluşturuldu.`,
                 type: 'success',

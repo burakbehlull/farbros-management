@@ -10,7 +10,6 @@ export default function BotsPage() {
     useEffect(() => {
         const fetchBots = async () => {
             const response = await userAPI.getUserBots('68ae0bbe6642cd4b63ed9dcd')
-            console.log(response);
             setBots(response.bots.bots);
         };
         
