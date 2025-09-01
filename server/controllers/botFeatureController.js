@@ -36,14 +36,15 @@ const AddManyToBotFeatures = async (req,res) => {
 const AddOneToBotFeature = async (req, res) => {
     const { botId, feature } = req.body;
     try {
+        /*
         const bot = await getBotById(botId);
         if (!bot) return res.status(200).json({ status: true, message: "Bot not found" });
+        */
+        const featureExists = await BotFeature.findOne({ feature, bot: botId });
+        if (featureExists) return res.status(200).json({ status: true, message: "Bu özellik botta mevcut." });
 
-        const featureExists = await BotFeature.findOne({ feature, bot: bot._id })
-        if (featureExists) return res.status(200).json({ status: true, message: "Feature already exists for this bot" });
-
-        const result = await addBotFeature({ feature, bot: bot._id });
-        return res.status(200).json({ status: true, data: result });
+        const result = await addBotFeature({ feature, bot: botId });
+        return res.status(200).json({ status: true, message: "Özellik eklendi", data: result });
     } catch (err) {
         console.error("[bot feature controller  - Add One To Bot Feature]:", err);
         return res.status(500).json({ message: "Özellik eklenemedi.", error: err.message });

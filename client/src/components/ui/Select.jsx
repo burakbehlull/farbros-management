@@ -1,10 +1,14 @@
 "use client"
 
-import { Portal, Select, createListCollection } from "@chakra-ui/react"
+import { createListCollection, Portal, Select } from "@chakra-ui/react"
 
-const SelectUI = ({title}) => {
+const SelectUI = ({title, setValue,value, items}) => {
+    const frameworks = createListCollection({
+        items
+    })
     return (
-        <Select.Root collection={frameworks} size="sm" width="320px">
+        <Select.Root collection={frameworks} size="sm" width="320px"  value={value}
+        onValueChange={(e) => setValue(e.value)}>
             <Select.HiddenSelect />
             {title && <Select.Label>{title}</Select.Label>}
             <Select.Control>
@@ -18,9 +22,9 @@ const SelectUI = ({title}) => {
             <Portal>
                 <Select.Positioner>
                 <Select.Content zIndex={99999999}>
-                    {frameworks.items.map((framework) => (
-                    <Select.Item item={framework} key={framework.value}>
-                        {framework.label}
+                    {frameworks?.items.map((item) => (
+                    <Select.Item item={item} key={item.value}>
+                        {item.label}
                         <Select.ItemIndicator />
                     </Select.Item>
                     ))}
@@ -31,12 +35,4 @@ const SelectUI = ({title}) => {
     )
 }
 
-const frameworks = createListCollection({
-  items: [
-    { label: "React.js", value: "react" },
-    { label: "Vue.js", value: "vue" },
-    { label: "Angular", value: "angular" },
-    { label: "Svelte", value: "svelte" },
-  ],
-})
 export default SelectUI
