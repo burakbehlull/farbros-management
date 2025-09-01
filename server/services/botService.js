@@ -62,6 +62,19 @@ const setBotByToken = async (botId, token) => {
     }
 };
 
+const getBotByUnderScoreId = async (id) => {
+    try {
+        const bot = await Bot.findById({ _id: id });
+        if (!bot) {
+            throw new Error(`Bot with id ${id} not found`);
+        }
+        return bot;
+    } catch (error) {
+        console.error(`[getBotById] Error fetching bot with id ${id}:`, error);
+        throw new Error(`Error fetching bot with id ${id}`);
+    }
+};
+
 const removeBot = async (botId) => {
   try {
     const deletedBot = await Bot.findOneAndDelete({ bot: botId });
@@ -98,6 +111,7 @@ export {
 	
 	getAllBots,
 	getBotById,
+  getBotByUnderScoreId,
 	
 	getBotByToken,
 	setBotByToken,
