@@ -9,6 +9,7 @@ import BotCreatePage from "./BotCreatePage";
 import AddFeatureToBot from "./AddFeatureToBot"
 
 import BotPage from "./bot/BotPage"
+import Settings from "./Settings"
 
 
 export {
@@ -21,5 +22,6 @@ export {
     Dashboard,
     BotCreatePage,
     AddFeatureToBot,
-    BotPage
+    BotPage,
+    Settings
 };

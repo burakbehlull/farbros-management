@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom'
 import { Home, Authentication, DashboardLayout, BotCreatePage, 
-    BotsPage, Dashboard, AddFeatureToBot, BotPage } from '@pages'
+    BotsPage, Dashboard, AddFeatureToBot, BotPage, Settings } from '@pages'
     
 export default function Routes(){
 
@@ -33,9 +33,14 @@ export default function Routes(){
                             element: <AddFeatureToBot />
                         },
                         {
+                            path: 'settings',
+                            element: <Settings />
+                        },
+                        {
                             path: 'bots/:botId',
                             element: <BotPage />
                         }
+                        
                     ]
                 }
             ]

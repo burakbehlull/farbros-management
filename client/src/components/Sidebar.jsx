@@ -53,9 +53,21 @@ export default function Sidebar() {
             Menü
         </TextUI>
 
+        <ButtonUI
+          //leftIcon={<h1>file</h1>}
+          justifyContent="flex-start"
+          variant="ghost"   
+          bg={currentPath[1] === 'dashboard' & currentPath[2]===undefined && 'gray.800'}
+          color={currentPath[1] === 'dashboard' & currentPath[2]===undefined && 'white'}
+          _hover={{ bg: "gray.100" }}
+          onClick={() => handleNavigation('/dashboard')}
+        >
+          Panel
+        </ButtonUI>
+
         
         <ButtonUI
-          leftIcon={<h1>file</h1>}
+          // leftIcon={<h1>file</h1>}
           justifyContent="flex-start"
           variant="ghost"   
           bg={currentPath[2] === 'create-bot' && 'gray.800'}
@@ -67,7 +79,7 @@ export default function Sidebar() {
         </ButtonUI>
 
         <ButtonUI
-          leftIcon={<h1>Bell</h1>}
+          //leftIcon={<h1>Bell</h1>}
           justifyContent="flex-start"
           variant="ghost"
           bg={currentPath[2] === 'bots' && 'gray.800'}
@@ -80,7 +92,7 @@ export default function Sidebar() {
         </ButtonUI>
 
         <ButtonUI
-          leftIcon={<h1>s</h1>}
+          // leftIcon={<h1>s</h1>}
           justifyContent="flex-start"
           variant="ghost"
           bg={currentPath[2] === 'add-feature' && 'gray.800'}
@@ -93,10 +105,15 @@ export default function Sidebar() {
         </ButtonUI>
 
         <ButtonUI
-          leftIcon={<h1>c</h1>}
+          // leftIcon={<h1>c</h1>}
           justifyContent="flex-start"
           variant="ghost"
+
+          bg={currentPath[2] === 'settings' && 'gray.800'}
+          color={currentPath[2] === 'settings' && 'white'}
+
           _hover={{ bg: "gray.100" }}
+          onClick={() => handleNavigation('/dashboard/settings')}
         >
           Ayarlar
         </ButtonUI>
