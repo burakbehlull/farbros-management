@@ -47,7 +47,7 @@ export default function AddFeatureModal({ clickRef, data }){
             <ModalUI
                 clickName="Ekle"
                 modalTitle="Özellik Ekle"
-                content={<h1>Add Feature</h1>}
+                content={<p></p>}
                 clickRef={clickRef}
                 onClick={handleSubmit}
             >

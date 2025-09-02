@@ -1,6 +1,6 @@
 import express from 'express';
 import { GetBots, BotAdd, BotStart, BotStop, updatePrefix, updateBotInfo,
-    reloadAll, reloadEvents, reloadSlashCommands, reloadPrefixCommands } from '#controllers';
+    reloadAll, reloadEvents, reloadSlashCommands, reloadPrefixCommands, getBotByIdRoute } from '#controllers';
 
 const router = express.Router();
 
@@ -8,6 +8,8 @@ router.get('/', GetBots)
 router.post('/', BotAdd);
 router.post('/:id/start', BotStart);
 router.post('/:id/stop', BotStop);
+
+router.get('/:id', getBotByIdRoute);
 
 router.put('/:id', updateBotInfo);
 

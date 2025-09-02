@@ -51,8 +51,8 @@ export default function AddFeatureToBot() {
                             description={feature.description || "Açıklama yok"} 
                             icon={controlIconType(feature.type)} 
 
-                            detailButton="Detay" 
-                            detailClick={() => null}
+                            // detailButton="Detay" 
+                            // detailClick={() => null}
 
                             addButton="Ekle" 
                             addClick={()=> {

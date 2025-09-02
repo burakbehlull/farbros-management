@@ -7,6 +7,8 @@ const botAPI = {
     stopBot: (id) => API.post(`/bots/${id}/stop`),
     deleteBot: (id) => API.delete(`/bots/${id}`),
 
+    getBotById: (id) => API.get(`/bots/${id}`),
+
     updatePrefix: (id, data, config) => API.patch(`/bots/${id}/prefix`, data, config),
 
     updateBotInfo: (id, data, config) => API.put(`/bots/${id}`, data, config),

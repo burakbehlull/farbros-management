@@ -1,9 +1,8 @@
-import { botFeatureService, botService, featureService } from "#services";
+import { botFeatureService, botService } from "#services";
 import { Client, Collection } from "discord.js";
 import { intentsAll, findClientByToken, allowToFeatures, loadEvents, loadPrefixCommands, loadSlashCommands, eventExecuter } from "#helpers";
 
 const { addBot, getAllBots, getBotById } = botService
-const { getFeatureList, addManyFeatures } = featureService
 const { getFeaturesByBotId } = botFeatureService
 
 export const botList = [];
@@ -300,11 +299,25 @@ const reloadEvents = async (req, res) => {
   }
 };
 
+const getBotByIdRoute = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+    return res.status(200).json({ status: true, data: bot });
+  } catch (err) {
+    console.error("[bot controller - GetBotById]:", err);
+    return res.status(500).json({ message: "Bot bilgileri alınırken hata oluştu.", error: err.message });
+  }
+}
+
 export {
 	BotAdd,
 	GetBots,
 	BotStart,
 	BotStop,
+
+  getBotByIdRoute,
 
   updateBotInfo,
 
