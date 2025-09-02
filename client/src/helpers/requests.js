@@ -25,7 +25,7 @@ const botFeatureAPI = {
     addOneFeature: (data, config) => API.post('/bot-feature/one', data, config),
     addManyFeatures: (data, config) => API.post('/bot-feature/many', data, config),
 
-    updateFeature: (data, config) => API.patch(`/bot-feature`, data, config),
+    updateBotFeatureStatus: (data, config) => API.patch(`/bot-feature/`, data, config),
     deleteFeature: (data, config) => API.delete(`/bot-feature`, data, config)
 }
 

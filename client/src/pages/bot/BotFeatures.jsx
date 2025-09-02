@@ -1,18 +1,21 @@
-import { useEffect, useState, useRef } from "react";
-import { Flex, Group } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Flex, Group, Highlight  } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
-import { PaginationUI, TextUI } from "@ui";
+import { PaginationUI, TextUI, SwitchUI } from "@ui";
 import { CardItemUI, controlIconType } from "@misc";
-import { botFeatureAPI } from "@requests";
+import { botFeatureAPI, botAPI } from "@requests";
+import { showToast } from "@partials"
+
 
 export default function BotFeatures() {
 
     const { botId } = useParams();
     const [features, setFeatures] = useState([]);
-    const [selectedFeature, setSelectedFeature] = useState(null);
+    const [botDetail, setBotDetail] = useState([]);
     const [page, setPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
+
     const limit = 9;
 
     const fetchBotFeatures = async () => {
@@ -21,15 +24,52 @@ export default function BotFeatures() {
         setTotalItems(response.totalItems);
     };
 
+    const fetchBotDetails = async (id) => {
+        try {
+            const response = await botAPI.getBotById(id);
+            setBotDetail(response.data);
+        } catch (error) {
+            console.error("Error fetching bot details:", error);
+        }
+    }
+
+    const handleBotFeatureUpdate = async (featureId, newValue) => {
+        return await botFeatureAPI.updateBotFeatureStatus({ botId: botDetail._id, featureId, status: newValue });
+    };
+
+    const handleSwitchChange = async (featureId, newValue) => {
+        const result = await handleBotFeatureUpdate(featureId, newValue);
+        console.log(result)
+        if(result?.status){
+            showToast({
+                message: `Özellik durumu başarıyla güncellendi.`,
+                type: 'success',
+                id: 'bot-feature-update-success',
+                duration: 3000
+            });
+        } else {
+            showToast({
+                message: 'Özellik durumu güncellenemedi.',
+                type: 'error',
+                id: 'bot-feature-update-error',
+                duration: 3000
+            });
+        }
+        setFeatures((prevFeatures) =>
+            prevFeatures.map((feature) =>
+                feature.feature._id === featureId ? { ...feature, status: newValue } : feature
+            )
+        );
+    };
+
     useEffect(() => {
-        fetchBotFeatures();        
+        fetchBotDetails(botId)
+        fetchBotFeatures();
     }, []);
 
     useEffect(() => {
         fetchBotFeatures(page, limit);
     }, [page]);
-
-    const clickRef = useRef();
 
     return (
         <Flex direction="column" p={4}>
@@ -40,7 +80,9 @@ export default function BotFeatures() {
                 md: "flex-start"
             }}>
                 <TextUI fontSize="2xl" fontWeight="bold" mb={4}>
-                    Bot Özellikleri
+                    <Highlight query={botDetail?.username ? botDetail.username : "  "}
+                        styles={{ px: "1.5", bg: "teal.muted", borderRadius: "sm"}}
+                    >{botDetail?.username ? botDetail.username : "  "}</Highlight> Bot Özellikleri
                 </TextUI>
             </Group>
             <Flex wrap="wrap" gap={4} mb={4} justify="flex-start">
@@ -51,15 +93,12 @@ export default function BotFeatures() {
                             title={feature?.feature.name} 
                             description={feature?.feature.description || "Açıklama yok"} 
                             icon={controlIconType(feature?.feature?.type)} 
+                            childrenFooter={<SwitchUI checked={feature?.status} setChecked={(value) => handleSwitchChange(feature?.feature?._id, value)} />}
 
                             // detailButton="Detay" 
                             // detailClick={() => null}
-
-                            addButton="Ekle" 
-                            addClick={()=> {
-                                setSelectedFeature(feature);
-                                clickRef.current.click();
-                            }}
+                            // addButton="Ekle" 
+                            // addClick={()=> null}
                         />
 
                     ))
