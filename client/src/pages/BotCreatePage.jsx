@@ -48,7 +48,7 @@ export default function BotCreatePage(){
                 md: "flex-start"
             }}>
                 <TextUI fontSize="2xl" fontWeight="bold" mb={4}>
-                    Bot Oluştur
+                    Bot Ekle
                 </TextUI>
             </Group>
             <Group 

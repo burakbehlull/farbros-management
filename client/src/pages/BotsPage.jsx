@@ -36,8 +36,8 @@ export default function BotsPage() {
                         title={bot.username} 
                         subtitle={`id: ${bot.botId} | prefix: ${bot.prefix}`}
 
-                        detailButton="Detay" 
-                        detailClick={() => alert(`Detay for ${bot.username}`)}
+                        // detailButton="Detay" 
+                        // detailClick={() => alert(`Detay for ${bot.username}`)}
                         
                         addButton="Git" 
                         addClick={() => navigate(`/dashboard/bots/${bot.botId}`)}

@@ -62,7 +62,7 @@ export default function Sidebar() {
           _hover={{ bg: "gray.100" }}
           onClick={() => handleNavigation('/dashboard')}
         >
-          Panel
+          Anasayfa
         </ButtonUI>
 
         
@@ -75,7 +75,7 @@ export default function Sidebar() {
           _hover={{ bg: "gray.100" }}
           onClick={() => handleNavigation('/dashboard/create-bot')}
         >
-          Bot Oluştur
+          Bot Ekle
         </ButtonUI>
 
         <ButtonUI
@@ -101,7 +101,7 @@ export default function Sidebar() {
           _hover={{ bg: "gray.100" }}
           onClick={() => handleNavigation('/dashboard/add-feature')}
         >
-          Bota Özellik Ekle
+          Özellik Ekle
         </ButtonUI>
 
         <ButtonUI

@@ -7,12 +7,23 @@ const { getBotById } = botService;
 
 
 // Get Bot Feature By Id
-const GetBotFeatureById = async (req,res) => {
+const GetBotFeatureById = async (req, res) => {
     try {
-        const features = await getFeaturesByBotId(req.body.botId);
-        return res.status(200).json({ status: true, data: features });
+        const { page, limit } = req.query;
+        const { botId } = req.body;
+
+        const result = await getFeaturesByBotId(botId, {page, limit});
+        
+        return res.status(200).json({
+            status: true,
+            data: result.features,
+            page: result.page,
+            limit: result.limit,
+            totalItems: result.totalItems,
+            totalPages: result.totalPages,
+        });
     } catch (err) {
-        console.error("[bot feature controller  - Get Bot Features]:", err);
+        console.error("[bot controller - Get Bot Features]:", err);
         return res.status(500).json({ message: "Özellikler getirilemedi.", error: err.message });
     }
 }

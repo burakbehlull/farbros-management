@@ -44,17 +44,30 @@ const removeBotFeature = async (featureId, botId) => {
 };
 
 
-const getFeaturesByBotId = async (botId) => {
+const getFeaturesByBotId = async (botId, { page = 1, limit = 9 } = {}) => {
   try {
+    page = parseInt(page);
+    limit = parseInt(limit);
 
-    const bot = await Bot.findOne({botId});
+    const bot = await Bot.findOne({ botId });
     if (!bot) {
       throw new Error(`Bot with id ${botId} not found`);
     }
 
-    const botFeatures = await BotFeature.find({ bot: bot._id }).populate("feature");
-    if (!botFeatures || botFeatures.length === 0) return [];
-    return botFeatures;
+    const totalItems = await BotFeature.countDocuments({ bot: bot._id });
+
+    const botFeatures = await BotFeature.find({ bot: bot._id })
+      .populate("feature")
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return {
+      features: botFeatures,
+      totalItems,
+      totalPages: Math.ceil(totalItems / limit),
+      page,
+      limit,
+    };
   } catch (error) {
     console.error(
       `[getFeaturesByBotId] Error fetching features for bot ${botId}:`,
