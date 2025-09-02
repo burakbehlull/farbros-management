@@ -9,8 +9,7 @@ const { getBotById } = botService;
 // Get Bot Feature By Id
 const GetBotFeatureById = async (req, res) => {
     try {
-        const { page, limit } = req.query;
-        const { botId } = req.body;
+        const { page, limit, botId } = req.query;
 
         const result = await getFeaturesByBotId(botId, {page, limit});
         

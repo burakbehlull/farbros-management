@@ -10,6 +10,7 @@ import AddFeatureToBot from "./AddFeatureToBot"
 
 import BotPage from "./bot/BotPage"
 import Settings from "./Settings"
+import BotFeatures from "./bot/BotFeatures"
 
 
 export {
@@ -23,5 +24,6 @@ export {
     BotCreatePage,
     AddFeatureToBot,
     BotPage,
-    Settings
+    Settings,
+    BotFeatures
 };
