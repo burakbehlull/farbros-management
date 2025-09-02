@@ -3,9 +3,11 @@ import { PaginationUI, TextUI } from "@ui";
 import { CardItemUI } from "@misc";
 import { userAPI } from "../helpers/requests";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function BotsPage() {
     const [bots, setBots] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchBots = async () => {
@@ -38,7 +40,7 @@ export default function BotsPage() {
                         detailClick={() => alert(`Detay for ${bot.username}`)}
                         
                         addButton="Git" 
-                        addClick={() => alert(`Ekle for ${bot.username}`)}
+                        addClick={() => navigate(`/dashboard/bots/${bot.botId}`)}
                     />
                 )) : (
                     <TextUI>Botunuz yok.</TextUI>
