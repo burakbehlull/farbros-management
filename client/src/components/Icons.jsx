@@ -1,12 +1,11 @@
 import { Icon } from "@chakra-ui/react"
 import { TbSlash } from "react-icons/tb";
-import { VscSymbolEvent } from "react-icons/vsc";
+import { VscSymbolEvent, VscDebugStart, VscDebugStop } from "react-icons/vsc";
 import { TbTilde } from "react-icons/tb";
 
-
-const IconUI = ({ as, boxSize, color, bg }) => {
+const IconUI = ({ as, boxSize, color, bg, ...props }) => {
     return (
-        <Icon as={as} boxSize={boxSize ? boxSize : "6"} color={color ? color : "black"} bg={bg ? bg : "white"} />
+        <Icon as={as} boxSize={boxSize ? boxSize : "6"} color={color ? color : "black"} bg={bg ? bg : "white"} {...props} />
     )
 }
 
@@ -21,11 +20,22 @@ const TbTildeIcon = () => {
     return <IconUI as={TbTilde} />
 }
 
+const VscDebugStartIcon = ({...props}) => {
+    return <IconUI as={VscDebugStart} {...props} />
+}
+
+const VscDebugStopIcon = ({...props}) => {
+    return <IconUI as={VscDebugStop} {...props} />
+}
+
 export { 
     IconUI, 
 
     // icons
     TbSlashIcon as SlashIcon,
     VscSymbolEventIcon as EventIcon,
-    TbTildeIcon as PrefixIcon
+    TbTildeIcon as PrefixIcon,
+
+    VscDebugStartIcon,
+    VscDebugStopIcon
 }

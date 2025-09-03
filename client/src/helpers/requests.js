@@ -12,6 +12,7 @@ const botAPI = {
     updatePrefix: (id, data, config) => API.patch(`/bots/${id}/prefix`, data, config),
 
     updateBotInfo: (id, data, config) => API.put(`/bots/${id}`, data, config),
+    botIsStatusById: (id, data, config) => API.get(`/bots/${id}/status`, data, config),
 
     reloadAll: (id) => API.post(`/bots/${id}/reload`),
     reloadPrefixCommands: (id) => API.post(`/bots/${id}/reload/prefix`),

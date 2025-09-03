@@ -20,4 +20,6 @@ router.post('/:id/reload/prefix', reloadPrefixCommands);
 router.post('/:id/reload/slash', reloadSlashCommands);
 router.post('/:id/reload/event', reloadEvents);
 
+router.get('/:id/status', reloadEvents);
+
 export default router;

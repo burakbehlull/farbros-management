@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 
-import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
+import { Flex, Box, Group, Highlight, IconButton, Icon } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -9,6 +9,10 @@ import { TextUI, InputAndTextUI, ButtonUI } from '@ui'
 import { botAPI } from '@requests'
 import { BotPageSchema } from '@schemas'
 import { showToast } from "@partials"
+import { VscDebugStartIcon, VscDebugStopIcon } from "@icons"
+
+
+
 
 export default function BotPage() {
 
@@ -88,15 +92,24 @@ export default function BotPage() {
                 <Box 
                     flex="0 0 50%" 
                     p="4"
-                    display={"flex"}
-                    justifyContent="flex-start"
-                    alignItems={"flex-start"}
-                    flexDirection={"column"}
-                    gap={3}
+                    
                 >
-                    <TextUI textStyle="lg">Bot Adı: {botDetail?.username}</TextUI>
-                    <TextUI textStyle="lg">Bot ID: {botDetail?.botId}</TextUI>
-                    <TextUI textStyle="lg">Bot Prefix: {botDetail?.prefix}</TextUI>
+                    <Group
+                        display={"flex"}
+                        justifyContent="flex-start"
+                        alignItems={"flex-start"}
+                        flexDirection={"column"}
+                        gap={3}
+                    >
+                        <TextUI textStyle="lg">Bot Adı: {botDetail?.username}</TextUI>
+                        <TextUI textStyle="lg">Bot ID: {botDetail?.botId}</TextUI>
+                        <TextUI textStyle="lg">Bot Prefix: {botDetail?.prefix}</TextUI>
+                    </Group>
+
+                    <Group mt={10} gap={6}>
+                        <TextUI fontWeight="semibold">Başlat <VscDebugStartIcon boxSize={12} cursor="pointer" /></TextUI> 
+                        <TextUI fontWeight="semibold">Durdur <VscDebugStopIcon boxSize={10} cursor="pointer" /></TextUI> 
+                    </Group>
                 </Box>
 
                 <Box 

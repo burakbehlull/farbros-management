@@ -98,7 +98,7 @@ const BotStart = async (req, res) => {
 
     await client.login(bot.token);
 
-    botList.push({ token: bot.token, client });
+    botList.push({ id: id, started: true, token: bot.token, client });
     return res.status(200).json({ status: true, message: "Bot başlatıldı." });
   } catch (err) {
     console.error("[bot controller - BotStart]:", err);
@@ -117,6 +117,7 @@ const BotStop = async (req, res) => {
 
     await botList[index].client.destroy();
     botList.splice(index, 1);
+    botList[index].started = false;
 
     return res.status(200).json({ status: true, message: "Bot durduruldu." });
   } catch (err) {
@@ -166,6 +167,17 @@ const updateBotInfo = async (req, res) => {
     return res.status(500).json({ message: "Bot güncellenirken hata oluştu.", error: err.message });
   }
 };
+
+const BotIsStatusById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = botList.find((bl)=> bl.id == id)
+    return res.status(200).json({ message: "Bot durumları çekildi", data: bot });
+  } catch (err) {
+    console.error("[bot controller - BotIsStatusById]:", err);
+    return res.status(500).json({ message: "Bot durumu çekilirken hata oluştu.", error: err.message });
+  }
+}
 
 // reload function
 const reloadAll = async (req, res) => {
@@ -322,6 +334,7 @@ export {
   updateBotInfo,
 
 	updatePrefix,
+  BotIsStatusById,
 
   reloadAll,
 
