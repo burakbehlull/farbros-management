@@ -3,8 +3,8 @@ import API from '../base/api';
 const botAPI = {
     getBots: () => API.get('/bots'),
     addBot: (data, config) => API.post('/bots', data, config),
-    startBot: (id) => API.post(`/bots/${id}/start`),
-    stopBot: (id) => API.post(`/bots/${id}/stop`),
+    startBot: (id, data) => API.post(`/bots/${id}/start`, data),
+    stopBot: (id, data) => API.post(`/bots/${id}/stop`, data),
     deleteBot: (id) => API.delete(`/bots/${id}`),
 
     getBotById: (id) => API.get(`/bots/${id}`),

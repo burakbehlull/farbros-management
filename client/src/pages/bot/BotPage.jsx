@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useOutletContext } from "react-router-dom";
 
-import { Flex, Box, Group, Highlight, IconButton, Icon } from '@chakra-ui/react'
+import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -10,9 +10,6 @@ import { botAPI } from '@requests'
 import { BotPageSchema } from '@schemas'
 import { showToast } from "@partials"
 import { VscDebugStartIcon, VscDebugStopIcon } from "@icons"
-
-
-
 
 export default function BotPage() {
 
@@ -26,6 +23,7 @@ export default function BotPage() {
 
     const { botId } = useParams();
     const [botDetail, setBotDetail] = useState(null);
+    const [botStatus, setBotStatus] = useState(false);
 
     const fetchBotDetails = async (id) => {
         try {
@@ -66,10 +64,66 @@ export default function BotPage() {
         updateBot(filteredData)
     }
 
+    const fetchBotStatus = async (id) => {
+        try {
+            const response = await botAPI.botIsStatusById(id);
+            setBotStatus(response?.started)
+            console.log("Bot status:", response);
+            
+        } catch (error) {
+            console.error("Error fetching bot status:", error);
+        }
+    }
+    
+    const startBot = async () => {
+        try {
+            await botAPI.startBot(botId)
+            showToast({
+                message: `${botDetail?.username} Bot başlatıldı.`,
+                type: 'success',
+                id: 'bot-start-success',
+                duration: 3000
+            });
+            fetchBotStatus(botId)
+        } catch (error) {
+            showToast({
+                message: 'Bot başlatılamadı.',
+                type: 'error',
+                id: 'bot-start-error',
+                duration: 3000
+            });
+            console.error('Error starting bot:', error);
+        }
+    }
+
+    const stopBot = async () => {
+        try {
+            await botAPI.stopBot(botId)
+            showToast({
+                message: `${botDetail?.username} Bot durduruldu.`,
+                type: 'success',
+                id: 'bot-stop-success',
+                duration: 3000
+            });
+            fetchBotStatus(botId)
+        } catch (error) {
+            showToast({
+                message: 'Bot durduruldu.',
+                type: 'error',
+                id: 'bot-stop-error',
+                duration: 3000
+            });
+            console.error('Error stoping bot:', error);
+        }
+    }
+
+
     useEffect(() => {
         fetchBotDetails(botId);
+        fetchBotStatus(botId)
     }, [botId]);
 
+    
     return (
         <>
             <Group mb={4} width="100%" display="flex" justifyContent={{
@@ -106,9 +160,10 @@ export default function BotPage() {
                         <TextUI textStyle="lg">Bot Prefix: {botDetail?.prefix}</TextUI>
                     </Group>
 
-                    <Group mt={10} gap={6}>
-                        <TextUI fontWeight="semibold">Başlat <VscDebugStartIcon boxSize={12} cursor="pointer" /></TextUI> 
-                        <TextUI fontWeight="semibold">Durdur <VscDebugStopIcon boxSize={10} cursor="pointer" /></TextUI> 
+                    <Group mt={10} gap={6}> 
+                        {botStatus ? 
+                        <TextUI fontWeight="semibold">Durdur <VscDebugStopIcon boxSize={10} cursor="pointer" onClick={stopBot} /></TextUI>  
+                        : <TextUI fontWeight="semibold">Başlat <VscDebugStartIcon boxSize={12} cursor="pointer" onClick={startBot} /></TextUI> }
                     </Group>
                 </Box>
 

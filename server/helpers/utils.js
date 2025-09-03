@@ -12,7 +12,7 @@ async function checkFeature(panelId, botId) {
 
 function allowToFeatures(allowData, features) {
   const allows = []
-
+  console.log("features gelen değer: ", features);
   for (const f of features) {
     const result = allowData.find(allow => allow.panelId === f.feature.panelId);
     if(result) allows.push(result);

@@ -75,7 +75,7 @@ const BotStart = async (req, res) => {
 
     if (botFeatures.length === 0) return res.status(200).json({ status: true, message: "Lütfen özellik ekleyiniz." });
 
-    const allowedFeatures = allowToFeatures(featureList, botFeatures);
+    const allowedFeatures = allowToFeatures(featureList, botFeatures?.features);
 
     const eventTypeControl = allowedFeatures.filter(af => af.type === 'event');
 
@@ -98,7 +98,7 @@ const BotStart = async (req, res) => {
 
     await client.login(bot.token);
 
-    botList.push({ id: id, started: true, token: bot.token, client });
+    botList.push({ id: id, token: bot.token, client });
     return res.status(200).json({ status: true, message: "Bot başlatıldı." });
   } catch (err) {
     console.error("[bot controller - BotStart]:", err);
@@ -117,7 +117,6 @@ const BotStop = async (req, res) => {
 
     await botList[index].client.destroy();
     botList.splice(index, 1);
-    botList[index].started = false;
 
     return res.status(200).json({ status: true, message: "Bot durduruldu." });
   } catch (err) {
@@ -171,8 +170,11 @@ const updateBotInfo = async (req, res) => {
 const BotIsStatusById = async (req, res) => {
   try {
     const { id } = req.params;
-    const bot = botList.find((bl)=> bl.id == id)
-    return res.status(200).json({ message: "Bot durumları çekildi", data: bot });
+    const bot = botList.find((bl)=> bl.id === id)
+
+    if(!bot) return res.status(200).json({ message: "Bot durumları çekildi", started: false });
+
+    return res.status(200).json({ message: "Bot durumları çekildi", started: true });
   } catch (err) {
     console.error("[bot controller - BotIsStatusById]:", err);
     return res.status(500).json({ message: "Bot durumu çekilirken hata oluştu.", error: err.message });
