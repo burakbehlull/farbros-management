@@ -117,8 +117,8 @@ export default function BotFeatures() {
                     features.map((feature, fid) => (
                         <CardItemUI 
                             key={fid} 
-                            title={feature?.feature.name} 
-                            description={feature?.feature.description || "Açıklama yok"} 
+                            title={feature?.feature?.name} 
+                            description={feature?.feature?.description || "Açıklama yok"} 
                             icon={controlIconType(feature?.feature?.type)} 
                             childrenFooter={<SwitchUI size="lg" checked={feature?.status} setChecked={(value) => handleSwitchChange(feature?.feature?._id, value)} />}
 
