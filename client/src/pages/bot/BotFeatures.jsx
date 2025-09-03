@@ -39,7 +39,6 @@ export default function BotFeatures() {
 
     const handleSwitchChange = async (featureId, newValue) => {
         const result = await handleBotFeatureUpdate(featureId, newValue);
-        console.log(result)
         if(result?.status){
             showToast({
                 message: `Özellik durumu başarıyla güncellendi.`,

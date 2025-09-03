@@ -69,7 +69,12 @@ export default function BotCreatePage(){
                     md: "column"
                 }}
             >
-                <InputAndTextUI label="Bot Token" placeholder="Enter bot token" errorText={errors?.token?.message} {...register('token')}
+                <InputAndTextUI 
+                    label="Bot Token" 
+                    placeholder="Enter bot token" 
+                    errorText={errors?.token?.message} 
+                    required={true} 
+                    {...register('token')}
                 />
                 <ButtonUI onClick={handleSubmit(onSubmit)}>Oluştur</ButtonUI>
             </Group>

@@ -1,11 +1,11 @@
 import { Field, Input } from "@chakra-ui/react"
 
-const InputAndTextUI = ({ label, helperText, errorText, ...props }) => {
+const InputAndTextUI = ({ label, helperText, errorText, required, ...props }) => {
     const isError = errorText ? true : false;
     return (
         <Field.Root invalid={isError} required>
             <Field.Label>
-                {label} <Field.RequiredIndicator />
+                {label} {required && <Field.RequiredIndicator />}
             </Field.Label>
             <Input {...props} />
             {errorText && <Field.ErrorText>{errorText}</Field.ErrorText>}

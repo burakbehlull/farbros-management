@@ -1,14 +1,24 @@
-import { useParams, useOutletContext } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { botAPI } from '@requests'
+import { useParams, useOutletContext } from "react-router-dom";
 
+import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
+import { TextUI, InputAndTextUI, ButtonUI } from '@ui'
+import { botAPI } from '@requests'
+import { BotPageSchema } from '@schemas'
+import { showToast } from "@partials"
 
 export default function BotPage() {
 
     // auth 
-    const { someData } = useOutletContext();
-    console.log("Outlet context data:", someData);
+    // const { someData } = useOutletContext();
+    // console.log("Outlet context data:", someData);
 
+    const { register, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(BotPageSchema)
+    });
 
     const { botId } = useParams();
     const [botDetail, setBotDetail] = useState(null);
@@ -23,14 +33,96 @@ export default function BotPage() {
         }
     }
 
+    const updateBot = async (data) =>{
+        
+        try {
+            const response = await botAPI.updateBotInfo(botId, data)
+            showToast({
+                message: `${response.bot.username} Bot başarıyla güncellendi.`,
+                type: 'success',
+                id: 'bot-update-success',
+                duration: 3000
+            });
+            fetchBotDetails(botId)
+        } catch (error) {
+            showToast({
+                message: 'Bot güncellenemedi.',
+                type: 'error',
+                id: 'bot-update-error',
+                duration: 3000
+            });
+            console.error('Error updating bot:', error);
+        }
+    }
+
+    const handleBotUpdate = (data)=> {
+        const filteredData = Object.fromEntries(
+            Object.entries(data).filter(([key, value]) => value && value.trim() !== "")
+        );
+        updateBot(filteredData)
+    }
+
     useEffect(() => {
         fetchBotDetails(botId);
     }, [botId]);
 
     return (
         <>
-            <h1>Bot Page - {botDetail?.username}</h1>
-            <p>Bot ID: {botDetail?.botId}</p>
+            <Group mb={4} width="100%" display="flex" justifyContent={{
+                base: "center",
+                sm: "center",
+                md: "flex-start"
+            }}>
+                <TextUI fontSize="2xl" fontWeight="bold" mb={4}>
+                    <Highlight query={botDetail?.username ? botDetail.username : "  "}
+                        styles={{ px: "1.5", bg: "red.400", borderRadius: "sm"}}
+                    >{botDetail?.username ? botDetail.username : "  "}</Highlight> Bot Paneli
+                </TextUI>
+            </Group>
+            <Flex 
+                width="100%" 
+                height="55vh"
+                direction={{ base: "column", md: "row" }}
+            >
+                
+                <Box 
+                    flex="0 0 50%" 
+                    p="4"
+                    display={"flex"}
+                    justifyContent="flex-start"
+                    alignItems={"flex-start"}
+                    flexDirection={"column"}
+                    gap={3}
+                >
+                    <TextUI textStyle="lg">Bot Adı: {botDetail?.username}</TextUI>
+                    <TextUI textStyle="lg">Bot ID: {botDetail?.botId}</TextUI>
+                    <TextUI textStyle="lg">Bot Prefix: {botDetail?.prefix}</TextUI>
+                </Box>
+
+                <Box 
+                    flex="0 0 50%" 
+                    p="4" 
+                    display={"flex"}
+                    gap={4}
+                    flexDirection={"column"}
+                >
+                    <InputAndTextUI 
+                        label="Prefix" 
+                        placeholder="Bot Prefix'ini giriniz.."
+                        {...register('prefix')}
+                        errorText={errors?.prefix?.message} 
+                    />
+                    <InputAndTextUI 
+                        label="Token" 
+                        placeholder="Bot tokenini giriniz.."
+                        errorText={errors?.token?.message} 
+                        {...register('token')}
+                    />
+                    <Group>
+                        <ButtonUI onClick={handleSubmit(handleBotUpdate)}>Güncelle</ButtonUI>
+                    </Group>
+                </Box>
+            </Flex>
         </>
     );
 }
