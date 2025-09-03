@@ -61,6 +61,34 @@ export default function BotFeatures() {
         );
     };
 
+    const handleBotFeatureDelete = async (featureId) => {
+        try {
+            const response = await botFeatureAPI.deleteFeature({
+                featureId, botId: botDetail?._id
+            });
+
+            if(response?.data?.status){
+                showToast({
+                    message: `Özellik silindi.`,
+                    type: 'success',
+                    id: 'bot-feature-delete-success',
+                    duration: 3000
+                });
+            }
+            
+            fetchBotFeatures()
+        } catch (error) {
+            showToast({
+                message: `Özellik silinemedi. (Sunucu Hatası)`,
+                type: 'success',
+                id: 'bot-feature-delete-error',
+                duration: 3000
+            });
+            console.error("Error fetching bot deleting:", error);
+        }
+    }
+
+
     useEffect(() => {
         fetchBotDetails(botId)
         fetchBotFeatures();
@@ -92,12 +120,19 @@ export default function BotFeatures() {
                             title={feature?.feature.name} 
                             description={feature?.feature.description || "Açıklama yok"} 
                             icon={controlIconType(feature?.feature?.type)} 
-                            childrenFooter={<SwitchUI checked={feature?.status} setChecked={(value) => handleSwitchChange(feature?.feature?._id, value)} />}
+                            childrenFooter={<SwitchUI size="lg" checked={feature?.status} setChecked={(value) => handleSwitchChange(feature?.feature?._id, value)} />}
 
                             // detailButton="Detay" 
                             // detailClick={() => null}
-                            // addButton="Ekle" 
-                            // addClick={()=> null}
+                            addButton="Kaldır" 
+                            addClick={()=> handleBotFeatureDelete(feature?.feature?._id)}
+                            addButtonProps={{
+                                marginLeft: 2,
+                                bg: "red.600",
+                                _hover: {
+                                    bg: "red.500"
+                                }
+                            }}
                         />
 
                     ))

@@ -28,7 +28,6 @@ export default function BotPage() {
     const fetchBotDetails = async (id) => {
         try {
             const response = await botAPI.getBotById(id);
-            console.log("Bot details:", response);
             setBotDetail(response.data);
         } catch (error) {
             console.error("Error fetching bot details:", error);
@@ -67,9 +66,7 @@ export default function BotPage() {
     const fetchBotStatus = async (id) => {
         try {
             const response = await botAPI.botIsStatusById(id);
-            setBotStatus(response?.started)
-            console.log("Bot status:", response);
-            
+            setBotStatus(response?.started)            
         } catch (error) {
             console.error("Error fetching bot status:", error);
         }

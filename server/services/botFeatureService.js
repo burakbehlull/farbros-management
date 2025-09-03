@@ -28,11 +28,13 @@ const removeBotFeature = async (featureId, botId) => {
       feature: featureId,
       bot: botId,
     });
+
     if (!deletedFeature) {
       throw new Error(
         `Bot feature with featureId ${featureId} for bot ${botId} not found`
       );
     }
+    
     return deletedFeature;
   } catch (error) {
     console.error(

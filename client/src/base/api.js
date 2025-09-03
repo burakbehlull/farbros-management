@@ -32,9 +32,12 @@ const apiRequest = {
             throw error;
         }
     },
-    delete: async (url, config = {}) => {
+    delete: async (url, config = {}, data) => {
         try {
-            const response = await API.delete(url, config);
+            const response = await API.delete(url, {
+                data,
+                ...config
+            });
             return response.data;
         } catch (error) {
             console.error('DELETE Error:', error);

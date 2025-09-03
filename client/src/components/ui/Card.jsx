@@ -1,6 +1,6 @@
 import { Avatar, Button, Card } from "@chakra-ui/react"
 
-const CardUI = ({title, description, subtitle, icon, detailButton, detailClick, addButton, addClick, childrenFooter}) => {
+const CardUI = ({title, description, subtitle, icon, detailButton, detailClick, addButton, addClick, addButtonProps, childrenFooter}) => {
     return (
         <Card.Root width="320px">
             <Card.Body gap="2">
@@ -20,7 +20,7 @@ const CardUI = ({title, description, subtitle, icon, detailButton, detailClick, 
             <Card.Footer justifyContent="flex-end">
                 {childrenFooter}
                 {detailButton && <Button variant="outline" onClick={detailClick}>{detailButton}</Button>}
-                {addButton && <Button onClick={addClick}>{addButton}</Button>}
+                {addButton && <Button onClick={addClick} {...addButtonProps}>{addButton}</Button>}
             </Card.Footer>
         </Card.Root>
     )
