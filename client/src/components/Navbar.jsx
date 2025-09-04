@@ -1,5 +1,5 @@
 import { Box, Flex, Link } from "@chakra-ui/react";
-import { TextUI } from "@ui";
+import { TextUI, ButtonUI } from "@ui";
 import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
@@ -13,6 +13,11 @@ export default function Navbar() {
                 justify="space-between"
                 wrap="wrap"
                 padding="1rem"
+                margin={{
+                    base: "1rem",
+                    md: "0",
+                    sm: "0"
+                }}
                 width="100%"
                 gap={5}
                 mt={{
@@ -33,7 +38,8 @@ export default function Navbar() {
                     <Link onClick={() => handleNavigate("/contact")}>Contact</Link>
                 </Flex>
 
-                <Box flex="1">
+                <Box flex="1" display="flex" gap={4}>
+                    
                 </Box>
             </Flex>
     );

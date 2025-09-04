@@ -12,5 +12,7 @@
 ```js
 PORT = 80 // WEB LOCAL PORT
 MONGO_URI // MONGODB STRING
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
 ```
 

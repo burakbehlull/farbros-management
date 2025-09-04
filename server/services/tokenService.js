@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
 import { User } from "#models";
 
-const ACCESS_KEY = process.env.JWT_ACCESS_SECRET
-const REFRESH_KEY = process.env.JWT_REFRESH_SECRET 
+const ACCESS_KEY = process.env.JWT_ACCESS_SECRET ||  "cat"
+const REFRESH_KEY = process.env.JWT_REFRESH_SECRET || "dog"
 
 function generateAccessToken(payload) {
-    return jwt.sign(payload, ACCESS_KEY, { expiresIn: "30m" });
+    return jwt.sign(payload, ACCESS_KEY, { expiresIn: "10m" });
 }
 
 
