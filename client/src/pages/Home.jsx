@@ -1,14 +1,21 @@
+import { useRef } from 'react';
 import { Box, Flex, Highlight } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { TextUI, ButtonUI } from '@ui';
 
+import { RegisterModal, LoginModal } from '@modals';
+
 export default function Home() {
 
     const navigate = useNavigate();
     const handleNavigate = (path) => navigate(path);
-    const isAuth = true
-    
+
+    const isAuth = false
+
+    const registerRef = useRef()
+    const loginRef = useRef()
+
     return (
         <>
             <Flex
@@ -36,7 +43,7 @@ export default function Home() {
                             <>
                             <ButtonUI 
                                 size="lg" 
-                                onClick={() => handleNavigate('/login')} bg="cyan.600"
+                                onClick={() => loginRef.current.click()} bg="cyan.600"
                                 _hover={{
                                     bg: "cyan.700"
                                 }}
@@ -44,7 +51,7 @@ export default function Home() {
 
                             <ButtonUI 
                                 size="lg" 
-                                onClick={() => handleNavigate('/register')} bg="red.600"
+                                onClick={() => registerRef.current.click()} bg="red.600"
                                 _hover={{
                                     bg: "red.700"
                                 }}
@@ -53,6 +60,8 @@ export default function Home() {
                         }
                     </Box>
                 </Box>
+                <RegisterModal clickRef={registerRef} />
+                <LoginModal clickRef={loginRef} />
             </Flex>
         </>
     );

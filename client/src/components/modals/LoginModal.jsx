@@ -2,15 +2,15 @@ import { useEffect, useState } from "react";
 import { ModalUI, InputAndTextUI } from "@ui"
 import { showToast } from "@partials"
 import { userAPI } from "@requests"
-import { RegisterSchema } from "@schemas"
+import { LoginSchema } from "@schemas"
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function LoginModal({ clickRef }){
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(RegisterSchema)
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
+        resolver: yupResolver(LoginSchema)
     });
 
     const handleLoginUser = async (data) => {
@@ -24,6 +24,7 @@ export default function LoginModal({ clickRef }){
                     duration: 3000
                 });
             }
+            reset({})
         } catch (error) {
             showToast({
                 message: 'Giriş yapılamadı',

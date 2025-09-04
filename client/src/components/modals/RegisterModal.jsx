@@ -26,6 +26,7 @@ export default function RegisterModal({ clickRef }){
                     duration: 3000
                 });
             }
+            reset({})
         } catch (error) {
             showToast({
                 message: 'Kaydınız oluşturulamadı.',
