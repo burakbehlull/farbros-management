@@ -1,6 +1,6 @@
 import { botFeatureService, botService } from "#services";
 import { Client, Collection } from "discord.js";
-import { intentsAll, findClientByToken, allowToFeatures, loadEvents, loadPrefixCommands, loadSlashCommands, eventExecuter } from "#helpers";
+import { intentsAll, findClientByToken, allowToFeatures, loadEvents, loadPrefixCommands, loadSlashCommands, eventExecuter, deploySlashCommands } from "#helpers";
 
 const { addBot, getAllBots, getBotById } = botService
 const { getFeaturesByBotId } = botFeatureService
@@ -78,22 +78,23 @@ const BotStart = async (req, res) => {
     const allowedFeatures = allowToFeatures(featureList, botFeatures?.features);
 
     const eventTypeControl = allowedFeatures.filter(af => af.type === 'event');
+    const slashs = allowedFeatures.filter(af => af.type === 'slash');
+    const prefixes = allowedFeatures.filter(af => af.type === 'prefix');
 
 
     // executers
     await eventExecuter(client, eventTypeControl, id);
 
-    for (const commands1 of allowedFeatures) {
-      if (commands1.type === 'prefix') {
-        client.prefixCommands.set(commands1.name, commands1.execute);
-      }
+    for (const commands1 of prefixes) {
+      client.prefixCommands.set(commands1.name, commands1.execute);
     }
 
-    for (const commands2 of allowedFeatures) {
-      if (commands2.type === 'slash') {
-        client.slashCommands.set(commands2.data.name, commands2.execute);
-      }
+    for (const commands2 of slashs) {
+      client.slashCommands.set(commands2.data.name, commands2.execute);
     }
+
+    const sendSlashComamndsToApi = await deploySlashCommands(bot.token, bot.botId, slashs)
+    if(sendSlashComamndsToApi.success) console.log("Slash komutları başarıyla yüklendi")
 
 
     await client.login(bot.token);

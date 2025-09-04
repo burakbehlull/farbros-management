@@ -2,6 +2,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import { REST, Routes } from 'discord.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -70,9 +72,35 @@ async function loadEvents() {
   return events
 }
 
+async function deploySlashCommands(token, botId, commands) {
+  const rest = new REST().setToken(token);
+    try {
+    console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+    const data = await rest.put(
+      Routes.applicationCommands(botId),
+      { body: commands },
+    );
+
+      console.log(`✅ Successfully reloaded ${data.length} application (/) commands.`);
+      return {
+        success: true,
+        message: "Successfully reloaded ${data.length} application (/) commands.",
+        count: data.length || 0
+      }
+    } catch (error) {
+      console.error('❌ Failed to refresh commands:', error);
+      return {
+        success: false,
+        message: 'Failed to refresh commands:', error
+      }
+    }
+}
+
 
 export {
     loadPrefixCommands,
     loadSlashCommands,
     loadEvents,
+    deploySlashCommands
 }

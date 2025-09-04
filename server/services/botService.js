@@ -101,7 +101,6 @@ const getPrefix = async (botId) => {
         return bot.prefix;
     } catch (error) {
         console.error(`[getBotById] Error fetching bot with token ${token}:`, error);
-        res.status(500).json({ message: "Prefix alınırken hata oluştu.", error: err.message });
     }
 };
 
