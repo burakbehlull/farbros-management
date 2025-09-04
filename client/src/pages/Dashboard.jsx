@@ -1,4 +1,4 @@
-import { LoginModal } from "@modals"
+import { RegisterModal } from "@modals"
 import { useRef } from "react";
 
 export default function Dashboard(){
@@ -6,7 +6,7 @@ export default function Dashboard(){
     return (
         <>
             <h1>Dashboard</h1>
-            <LoginModal clickRef={xRef} />
+            <RegisterModal clickRef={xRef} />
             <button onClick={()=> xRef.current.click()}>aç</button>
         </>
     );

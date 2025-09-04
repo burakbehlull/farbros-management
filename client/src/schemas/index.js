@@ -1,1 +1,2 @@
-export * from './globalSchemas';
+export * from "./botSchemas"
+export * from "./userSchemas"
