@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { TextUI, ButtonUI } from '@ui';
 
 export default function Home() {
+
     const navigate = useNavigate();
     const handleNavigate = (path) => navigate(path);
     const isAuth = true
+    
     return (
         <>
             <Flex
