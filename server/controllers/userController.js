@@ -101,8 +101,8 @@ const UserAccessVerify = async (req, res) => {
         const authHeader = req.headers["authorization"]
         const token = authHeader && authHeader.split(" ")[1];
 
-        const result = accessVerifyUser(token)
-        return { ...result, status: true, message: "Doğrulama başarılı."}
+        const result = await accessVerifyUser(token)
+        return result
     } catch (error) {
         return { message: "Doğrulama başarısız", status: true, error }
     }

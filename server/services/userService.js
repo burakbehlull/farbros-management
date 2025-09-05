@@ -114,13 +114,17 @@ const GetUserBots = async (userId) => {
     }
 };
 
-const accessVerifyUser = (token)=> {
+const accessVerifyUser = async (token)=> {
     try {
         const verify = verifyAccessToken(token, true)
         const expiredToken = isExpired(token)
-        return { data: verify, expired: expiredToken.expired }
+        const user = await User.findOne({ email: verify.email })
+
+        const isUser = user ? true : false
+
+        return { message: "Kimlik doğrulama başarılı", status: true, data: verify, isUser, expired: expiredToken.expired }
     } catch (error) {
-        return { message: "Hata", status: false, error }
+        return { message: "Hata", status: false, error, isUser: false }
     }
 } 
 
@@ -132,6 +136,7 @@ export {
 
     UpdateUser,
     DeleteUser,
+    
     // auth actions
     LoginUser,
     RegisterUser,
