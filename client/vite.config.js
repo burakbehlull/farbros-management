@@ -25,6 +25,8 @@ export default defineConfig({
       '@schemas': way('src/schemas/index'),
       '@misc': way('src/components/Misc'),
       '@modals': way('src/components/modals/index'),
+      '@cookies': way('src/helpers/cookies'),
+      '@hooks': way('src/hooks/index'),
     },
   },
 })

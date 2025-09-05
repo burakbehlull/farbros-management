@@ -59,6 +59,7 @@ const userAPI = {
 
     getUserBots: (userId) => API.get(`/user/${userId}/bots`),
     refreshToken: (data, config) => API.post(`/user/auth/refresh`, data, config),
+    accessTokenVerify: (data, config) => API.post(`/user/auth/verify`, data, config),
 
 }
 

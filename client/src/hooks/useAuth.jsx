@@ -1,4 +1,11 @@
+import { userAPI } from "../helpers/requests"
+import { useCookie } from "../helpers/cookies"
 
-const useAuth = () => {
+export default function useAuth() {
     
+    const { getToken, removeToken, setToken } = useCookie()
+
+    const result = userAPI.accessTokenVerify()
+
+    return result
 }
