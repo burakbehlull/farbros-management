@@ -1,6 +1,5 @@
 import { User } from "#models";
 import { userService, tokenService } from "#services";
-import { isExpired } from "../services/tokenService";
 
 const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots, accessVerifyUser } = userService;
 const { verifyAccessToken, verifyRefreshToken, generateAccessToken } = tokenService;
@@ -75,7 +74,6 @@ const GenerateNewAccessToken = async (req, res) => {
         const token = authHeader && authHeader.split(" ")[1];
 
         const verify = verifyAccessToken(token, true)
-        const isExpired = isExpired(token)  
 
         const user = await User.findOne({ username: verify.username })
 
@@ -102,9 +100,9 @@ const UserAccessVerify = async (req, res) => {
         const token = authHeader && authHeader.split(" ")[1];
 
         const result = await accessVerifyUser(token)
-        return result
+        return res.status(200).json({ ...result });
     } catch (error) {
-        return { message: "Doğrulama başarısız", status: true, error }
+        res.status(500).json({ status: false, message: "Doğrulama başarısız", error });
     }
 }
 
