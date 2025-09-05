@@ -55,4 +55,8 @@ const apiRequest = {
     }
 };
 
+export {
+    API as BASEAPI
+}
+
 export default apiRequest;

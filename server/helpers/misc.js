@@ -8,13 +8,7 @@ function intentsAll() {
 	return Object.keys(GatewayIntentBits).map((intent) => GatewayIntentBits[intent])
 }
 
-const deletePassword = (data) => {
-    delete data.password
-    return data
-}
-
 export {
     findClientByToken,
-    intentsAll,
-    deletePassword
+    intentsAll
 }

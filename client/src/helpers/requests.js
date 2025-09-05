@@ -1,4 +1,11 @@
-import API from '../base/api';
+import API, { BASEAPI } from '../base/api';
+
+function setAuthorization(token){
+    BASEAPI.interceptors.request.use(config=> {
+        config.headers.Authorization = `Bearer ${token}` 
+        return config
+    })
+}
 
 const botAPI = {
     getBots: () => API.get('/bots'),
@@ -50,14 +57,16 @@ const userAPI = {
     register: (data, config) => API.post('/user/register', data, config),
     login: (data, config) => API.post('/user/login', data, config),
 
-    getUserBots: (userId) => API.get(`/user/${userId}/bots`)
+    getUserBots: (userId) => API.get(`/user/${userId}/bots`),
+    refreshToken: (data, config) => API.post(`/user/auth/refresh`, data, config),
 
 }
 
 export {
+    setAuthorization,
     botAPI,
     botFeatureAPI,
     featureAPI,
-    userAPI
+    userAPI,
 }
 

@@ -1,9 +1,8 @@
 import { User } from "#models";
 import { userService, tokenService } from "#services";
-import { deletePassword } from "#helpers";
 
 const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots } = userService;
-const { generateAccessToken } = tokenService;
+const { verifyAccessToken, verifyRefreshToken, generateAccessToken } = tokenService;
 
 const UserCreate = async (req,res)=> {
     const { username, password } = req.body;
@@ -31,11 +30,16 @@ const UserProfile = async (req, res) => {
 
 const UserLogin = async (req, res) => {
     const { username, password } = req.body;
-    
+
+    const authHeader = req.headers["authorization"]
+    const token = authHeader && authHeader.split(" ")[1];
+
+    console.log(token)
+
     try {
         const data = await LoginUser({ username, password });
         if (!data) return res.status(401).json({ status: false, message: data?.message });
-        deletePassword(data.user)
+
         res.status(200).json({ status: true, message: data?.message, data });
     } catch (error) {
         res.status(500).json({ status: false, message: error.message });
@@ -46,8 +50,8 @@ const UserRegister = async (req, res) => {
     const { username, password, email } = req.body;
 
     try {
+
         const data = await RegisterUser({ username, password, email });
-        deletePassword(data.user)
         res.status(201).json({ status: true, data });
     } catch (error) {
         res.status(500).json({ status: false, error: error.message });
@@ -64,11 +68,38 @@ const GetUsersBot = async (req, res) => {
     }
 }
 
+const GenerateNewAccessToken = async (req, res) => {
+    try {
+        const authHeader = req.headers["authorization"]
+        const token = authHeader && authHeader.split(" ")[1];
+
+        const verify = verifyAccessToken(token)
+
+        const user = await User.findOne({ username: verify.username })
+
+        const baseVerify = verifyRefreshToken(user.token) 
+        const isAuth = baseVerify.email === user.email
+        
+        if(!isAuth) return res.status(200).json({ status: false, message: 'Kimlik doğrulanmadı.' });
+
+        const accessToken = generateAccessToken({
+            email: user.email,
+            username: user.username
+        })
+
+        return res.status(200).json({ status: true, accessToken });
+    } catch (error) {
+        res.status(500).json({ status: false, error: error.message });
+    }
+}
+
 export {
     UserCreate,
     UserProfile,
     GetUsersBot,
     
     UserLogin,
-    UserRegister
+    UserRegister,
+    
+    GenerateNewAccessToken
 }

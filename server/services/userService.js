@@ -1,4 +1,6 @@
 import { Bot, User } from "#models";
+import { tokenService } from "#services";
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken, isExpired, updateUserRefreshToken,  } = tokenService;
 
 const CreateUser = async (userData) => {
     try {
@@ -29,6 +31,7 @@ const GetUserByUsername = async (username) => {
     }
 };
 
+
 const UpdateUser = async (userId, updateData) => {
     try {
         const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
@@ -52,22 +55,53 @@ const LoginUser = async ({ username, password }) => {
     try {
         const user = await GetUserByUsername(username);
 
+        const verify = verifyRefreshToken(user.token)
+        const userVerify = user.email === verify.email
+        if(!userVerify) return { message: "Kullanıcı kimliği doğrulanmadı", isUser: false };
+        
+        const expiredToken = isExpired(user.token)
+
+        if(expiredToken.expired) {
+            const refreshToken = generateRefreshToken({
+                email: user.email,
+                username: user.username
+            })
+            await updateUserRefreshToken(user.username, refreshToken)
+        }
+
+        
+
         if (!user) return { message: "Kullanıcı bulunamadı", isUser: false };
 
         if(user.password !== password) return { message: "Bu bilgilere ait hesap bulunamadı", isUser: false };
 
-        return { message: "Giriş başarılı", isUser: true, user };
+        const accessToken = generateAccessToken({
+            email: user.email,
+            username: user.username
+        })
+
+        return { message: "Giriş başarılı", isUser: true, user, accessToken };
     } catch (error) {
+        console.error("error", error)
         return { message: "Giriş başarısız", error: error, isUser: false }
     }
 };
 
 const RegisterUser = async ({ username, password, email }) => {
     try {
-        const user = await CreateUser({ username, password, email });
-        return { message: "Giriş yapıldı", isUser: true, user };
+        const existsUser = await User.findOne({username})
+        const existsEmail = await User.findOne({username})
+        if(existsUser || existsEmail) return { message: "Kullanıcı zaten var", isUser: false }
+
+
+        const refreshToken = generateRefreshToken({ email, username })
+        const accessToken = generateAccessToken({ email, username })
+
+        const user = await CreateUser({ username, password, email, token: refreshToken });
+        return { message: "Kayıt yapıldı", isUser: true, user, accessToken: accessToken };
     } catch (error) {
-        return { message: "Giriş yapılamadı", isUser: false }
+        console.error("error", error)
+        return { message: "Kayıt yapılamadı", isUser: false }
     }
 }
 
