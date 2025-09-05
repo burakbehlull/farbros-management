@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
 import { ModalUI, InputAndTextUI } from "@ui"
 import { showToast } from "@partials"
-import { userAPI } from "@requests"
+import { userAPI, setAuthorization } from "@requests"
 import { RegisterSchema } from "@schemas"
+import { useCookie } from "@cookies";
+
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function RegisterModal({ clickRef }){
+    const { setToken } = useCookie()
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(RegisterSchema)
@@ -16,15 +18,19 @@ export default function RegisterModal({ clickRef }){
     const handleCreateUser = async (data) => {
         try {
             const response = await userAPI.register(data)
-            console.log(response)
-            const userData = response.data.user
-            if(response.success){
+            const accessToken = response?.data?.accessToken
+
+            if(response.status){
+                setToken(accessToken)
                 showToast({
                     message: `Kaydınız tamamlandı.`,
                     type: 'success',
                     id: 'user-create-success',
                     duration: 3000
                 });
+                setAuthorization(accessToken)
+                navigate('/dashboard')
+                reset({})
             }
             reset({})
         } catch (error) {
@@ -40,7 +46,6 @@ export default function RegisterModal({ clickRef }){
 
     async function submitHandle(data){
         await handleCreateUser(data)
-        console.log(data)
     }
 
     return (

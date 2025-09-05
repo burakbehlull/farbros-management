@@ -1,13 +1,18 @@
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { ModalUI, InputAndTextUI } from "@ui"
 import { showToast } from "@partials"
-import { userAPI } from "@requests"
+import { userAPI, setAuthorization } from "@requests"
 import { LoginSchema } from "@schemas"
+import { useCookie } from "@cookies";
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-
 export default function LoginModal({ clickRef }){
+
+    const navigate = useNavigate()
+
+    const { setToken } = useCookie()
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(LoginSchema)
@@ -16,18 +21,24 @@ export default function LoginModal({ clickRef }){
     const handleLoginUser = async (data) => {
         try {
             const response = await userAPI.login(data)
-            console.log(response)
-            const userData = response.data.user
-            
-            if(response.success){
+
+            const userData = response?.data?.user
+            const accessToken = response?.data?.accessToken
+
+            if(response.status){
+                
+                setToken(accessToken)
                 showToast({
-                    message: `Sisteme hoşgeldiniz.`,
+                    message: `${userData?.username} sisteme hoşgeldiniz.`,
                     type: 'success',
                     id: 'user-login-success',
                     duration: 3000
                 });
+                
+                setAuthorization(accessToken)
+                navigate('/dashboard')
+                reset({})
             }
-            reset({})
         } catch (error) {
             showToast({
                 message: 'Giriş yapılamadı',
@@ -41,7 +52,6 @@ export default function LoginModal({ clickRef }){
 
     async function submitHandle(data){
         handleLoginUser(data)
-        console.log(data)
     }
 
     return (

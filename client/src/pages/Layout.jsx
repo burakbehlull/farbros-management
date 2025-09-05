@@ -1,14 +1,9 @@
 import { Container } from '@chakra-ui/react';
 import Routes from "../routes/index"
 import Helmet from 'react-helmet';
-import { setAuthorization } from '../helpers/requests';
-import { useEffect } from 'react';
 
 function Layout() {
-    useEffect(()=>{
-        setAuthorization("XD")
-    }, [])
-  return (
+    return (
         <>
             <Helmet>
                 <meta charSet="utf-8" />

@@ -3,15 +3,16 @@ import { Box, Flex, Highlight } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 import { TextUI, ButtonUI } from '@ui';
-
 import { RegisterModal, LoginModal } from '@modals';
+import { useAuth } from '@hooks';
 
 export default function Home() {
+    const isAuth = useAuth()
+
+    const isUser = isAuth?.expired === false
 
     const navigate = useNavigate();
     const handleNavigate = (path) => navigate(path);
-
-    const isAuth = false
 
     const registerRef = useRef()
     const loginRef = useRef()
@@ -39,7 +40,7 @@ export default function Home() {
 
                     <Box mt={7} display={'flex'} gap={4} justifyContent={"center"}>
                         
-                        {isAuth ? <ButtonUI size="lg" onClick={() => handleNavigate('/dashboard')}>Start</ButtonUI> :
+                        {isUser ? <ButtonUI size="lg" onClick={() => handleNavigate('/dashboard')}>Start</ButtonUI> :
                             <>
                             <ButtonUI 
                                 size="lg" 
