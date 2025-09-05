@@ -1,7 +1,8 @@
 import { User } from "#models";
 import { userService, tokenService } from "#services";
+import { isExpired } from "../services/tokenService";
 
-const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots } = userService;
+const { CreateUser, LoginUser, RegisterUser, GetUserById, GetUserBots, accessVerifyUser } = userService;
 const { verifyAccessToken, verifyRefreshToken, generateAccessToken } = tokenService;
 
 const UserCreate = async (req,res)=> {
@@ -73,11 +74,12 @@ const GenerateNewAccessToken = async (req, res) => {
         const authHeader = req.headers["authorization"]
         const token = authHeader && authHeader.split(" ")[1];
 
-        const verify = verifyAccessToken(token)
+        const verify = verifyAccessToken(token, true)
+        const isExpired = isExpired(token)  
 
         const user = await User.findOne({ username: verify.username })
 
-        const baseVerify = verifyRefreshToken(user.token) 
+        const baseVerify = verifyRefreshToken(user.token, true) 
         const isAuth = baseVerify.email === user.email
         
         if(!isAuth) return res.status(200).json({ status: false, message: 'Kimlik doğrulanmadı.' });
@@ -93,6 +95,19 @@ const GenerateNewAccessToken = async (req, res) => {
     }
 }
 
+// verify user
+const UserAccessVerify = async (req, res) => {
+    try {
+        const authHeader = req.headers["authorization"]
+        const token = authHeader && authHeader.split(" ")[1];
+
+        const result = accessVerifyUser(token)
+        return { ...result, status: true, message: "Doğrulama başarılı."}
+    } catch (error) {
+        return { message: "Doğrulama başarısız", status: true, error }
+    }
+}
+
 export {
     UserCreate,
     UserProfile,
@@ -100,6 +115,7 @@ export {
     
     UserLogin,
     UserRegister,
-    
-    GenerateNewAccessToken
+
+    GenerateNewAccessToken,
+    UserAccessVerify
 }

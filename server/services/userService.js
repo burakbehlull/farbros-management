@@ -1,6 +1,6 @@
 import { Bot, User } from "#models";
 import { tokenService } from "#services";
-const { generateAccessToken, generateRefreshToken, verifyRefreshToken, isExpired, updateUserRefreshToken,  } = tokenService;
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken, isExpired, updateUserRefreshToken, verifyAccessToken } = tokenService;
 
 const CreateUser = async (userData) => {
     try {
@@ -55,7 +55,7 @@ const LoginUser = async ({ username, password }) => {
     try {
         const user = await GetUserByUsername(username);
 
-        const verify = verifyRefreshToken(user.token)
+        const verify = verifyRefreshToken(user.token, true)
         const userVerify = user.email === verify.email
         if(!userVerify) return { message: "Kullanıcı kimliği doğrulanmadı", isUser: false };
         
@@ -68,8 +68,6 @@ const LoginUser = async ({ username, password }) => {
             })
             await updateUserRefreshToken(user.username, refreshToken)
         }
-
-        
 
         if (!user) return { message: "Kullanıcı bulunamadı", isUser: false };
 
@@ -116,6 +114,16 @@ const GetUserBots = async (userId) => {
     }
 };
 
+const accessVerifyUser = (token)=> {
+    try {
+        const verify = verifyAccessToken(token, true)
+        const expiredToken = isExpired(token)
+        return { data: verify, expired: expiredToken.expired }
+    } catch (error) {
+        return { message: "Hata", status: false, error }
+    }
+} 
+
 export {
     CreateUser,
 
@@ -127,7 +135,8 @@ export {
     // auth actions
     LoginUser,
     RegisterUser,
+    accessVerifyUser,
 
     // users bot
-    GetUserBots
+    GetUserBots,
 };

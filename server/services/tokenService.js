@@ -14,29 +14,44 @@ function generateRefreshToken(payload) {
 }
 
 
-function verifyAccessToken(token) {
+function verifyAccessToken(token, isDecode) {
     try {
         return jwt.verify(token, ACCESS_KEY);
     } catch (err) {
+        if(isDecode && err.name === "TokenExpiredError") {
+            const decodeData = jwt.decode(token)
+            return {...decodeData, expired: true }
+        }
         return null;
     }
 }
 
-function verifyRefreshToken(token) {
+function verifyRefreshToken(token, isDecode) {
     try {
         return jwt.verify(token, REFRESH_KEY);
     } catch (err) {
+        if(isDecode && err.name === "TokenExpiredError") {
+            const decodeData = jwt.decode(token)
+            return {...decodeData, expired: true }
+        }
         return null;
     }
 }
 
-function isExpired(token) {
+function isExpired(token, key) {
+    const options = {
+        ACCESS: ACCESS_KEY,
+        REFRESH: REFRESH_KEY
+    }
+    const isOption = key ? options[key] : options["ACCESS"]
+    
     try {
-        jwt.verify(token, ACCESS_KEY);
+        jwt.verify(token, isOption);
         return { expired: false };
     } catch (err) {
         if (err.name === "TokenExpiredError") {
-        return { expired: true };
+            const decodeData = jwt.decode(token)
+            return { expired: true, data: decodeData };
         }
         return { expired: false, invalid: true };
     }
