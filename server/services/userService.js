@@ -7,7 +7,7 @@ const CreateUser = async (userData) => {
 
         return user;
     } catch (error) {
-        throw new Error("Error creating user");
+        return { message: error?.message, isUser: false }
     }
 };
 
@@ -22,7 +22,7 @@ const GetUserById = async (userId) => {
 
 const GetUserByUsername = async (username) => {
     try {
-        const user = await User.findOne({ username });
+        const user = await User.findOne({ username })
         return user;
     } catch (error) {
         throw new Error("Error fetching user");
@@ -48,26 +48,26 @@ const DeleteUser = async (userId) => {
 };
 
 // auth actions
-
 const LoginUser = async ({ username, password }) => {
     try {
         const user = await GetUserByUsername(username);
-        if (!user) return {message: "User not found", status: false};
 
-        if(user.password !== password) return {message: "Invalid password", status: false};
+        if (!user) return { message: "Kullanıcı bulunamadı", isUser: false };
 
-        return {message: "Login successful", status: true, user};
+        if(user.password !== password) return { message: "Bu bilgilere ait hesap bulunamadı", isUser: false };
+
+        return { message: "Giriş başarılı", isUser: true, user };
     } catch (error) {
-        throw new Error("Error logging in");
+        return { message: "Giriş başarısız", error: error, isUser: false }
     }
 };
 
-const RegisterUser = async ({ username, password }) => {
+const RegisterUser = async ({ username, password, email }) => {
     try {
-        const user = await CreateUser({ username, password });
-        return { message: "Registration successful", status: true, user };
+        const user = await CreateUser({ username, password, email });
+        return { message: "Giriş yapıldı", isUser: true, user };
     } catch (error) {
-        throw new Error("Error registering user");
+        return { message: "Giriş yapılamadı", isUser: false }
     }
 }
 

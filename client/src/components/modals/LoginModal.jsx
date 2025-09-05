@@ -16,6 +16,9 @@ export default function LoginModal({ clickRef }){
     const handleLoginUser = async (data) => {
         try {
             const response = await userAPI.login(data)
+            console.log(response)
+            const userData = response.data.user
+            
             if(response.success){
                 showToast({
                     message: `Sisteme hoşgeldiniz.`,
@@ -36,7 +39,8 @@ export default function LoginModal({ clickRef }){
         }
     };
 
-    function submitHandle(data){
+    async function submitHandle(data){
+        handleLoginUser(data)
         console.log(data)
     }
 

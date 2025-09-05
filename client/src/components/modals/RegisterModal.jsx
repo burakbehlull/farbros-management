@@ -9,15 +9,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function RegisterModal({ clickRef }){
 
-    
-
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(RegisterSchema)
     });
 
     const handleCreateUser = async (data) => {
         try {
             const response = await userAPI.register(data)
+            console.log(response)
+            const userData = response.data.user
             if(response.success){
                 showToast({
                     message: `Kaydınız tamamlandı.`,
@@ -38,7 +38,8 @@ export default function RegisterModal({ clickRef }){
         }
     };
 
-    function submitHandle(data){
+    async function submitHandle(data){
+        await handleCreateUser(data)
         console.log(data)
     }
 
