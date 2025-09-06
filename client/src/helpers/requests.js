@@ -1,11 +1,12 @@
 import API, { BASEAPI } from '../base/api';
+import { getCookie } from './cookies'
 
-function setAuthorization(token){
-    BASEAPI.interceptors.request.use(config=> {
-        config.headers.Authorization = `Bearer ${token}` 
-        return config
-    })
-}
+BASEAPI.interceptors.request.use(config=> {
+    const token = getCookie("token")
+    config.headers.Authorization = `Bearer ${token}` 
+    return config
+})
+
 
 const botAPI = {
     getBots: () => API.get('/bots'),
@@ -64,7 +65,6 @@ const userAPI = {
 }
 
 export {
-    setAuthorization,
     botAPI,
     botFeatureAPI,
     featureAPI,

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import { ModalUI, InputAndTextUI } from "@ui"
 import { showToast } from "@partials"
-import { userAPI, setAuthorization } from "@requests"
+import { userAPI } from "@requests"
 import { LoginSchema } from "@schemas"
 import { useCookie } from "@cookies";
 
@@ -35,7 +35,6 @@ export default function LoginModal({ clickRef }){
                     duration: 3000
                 });
                 
-                setAuthorization(accessToken)
                 navigate('/dashboard')
                 reset({})
             }

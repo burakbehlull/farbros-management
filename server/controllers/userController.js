@@ -106,6 +106,15 @@ const UserAccessVerify = async (req, res) => {
     }
 }
 
+const userLogout = async (req, res) => {
+    try {
+        return res.status(200).json({ status: true, message: "Çıkış başarılı" });
+    } catch (error) {
+        res.status(500).json({ status: false, message: "Çıkış başarısız", error });
+        
+    }
+}
+
 export {
     UserCreate,
     UserProfile,
@@ -113,6 +122,7 @@ export {
     
     UserLogin,
     UserRegister,
+    userLogout,
 
     GenerateNewAccessToken,
     UserAccessVerify

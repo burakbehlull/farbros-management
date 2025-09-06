@@ -1,6 +1,6 @@
 import { ModalUI, InputAndTextUI } from "@ui"
 import { showToast } from "@partials"
-import { userAPI, setAuthorization } from "@requests"
+import { userAPI } from "@requests"
 import { RegisterSchema } from "@schemas"
 import { useCookie } from "@cookies";
 
@@ -28,7 +28,7 @@ export default function RegisterModal({ clickRef }){
                     id: 'user-create-success',
                     duration: 3000
                 });
-                setAuthorization(accessToken)
+                
                 navigate('/dashboard')
                 reset({})
             }

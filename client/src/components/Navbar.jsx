@@ -32,7 +32,8 @@ export default function Navbar() {
                     </TextUI>
                 </Box>
 
-                <Flex flex="1" justify="center" gap="2rem">
+                <Flex flex="1" justify="center" gap="2rem"
+                >
                     <Link onClick={()=> handleNavigate('/')}>Home</Link>
                     <Link onClick={() => handleNavigate("/about")}>About</Link>
                     <Link onClick={() => handleNavigate("/contact")}>Contact</Link>
