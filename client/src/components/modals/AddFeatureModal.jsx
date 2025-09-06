@@ -36,7 +36,7 @@ export default function AddFeatureModal({ clickRef, data }){
     };
 
     const fetchBots = async () => {
-            const response = await userAPI.getUserBots('68ae0bbe6642cd4b63ed9dcd')
+            const response = await userAPI.getUserBots(user?.id)
             setBots(response.bots.bots);
     };
 

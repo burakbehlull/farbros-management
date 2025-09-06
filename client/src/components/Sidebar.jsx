@@ -14,7 +14,7 @@ export default function Sidebar() {
     navigate(path);
   };
 
-  console.log(`${currentPath[1]} - ${currentPath[2]}`);
+  // console.log(`${currentPath[1]} - ${currentPath[2]}`);
 
   return (
     <Box
