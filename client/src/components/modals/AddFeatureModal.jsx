@@ -2,11 +2,15 @@ import { useEffect, useState } from "react";
 import { ModalUI, SelectUI, TextUI } from "@ui"
 import { userAPI, botFeatureAPI } from "@requests";
 import { showToast } from "@partials"
+import { useStore } from "@hooks"
 
 export default function AddFeatureModal({ clickRef, data }){
 
     const [bots, setBots] = useState([]);
     const [selectedBot, setSelectedBot] = useState([]);
+
+    const { getUser } = useStore()
+    const user = getUser()
 
     const addFeature = async () => {
         const response = await botFeatureAPI.addOneFeature({

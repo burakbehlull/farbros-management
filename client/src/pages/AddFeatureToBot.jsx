@@ -15,7 +15,7 @@ export default function AddFeatureToBot() {
     const limit = 9;
 
     const fetchFeatures = async () => {
-        const response = await featureAPI.getFeatures(page, limit );
+        const response = await featureAPI.getFeatures(page, limit);
         setFeatures(response.data);
         setTotalItems(response.totalItems);
     };

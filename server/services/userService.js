@@ -54,9 +54,14 @@ const DeleteUser = async (userId) => {
 const LoginUser = async ({ username, password }) => {
     try {
         const user = await GetUserByUsername(username);
+        
+        if (!user) return { message: "Kullanıcı bulunamadı", isUser: false };
 
-        const verify = verifyRefreshToken(user.token, true)
-        const userVerify = user.email === verify.email
+        if(user.password !== password) return { message: "Bu bilgilere ait hesap bulunamadı", isUser: false };
+
+        const verify = verifyRefreshToken(user?.token, true)
+        const userVerify = user?.email === verify?.email
+
         if(!userVerify) return { message: "Kullanıcı kimliği doğrulanmadı", isUser: false };
         
         const expiredToken = isExpired(user.token)
@@ -69,13 +74,12 @@ const LoginUser = async ({ username, password }) => {
             await updateUserRefreshToken(user.username, refreshToken)
         }
 
-        if (!user) return { message: "Kullanıcı bulunamadı", isUser: false };
 
-        if(user.password !== password) return { message: "Bu bilgilere ait hesap bulunamadı", isUser: false };
 
         const accessToken = generateAccessToken({
             email: user.email,
-            username: user.username
+            username: user.username,
+            _id: user._id
         })
 
         return { message: "Giriş başarılı", isUser: true, user, accessToken };
@@ -93,9 +97,10 @@ const RegisterUser = async ({ username, password, email }) => {
 
 
         const refreshToken = generateRefreshToken({ email, username })
-        const accessToken = generateAccessToken({ email, username })
+        
 
         const user = await CreateUser({ username, password, email, token: refreshToken });
+        const accessToken = generateAccessToken({ email, username, _id: user._id })
         return { message: "Kayıt yapıldı", isUser: true, user, accessToken: accessToken };
     } catch (error) {
         console.error("error", error)

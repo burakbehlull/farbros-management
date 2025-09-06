@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams, useOutletContext } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form';

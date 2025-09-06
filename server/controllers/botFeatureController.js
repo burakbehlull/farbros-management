@@ -76,7 +76,7 @@ const RemoveFromBotFeature = async (req, res) => {
 // Update Bot Feature Status
 const UpdateBotFeatureStatus = async (req, res) => {
     const { botId, featureId, status } = req.body;
-    console.log("[BODY]", req.body)
+    
     try {
         const result = await setBotFeatureStatus(featureId, botId, status);
         return res.status(200).json({ status: true, data: result });

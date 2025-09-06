@@ -3,6 +3,7 @@ import { InputAndTextUI, ButtonUI, TextUI } from "@ui"
 import { BotCreateSchema } from "@schemas"
 import { botAPI } from "@requests"
 import { showToast } from "@partials"
+import { useStore } from "@hooks"
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -13,11 +14,14 @@ export default function BotCreatePage(){
         resolver: yupResolver(BotCreateSchema)
     });
 
+    const { getUser } = useStore()
+    const user = getUser()
+    
     const handleCreateBot = async (data) => {
         try {
             const response = await botAPI.addBot({
                 token: data.token,
-                userId: "68ae0bbe6642cd4b63ed9dcd"
+                userId: user?.id
             })
             showToast({
                 message: `${response.bot.username} Bot başarıyla oluşturuldu.`,

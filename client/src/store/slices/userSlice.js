@@ -7,13 +7,13 @@ export const userSlice = createSlice({
     },
     reducers: {
         setStoreData: (state, action)=> {
-            state?.data = action.payload
+            state.data = action.payload
         },
         getStoreData: (state) => {
-            return state?.data
+            return state.data
         },
         clearStoreData: (state)=> {
-            state?.data = null
+            state.data = null
         },
         
     }

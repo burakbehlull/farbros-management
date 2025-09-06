@@ -9,7 +9,8 @@ import { useAuth } from '@hooks';
 export default function Home() {
     const isAuth = useAuth()
 
-    const isUser = isAuth?.expired === false
+    const isExpired = isAuth?.expired === false
+    const isUser = isAuth?.isUser
 
     const navigate = useNavigate();
     const handleNavigate = (path) => navigate(path);
@@ -40,7 +41,7 @@ export default function Home() {
 
                     <Box mt={7} display={'flex'} gap={4} justifyContent={"center"}>
                         
-                        {isUser ? <ButtonUI size="lg" onClick={() => handleNavigate('/dashboard')}>Start</ButtonUI> :
+                        {isExpired & isUser ? <ButtonUI size="lg" onClick={() => handleNavigate('/dashboard')}>Start</ButtonUI> :
                             <>
                             <ButtonUI 
                                 size="lg" 

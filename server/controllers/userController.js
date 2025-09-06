@@ -84,7 +84,8 @@ const GenerateNewAccessToken = async (req, res) => {
 
         const accessToken = generateAccessToken({
             email: user.email,
-            username: user.username
+            username: user.username,
+            _id: user._id
         })
 
         return res.status(200).json({ status: true, accessToken });

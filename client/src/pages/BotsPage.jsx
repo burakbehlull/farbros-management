@@ -1,7 +1,9 @@
 import { Flex, Group } from "@chakra-ui/react";
 import { PaginationUI, TextUI } from "@ui";
 import { CardItemUI } from "@misc";
-import { userAPI } from "../helpers/requests";
+import { userAPI } from "@requests";
+import { useStore } from "@hooks";
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,9 +11,12 @@ export default function BotsPage() {
     const [bots, setBots] = useState([]);
     const navigate = useNavigate();
 
+    const { getUser } = useStore()
+    const user = getUser()
+
     useEffect(() => {
         const fetchBots = async () => {
-            const response = await userAPI.getUserBots('68ae0bbe6642cd4b63ed9dcd')
+            const response = await userAPI.getUserBots(user?.id)
             setBots(response.bots.bots);
         };
         

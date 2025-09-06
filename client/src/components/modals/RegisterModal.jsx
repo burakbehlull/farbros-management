@@ -5,11 +5,13 @@ import { RegisterSchema } from "@schemas"
 import { useCookie } from "@cookies";
 
 
+import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 export default function RegisterModal({ clickRef }){
     const { setToken } = useCookie()
+    const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(RegisterSchema)
