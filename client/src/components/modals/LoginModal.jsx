@@ -24,8 +24,7 @@ export default function LoginModal({ clickRef }){
 
             const userData = response?.data?.user
             const accessToken = response?.data?.accessToken
-
-            if(response.status & response.isUser){
+            if(response?.status & response?.data?.isUser){
                 setToken(accessToken)
                 showToast({
                     message: `${userData?.username} sisteme hoşgeldiniz.`,
@@ -37,12 +36,16 @@ export default function LoginModal({ clickRef }){
                 navigate('/dashboard')
                 reset({})
             }
-            showToast({
-                message: response?.message,
-                type: 'error',
-                id: 'user-login-error',
-                duration: 3000
-            });
+
+            if(response?.status && !response?.data?.isUser){
+                showToast({
+                    message: `${response?.data?.message}`,
+                    type: 'error',
+                    id: 'user-login-error',
+                    duration: 3000
+                });
+            }
+            
         } catch (error) {
             showToast({
                 message: 'Giriş yapılamadı',
