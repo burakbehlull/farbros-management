@@ -12,7 +12,7 @@ const botFeatureSchema = new mongoose.Schema({
         ref: "Bot", 
         required: true 
     },
-    status: { type: Boolean, default: false },
+    status: { type: Boolean, default: true },
 });
 
 export default mongoose.model("BotFeature", botFeatureSchema);

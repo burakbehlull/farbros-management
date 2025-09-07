@@ -73,13 +73,19 @@ async function loadEvents() {
 }
 
 async function deploySlashCommands(token, botId, commands) {
+  const slashCommands = []
+  for (const c of commands) {
+    slashCommands.push(c.data.toJSON())
+  }
+
+
   const rest = new REST().setToken(token);
     try {
     console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
     const data = await rest.put(
       Routes.applicationCommands(botId),
-      { body: commands },
+      { body: slashCommands },
     );
 
       console.log(`✅ Successfully reloaded ${data.length} application (/) commands.`);
