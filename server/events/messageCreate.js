@@ -3,12 +3,14 @@ import { checkFeature } from '#helpers';
 import { botService } from '#services';
 
 const { getPrefix } = botService;
+
 export default {
-  name: Events.MessageCreate, 
+  eventName: Events.MessageCreate,
+  name: "Message Uygulayıcı", 
   panelId: "event:prefixCommandExecuter",
   async execute(client, message) {
 	
-	  if(message.author.bot) return
+	if(message.author.bot) return
 	
     const botId = message.client.user.id;
     const prefix = await getPrefix(botId);

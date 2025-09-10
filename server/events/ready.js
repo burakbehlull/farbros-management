@@ -1,7 +1,8 @@
 import { Events, ActivityType } from 'discord.js';
 
 export default {
-	name: Events.ClientReady,
+	eventName: Events.ClientReady,
+	name: "Ready Eventi",
 	once: true,
 	panelId: "event:clientReady",
 	async execute(client) {

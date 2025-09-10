@@ -23,13 +23,13 @@ async function eventExecuter(client, events, botId){
 	for (const event of events) {
     // event execution
 		if (event.once) {
-		    client.once(event.name, async (...args) => {
+		    client.once(event.eventName, async (...args) => {
           const isAllowed = await checkFeature(event.panelId, botId);
           if(!isAllowed) return
           event.execute(client, ...args)
         });
 		} else {
-		    client.on(event.name, async (...args) => {
+		    client.on(event.eventName, async (...args) => {
           const isAllowed = await checkFeature(event.panelId, botId);
           if(!isAllowed) return
           event.execute(client, ...args)
@@ -40,7 +40,7 @@ async function eventExecuter(client, events, botId){
 }
 
 export {
-  checkFeature,
+	checkFeature,
 	allowToFeatures,
 	eventExecuter
 }

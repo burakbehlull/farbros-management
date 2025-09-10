@@ -3,7 +3,8 @@ import { Events } from 'discord.js';
 
 
 export default {
-  name: Events.InteractionCreate,
+  eventName: Events.InteractionCreate,
+  name: "İnteraction uygulayıcı",
   panelId: "event:slashCommandExecuter",
   async execute(client, interaction) {
 	

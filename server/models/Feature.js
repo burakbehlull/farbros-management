@@ -8,7 +8,7 @@ const featureSchema = new mongoose.Schema({
       type: String, 
       enum: ["prefix", "slash", "event"], 
       required: true 
-	  }
+	}
 });
 
 export default mongoose.model("Feature", featureSchema);
