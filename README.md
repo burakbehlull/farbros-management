@@ -38,17 +38,35 @@ JWT_REFRESH_SECRET=your_refresh_secret
 | Route | About | Values | Request |
 | -------- | -------- | -------- | -------- |
 | **/** | Pulls all bots | .. | GET |
-| **/:id** | Finds the bot based on the given id | .. |  GET |
-| **/:id/status** | Gets the status of the bot | .. |  GET |
-| **/** | Adds the bot you sent the token to the system | token, userId |  POST |
+| **/** | Adds the bot you sent the token to the system | token, userId | POST |
+| **/:id** | Finds the bot based on the given id | .. | GET |
+| **/:id** | Updates bot information | name, token, prefix | PUT |
+| **/:id/status** | Gets the status of the bot | .. | GET |
 | **/:id/start** | Starts the bot | .. |  POST |
 | **/:id/stop** | Stops the bot | .. |  POST |
-| **/:id** | Updates bot information | name, token, prefix | PUT |
 | **/:id/prefix** | Updates the bot's prefix | prefix | PATCH |
 | **/:id/reload** | Refreshes all commands and events | .. | POST |
 | **/:id/reload/prefix** | Refreshes prefix commands | .. | POST |
 | **/:id/reload/slash** | Refreshes slash commands | .. | POST |
 | **/:id/reload/event** | Refreshes event commands | .. | POST |
+
+### **/features**
+| Route | About | Values | Request |
+| -------- | -------- | -------- | -------- |
+| **/** | Pulls all features | page, limit | GET |
+| **/** | Create feature | panelId, name, description, type | POST |
+| **/** | Update to feature | panelId, name, description, type | PATCH |
+| **/by** | Finds the feature based on the given id | panelId | POST |
+| **/sync** | Pulls all commands and uploads them to the database | .. | PATCH |
+
+### **/bot-feature**
+| Route | About | Values | Request |
+| -------- | -------- | -------- | -------- |
+| **/** | Finds the bot feature based on the given id | page, limit, botId (query) | GET |
+| **/** | Update bot enabled status | botId, featureId, status | PATCH |
+| **/** | Delete bot feature | botId, featureId | DELETE |
+| **/one** | Create one bot feature | botId, feature | POST |
+| **/many** | Create many bot feature | botId, data | POST |
 
 
 
