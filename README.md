@@ -3,9 +3,20 @@
 ### path: 
 ` npm install ` or ` yarn `
 
-` npm start ` or ` yarn `
+` npm start ` or ` yarn start `
 
 <br />
+
+` recommended version ` : ` v20.16.0 `
+
+<br />
+
+**Features**:
+- Supports multi-bot functionality.
+- Supports prefix, slash, and event systems.
+- Supports adding different features to each bot.
+- Supports enabling/disabling features on bots.
+- Supports changing the bot's prefix.
 
 ### Create an `.env` file on the server and client side and configure it like this:
 ` server `
