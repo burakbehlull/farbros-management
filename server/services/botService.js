@@ -7,7 +7,10 @@ const addBot = async (data) => {
     return newBot;
   } catch (error) {
     console.error("[addBot] Error adding bot:", error);
-    throw new Error("Error adding bot");
+    return {
+		status: false,
+		error: error
+	}
   }
 };
 
@@ -17,16 +20,20 @@ const getAllBots = async () => {
         return bots;
     } catch (error) {
         console.error("[getFeatureList] Error fetching bots:", error);
-        throw new Error("Error fetching bot list");
+        return {
+			status: false,
+			error: error
+		}
     }
 };
 
 const getBotById = async (botId) => {
     try {
         const bot = await Bot.findOne({ botId });
-        if (!bot) {
-            throw new Error(`Bot with botId ${botId} not found`);
-        }
+        if (!bot) return {
+			status: false,
+			message: 'Bot bulunamadı!'
+		}
         return bot;
     } catch (error) {
         console.error(`[getBotById] Error fetching bot with botId ${botId}:`, error);
@@ -37,13 +44,13 @@ const getBotById = async (botId) => {
 const getBotByToken = async (token) => {
     try {
         const bot = await Bot.findOne({ token });
-        if (!bot) {
-            throw new Error(`Bot with token ${token} not found`);
-        }
+        if (!bot) return {
+			status: false,
+			message: 'Bot bulunamadı'
+		}
         return bot;
     } catch (error) {
         console.error(`[getBotById] Error fetching bot with token ${token}:`, error);
-        throw new Error(`Error fetching bot with token ${token}`);
     }
 };
 
@@ -52,55 +59,67 @@ const setBotByToken = async (botId, token) => {
         const bot = await Bot.findOne({ botId });
         bot.token = token
         await bot.save()
-        if (!bot) {
-            throw new Error(`Bot with token ${botId} not found`);
-        }
+        if (!bot) return {
+			status: false,
+			message: "Bot bulunamadı"
+		}
         return bot;
     } catch (error) {
         console.error(`[setBotById] Error fetching bot with token ${token}:`, error);
-        throw new Error(`Error fetching bot with token ${token}`);
+		return {
+			status: false,
+			error: error
+		}
     }
 };
 
 const getBotByUnderScoreId = async (id) => {
     try {
         const bot = await Bot.findById({ _id: id });
-        if (!bot) {
-            throw new Error(`Bot with id ${id} not found`);
-        }
+        if (!bot) return {
+			status: false,
+			message: "Bot bulunamadı"
+		}
         return bot;
     } catch (error) {
         console.error(`[getBotById] Error fetching bot with id ${id}:`, error);
-        throw new Error(`Error fetching bot with id ${id}`);
+        return {
+			status: false,
+			error: error
+		}
     }
 };
 
 const removeBot = async (botId) => {
   try {
     const deletedBot = await Bot.findOneAndDelete({ bot: botId });
-    if (!deletedBot) {
-      throw new Error(
-        `Bot ${featureId} for bot ${botId} not found`
-      );
-    }
+    if (!deletedBot) return {
+		status: false,
+		message: 'Bot bulunamadı'
+	}
     return deletedBot;
   } catch (error) {
-    console.error(
-      `[deletedBot] Error removing bot: ${botId}`,
-      error
-    );
-    throw new Error(`Error removing bot ${botId}`);
+    console.error(`[deletedBot] Error removing bot: ${botId}`, error );
+	return {
+		status: false,
+		error: error
+	}
+    
   }
 };
 
 const getPrefix = async (botId) => {
     try {
         const bot = await Bot.findOne({ botId });
-        if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+        if (!bot) return { status: false, message: "Bot bulunamadı." }
 
         return bot.prefix;
     } catch (error) {
-        console.error(`[getBotById] Error fetching bot with token ${token}:`, error);
+        console.error(`[getBotById] Error fetching bot with token`, error);
+		return {
+			status: false,
+			error: error
+		}
     }
 };
 
@@ -110,10 +129,10 @@ export {
 	
 	getAllBots,
 	getBotById,
-  getBotByUnderScoreId,
+	getBotByUnderScoreId,
 	
 	getBotByToken,
 	setBotByToken,
 
-  getPrefix
+	getPrefix
 }

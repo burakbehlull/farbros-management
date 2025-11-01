@@ -29,7 +29,7 @@ const botAPI = {
 	
     presence: (id, data, config) => API.post(`/bots/${id}/presence`, data, config),
 	
-    servers: (id) => API.get(`/bots/${id}/servers`, data, config)
+    servers: (id) => API.get(`/bots/${id}/servers`)
 	
 };
 

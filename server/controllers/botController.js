@@ -358,18 +358,19 @@ const BotServers = async (req, res) => {
   try {
     const { id } = req.params;
     const bot = await getBotById(id);
-    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+    if (!bot) return res.status(200).json({ message: "Bot bulunamadı." });
 
     const index = botList.findIndex(b => b.token === bot.token);
  
     const iBot = botList[index].client
-	
+	if(!iBot) return res.status(200).json({ status: true, message: "Bot başlatılmamış!" });
+
 	const servers = iBot.guilds.cache
 
-    return res.status(200).json({ status: true, message: "Durum değiştirildi", data: servers });
+    return res.status(200).json({ status: true, message: "Sunucular çekildi", data: servers });
   } catch (err) {
     console.error("[bot controller - BotServers]:", err);
-    return res.status(500).json({ status: false, message: "Durum değiştirilmedi", error: err.message });
+    return res.status(500).json({ status: false, message: "Sunucular çekilemedi", error: err.message });
   }
 };
 

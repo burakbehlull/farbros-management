@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
+import { Flex, Box, Group, Highlight, Stack, Badge } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -25,6 +25,7 @@ export default function BotPage() {
 	const navigate = useNavigate()
     const [botDetail, setBotDetail] = useState(null);
     const [botStatus, setBotStatus] = useState(false);
+    const [servers, setServers] = useState([]);
 
     const fetchBotDetails = async (id) => {
         try {
@@ -115,11 +116,22 @@ export default function BotPage() {
         }
     }
 
+	async function getServers(){
+		const result = await botAPI.servers(botId)
+		console.log("rr", result)
+		if(!result?.status) return
+		setServers(result?.data)
+	}
 
     useEffect(() => {
         fetchBotDetails(botId);
         fetchBotStatus(botId)
+		
     }, [botId]);
+	
+	useEffect(()=> {
+		if(botStatus) getServers()
+	}, [botStatus])
 
     
     return (
@@ -176,6 +188,24 @@ export default function BotPage() {
 							_hover={{bg:"red.600"}}
 						>Dashboard</ButtonUI>
 					</Group>
+					
+					<Flex
+					  mt={10}
+					  gap={3}
+					  flexWrap="wrap"    
+					  justifyContent="flex-start"
+					>
+					  {servers?.map((server, key) => (
+						<Badge
+						  key={key}
+						  variant="solid"
+						  colorPalette="yellow"
+						  mb={2}
+						>
+						  {server?.name}
+						</Badge>
+					  ))}
+					</Flex>
                 </Box>
 
                 <Box 
@@ -202,6 +232,8 @@ export default function BotPage() {
                         <ButtonUI onClick={handleSubmit(handleBotUpdate)}>Güncelle</ButtonUI>
                     </Group>
                 </Box>
+				
+				
             </Flex>
         </>
     );
