@@ -14,7 +14,8 @@
     "#controllers": "./controllers/index.js",
     "#models": "./models/index.js",
     "#helpers": "./helpers/index.js",
-    "#services": "./services/index.js"
+    "#services": "./services/index.js",
+    "#libs": "./libs/index.js",
   },
   "keywords": [],
   "author": "Burak Behlül <@burakbehlull>",
