@@ -22,7 +22,7 @@ router.post('/:id/reload/slash', reloadSlashCommands);
 router.post('/:id/reload/event', reloadEvents);
 
 router.get('/:id/status', BotIsStatusById);
-router.get('/:id/presence', BotPresence);
+router.post('/:id/presence', BotPresence);
 router.get('/:id/servers', BotServers);
 
 export default router;

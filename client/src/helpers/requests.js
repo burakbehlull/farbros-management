@@ -25,7 +25,12 @@ const botAPI = {
     reloadAll: (id) => API.post(`/bots/${id}/reload`),
     reloadPrefixCommands: (id) => API.post(`/bots/${id}/reload/prefix`),
     reloadSlashCommands: (id) => API.post(`/bots/${id}/reload/slash`),
-    reloadEvents: (id) => API.post(`/bots/${id}/reload/events`)
+    reloadEvents: (id) => API.post(`/bots/${id}/reload/events`),
+	
+    presence: (id, data, config) => API.post(`/bots/${id}/presence`, data, config),
+	
+    servers: (id) => API.get(`/bots/${id}/servers`, data, config)
+	
 };
 
 const botFeatureAPI = {

@@ -2,6 +2,8 @@ import { Icon } from "@chakra-ui/react"
 import { TbSlash } from "react-icons/tb";
 import { VscSymbolEvent, VscDebugStart, VscDebugStop } from "react-icons/vsc";
 import { TbTilde } from "react-icons/tb";
+import { BiLeftArrowAlt } from "react-icons/bi";
+
 
 const IconUI = ({ as, boxSize, color, bg, ...props }) => {
     return (
@@ -11,6 +13,10 @@ const IconUI = ({ as, boxSize, color, bg, ...props }) => {
 
 const TbSlashIcon = () => {
     return <IconUI as={TbSlash} />
+}
+
+const BiLeftArrowAltIcon = ({...props}) => {
+    return <IconUI as={BiLeftArrowAlt} {...props} />
 }
 const VscSymbolEventIcon = () => {
     return <IconUI as={VscSymbolEvent} />
@@ -37,5 +43,6 @@ export {
     TbTildeIcon as PrefixIcon,
 
     VscDebugStartIcon,
-    VscDebugStopIcon
+    VscDebugStopIcon,
+	BiLeftArrowAltIcon
 }

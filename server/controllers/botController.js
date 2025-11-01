@@ -7,7 +7,6 @@ const { getFeaturesByBotId } = botFeatureService
 
 export const botList = [];
 
-
 const BotAdd = async (req, res) => {
   try {
     const { token, userId } = req.body;

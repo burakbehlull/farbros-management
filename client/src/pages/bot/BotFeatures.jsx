@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
 import { Flex, Group, Highlight  } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { PaginationUI, TextUI, SwitchUI } from "@ui";
 import { CardItemUI, controlIconType } from "@misc";
 import { botFeatureAPI, botAPI } from "@requests";
 import { showToast } from "@partials"
+import { BiLeftArrowAltIcon } from "@icons";
 
 
 export default function BotFeatures() {
-
+	const navigate = useNavigate()
     const { botId } = useParams();
     const [features, setFeatures] = useState([]);
     const [botDetail, setBotDetail] = useState([]);
@@ -100,6 +101,9 @@ export default function BotFeatures() {
 
     return (
         <Flex direction="column" p={4}>
+			<Group mb={4}>
+				<BiLeftArrowAltIcon boxSize={6} cursor="pointer" onClick={()=> navigate(-1)} />
+			</Group>
 
             <Group mb={4} width="100%" display="flex" justifyContent={{
                 base: "center",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,7 @@ import { TextUI, InputAndTextUI, ButtonUI } from '@ui'
 import { botAPI } from '@requests'
 import { BotPageSchema } from '@schemas'
 import { showToast } from "@partials"
-import { VscDebugStartIcon, VscDebugStopIcon } from "@icons"
+import { VscDebugStartIcon, VscDebugStopIcon, BiLeftArrowAltIcon } from "@icons"
 
 export default function BotPage() {
 
@@ -22,6 +22,7 @@ export default function BotPage() {
     });
 
     const { botId } = useParams();
+	const navigate = useNavigate()
     const [botDetail, setBotDetail] = useState(null);
     const [botStatus, setBotStatus] = useState(false);
 
@@ -123,6 +124,9 @@ export default function BotPage() {
     
     return (
         <>
+			<Group mb={4}>
+				<BiLeftArrowAltIcon boxSize={6} cursor="pointer" onClick={()=> navigate(-1)} />
+			</Group>
             <Group mb={4} width="100%" display="flex" justifyContent={{
                 base: "center",
                 sm: "center",
@@ -131,7 +135,7 @@ export default function BotPage() {
                 <TextUI fontSize="2xl" fontWeight="bold" mb={4}>
                     <Highlight query={botDetail?.username ? botDetail.username : "  "}
                         styles={{ px: "1.5", bg: "red.400", borderRadius: "sm"}}
-                    >{botDetail?.username ? botDetail.username : "  "}</Highlight> Bot Paneli
+                    >{botDetail?.username ? botDetail.username : "  "}</Highlight> Bot Panel
                 </TextUI>
             </Group>
             <Flex 
@@ -161,7 +165,17 @@ export default function BotPage() {
                         {botStatus ? 
                         <TextUI fontWeight="semibold">Durdur <VscDebugStopIcon boxSize={10} cursor="pointer" onClick={stopBot} /></TextUI>  
                         : <TextUI fontWeight="semibold">Başlat <VscDebugStartIcon boxSize={12} cursor="pointer" onClick={startBot} /></TextUI> }
-                    </Group>
+                    
+						<TextUI fontWeight="semibold">Zorla Durdur <VscDebugStopIcon boxSize={10} cursor="pointer" onClick={stopBot} /></TextUI>  
+                    
+					</Group>
+					
+					<Group mt={10} gap={6} display="block">
+                        <ButtonUI onClick={()=>navigate('panel')}
+							bg="red.500"
+							_hover={{bg:"red.600"}}
+						>Dashboard</ButtonUI>
+					</Group>
                 </Box>
 
                 <Box 
@@ -183,6 +197,7 @@ export default function BotPage() {
                         errorText={errors?.token?.message} 
                         {...register('token')}
                     />
+					
                     <Group>
                         <ButtonUI onClick={handleSubmit(handleBotUpdate)}>Güncelle</ButtonUI>
                     </Group>
