@@ -326,23 +326,76 @@ const getBotByIdRoute = async (req, res) => {
   }
 }
 
+// bot config
+const BotPresence = async (req, res) => {
+  try {
+    const { id } = req.params;
+	const { status, presenceName, presenceType } = req.body;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const index = botList.findIndex(b => b.token === bot.token);
+ 
+    const iBot =  botList[index].client
+	
+	if(status) await iBot.user.setStatus(status)
+	if(presenceName || presenceType) await iBot.user.setPresence({
+		activities: [
+            {
+                name: presenceName,
+                type: Number(presenceType)
+            }
+        ]
+	})
+
+    return res.status(200).json({ status: true, message: "Durum değiştirildi" });
+  } catch (err) {
+    console.error("[bot controller - BotPresence]:", err);
+    return res.status(500).json({ status: false, message: "Durum değiştirilmedi", error: err.message });
+  }
+};
+
+const BotServers = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(404).json({ message: "Bot bulunamadı." });
+
+    const index = botList.findIndex(b => b.token === bot.token);
+ 
+    const iBot = botList[index].client
+	
+	const servers = iBot.guilds.cache
+
+    return res.status(200).json({ status: true, message: "Durum değiştirildi", data: servers });
+  } catch (err) {
+    console.error("[bot controller - BotServers]:", err);
+    return res.status(500).json({ status: false, message: "Durum değiştirilmedi", error: err.message });
+  }
+};
+
+
+
 export {
 	BotAdd,
 	GetBots,
 	BotStart,
 	BotStop,
 
-  getBotByIdRoute,
+	getBotByIdRoute,
 
-  updateBotInfo,
+	updateBotInfo,
 
 	updatePrefix,
-  BotIsStatusById,
+	BotIsStatusById,
 
-  reloadAll,
+	reloadAll,
 
-  reloadEvents,
-  reloadPrefixCommands,
-  reloadSlashCommands
+	reloadEvents,
+	reloadPrefixCommands,
+	reloadSlashCommands,
+	
+	BotPresence,
+	BotServers
 
 }
