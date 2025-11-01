@@ -82,6 +82,7 @@ export default function LoginModal({ clickRef }){
                     placeholder="Şifrenizi giriniz.." 
                     required={false} 
                     errorText={errors?.password?.message} 
+					type="password"
                     {...register('password')}
                 />
             </ModalUI>

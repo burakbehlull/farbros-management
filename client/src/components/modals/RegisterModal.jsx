@@ -77,6 +77,7 @@ export default function RegisterModal({ clickRef }){
                     label="Şifre" 
                     placeholder="Şifrenizi giriniz.." 
                     required={false} 
+					type="password"
                     errorText={errors?.password?.message} 
                     {...register('password')}
                 />
