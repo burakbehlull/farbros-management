@@ -71,7 +71,7 @@ export default class Message {
 					channel: channel,
 					content: this.content
 				}
-			default '':
+			default:
 				return {
 					success: false
 				}
@@ -83,7 +83,7 @@ export default class Message {
 	getMessages(choose){
 		switch(choose){
 			let dm, user, messages, guild, channel
-			case 'user':
+			case 'dm':
 				user = await this.client.users.cache.get(this.userId)
 				dm = await user.createDM()
 				messages = await dm.messages.fetch({ limit: 100 })

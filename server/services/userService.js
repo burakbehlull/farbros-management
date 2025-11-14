@@ -18,7 +18,10 @@ const GetUserById = async (userId) => {
         const user = await User.findById(userId);
         return user;
     } catch (error) {
-        throw new Error("Error fetching user");
+        return {
+            message: "Kullanıcı bulunamadı",
+            isUser: false
+        }
     }
 };
 
@@ -27,7 +30,10 @@ const GetUserByUsername = async (username) => {
         const user = await User.findOne({ username })
         return user;
     } catch (error) {
-        throw new Error("Error fetching user");
+        return {
+            message: "Kullanıcı bulunamadı",
+            isUser: false
+        }
     }
 };
 
@@ -37,7 +43,7 @@ const UpdateUser = async (userId, updateData) => {
         const user = await User.findByIdAndUpdate(userId, updateData, { new: true });
         return user;
     } catch (error) {
-        throw new Error("Error updating user");
+        return { message: "Kullanıcı güncellenemedi", isUser: false }
     }
 };
 
@@ -46,7 +52,7 @@ const DeleteUser = async (userId) => {
         const result = await User.findByIdAndDelete(userId);
         return result;
     } catch (error) {
-        throw new Error("Error deleting user");
+        return { message: "Kullanıcı silinemedi", isUser: false }
     }
 };
 
@@ -115,7 +121,7 @@ const GetUserBots = async (userId) => {
 
         return { status: true, bots };
     } catch (error) {
-        throw new Error("Error fetching user bots");
+        return { status: false, message: "Botlar alınamadı", error };
     }
 };
 
