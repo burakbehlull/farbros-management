@@ -6,8 +6,8 @@ const { getBotById } = botService
 
 
 const CreateMessage = async(req, res) => {
-    const { botId, userId, messageId, serverId, channelId, content, type, genre } = req.body;
-   
+    const { botId } = req.params;
+    const { userId, messageId, serverId, channelId, content, type, genre } = req.body;
 
     try {
 
@@ -48,9 +48,9 @@ const CreateMessage = async(req, res) => {
     }
 }
 
-
 const GetMessages = async(req, res) => {
-    const { botId, userId, serverId, channelId, type } = req.body;
+    const { botId } = req.params;
+    const { userId, serverId, channelId, type } = req.body;
     try {
 
         const bot = await getBotById(botId);

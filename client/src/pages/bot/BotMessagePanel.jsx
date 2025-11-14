@@ -1,29 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { Box, Group, Highlight } from '@chakra-ui/react'
+import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
 import { BiLeftArrowAltIcon } from "@icons";
 
-import { botAPI } from '@requests'
+import { messageAPI } from '@requests'
 import { TextUI, InputAndTextUI, ButtonUI, SelectUI } from '@ui'
 
 import { showToast } from "@partials"
 
-
-const statusFlags = [
-	{label: 'idle', value: 'idle'},
-    {label: 'dnd', value: 'dnd'},
-    {label: 'online', value: 'online'},
-    {label: 'offline', value: 'offline'},
-]
-const presenceFlags = [
-    {label: 'Playing', value: 0},
-    {label: 'Streaming', value: 1},
-    {label: 'Listening', value: 2},
-    {label: 'Watching', value: 3},
-]
-
-export default function BotPanel() {
+export default function BotMessagePanel() {
 	const { botId } = useParams();
 	const navigate = useNavigate()
 	
@@ -44,7 +30,7 @@ export default function BotPanel() {
     }
 	
 	async function handleSubmit(){
-		const result = await botAPI.presence(botId,{
+		const result = await messageAPI.createMessage(botId,{
 			presenceName: config.presenceName,
 			presenceType: config.presenceType[0],
 			status: config.status[0]
@@ -52,9 +38,9 @@ export default function BotPanel() {
 		
 		if(!result?.status){
 			showToast({
-				message: `Özellik eklenemedi: ${result?.message || result?.error}`,
+				message: `Özellik mesajı eklendi: ${result?.message || result?.error}`,
 				type: 'error',
-				id: 'bot-panel',
+				id: 'bot-message-panel',
 				duration: 3000
 			})
 		}
@@ -62,7 +48,7 @@ export default function BotPanel() {
 		showToast({
             message: `${result?.message}`,
             type: 'success',
-            id: 'bot-panel',
+            id: 'bot-message-panel',
             duration: 3000
         });
 		

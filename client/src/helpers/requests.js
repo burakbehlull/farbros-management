@@ -33,6 +33,11 @@ const botAPI = {
 	
 };
 
+const messageAPI = {
+    getMessages: (botId, data) => API.post(`/messages/${botId}`, data),
+    createMessage: (botId, data) => API.post(`/messages/${botId}/create`, data,),
+}
+
 const botFeatureAPI = {
     getFeatures: (botId, page, limit, config) => API.get('/bot-feature', { botId, page, limit }, config),
 
@@ -74,5 +79,6 @@ export {
     botFeatureAPI,
     featureAPI,
     userAPI,
+    messageAPI
 }
 

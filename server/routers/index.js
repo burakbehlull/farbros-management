@@ -1,9 +1,8 @@
-
-// 
 import botRoute from './botRoute.js'
 import featureRoute from './featureRoute.js'
 import botFeatureRoute from './botFeatureRoute.js'
 import userRoute from './userRoute.js'
+import messageRoute from './messageRoute.js'
 import apiRouter from './apiRouter.js'
 
 export {
@@ -11,5 +10,6 @@ export {
 	featureRoute,
 	botFeatureRoute,
 	userRoute,
-	apiRouter,
+	messageRoute,
+	apiRouter
 }
