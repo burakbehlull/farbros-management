@@ -374,6 +374,33 @@ const BotServers = async (req, res) => {
   }
 };
 
+const GetBotData = async (req, res) => {
+  try {
+    const { id, guildId } = req.params;
+    const bot = await getBotById(id);
+    if (!bot) return res.status(200).json({ message: "Veri bulunamadı." });
+
+    const index = botList.findIndex(b => b.token === bot.token);
+ 
+    const iBot = botList[index].client
+	  if(!iBot) return res.status(200).json({ status: true, message: "Bot başlatılmamış!" });
+
+	  const server = await iBot.guilds.fetch(guildId)
+
+    const roles = await server.roles.fetch()
+    const channels = await server.channels.fetch()
+    const members = await server.members.fetch()
+
+    const data = { roles, channels, members }
+
+    return res.status(200).json({ status: true, message: "Veriler çekildi", data: data });
+
+  } catch (err) {
+    console.error("[bot controller - GetBotData]:", err);
+    return res.status(500).json({ status: false, message: "Veriler çekilemedi", error: err.message });
+  }
+};
+
 
 
 export {
@@ -396,6 +423,7 @@ export {
 	reloadSlashCommands,
 	
 	BotPresence,
-	BotServers
+	BotServers,
+  GetBotData
 
 }

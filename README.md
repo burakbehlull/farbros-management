@@ -60,6 +60,10 @@ JWT_REFRESH_SECRET=your_refresh_secret
 | **/:id/reload/prefix** | Refreshes prefix commands | .. | POST |
 | **/:id/reload/slash** | Refreshes slash commands | .. | POST |
 | **/:id/reload/event** | Refreshes event commands | .. | POST |
+| **/:id/status** | Set Bot Status | .. | GET |
+| **/:id/presence** | Set Bot Presence | .. | POST |
+| **/:id/servers** | Get Bot Servers | .. | GET |
+| **/:id/server/:guildId** | Get bot by guild id data | .. | GET |
 
 ### **/features**
 | Route | About | Values | Request |

@@ -1,7 +1,7 @@
 import express from 'express';
 import { GetBots, BotAdd, BotStart, BotStop, updatePrefix, updateBotInfo,
     reloadAll, reloadEvents, reloadSlashCommands, reloadPrefixCommands, getBotByIdRoute, 
-	BotIsStatusById, BotPresence, BotServers } from '#controllers';
+	BotIsStatusById, BotPresence, BotServers, GetBotData } from '#controllers';
 
 const router = express.Router();
 
@@ -24,5 +24,6 @@ router.post('/:id/reload/event', reloadEvents);
 router.get('/:id/status', BotIsStatusById);
 router.post('/:id/presence', BotPresence);
 router.get('/:id/servers', BotServers);
+router.get('/:id/server/:guildId', GetBotData);
 
 export default router;
