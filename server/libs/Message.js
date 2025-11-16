@@ -25,10 +25,13 @@ export default class Message {
 					message:'Başarılı',
 					content: this.content,
 					user: user
-				}	
+				}
+			break
 			case 'guild':
-				guild = await bot.client.guilds.cache.get(this.serverId)
+				guild = await this.client.guilds.cache.get(this.serverId)
+
 				channel = await guild.channels.fetch(this.channelId)
+
 				message = await channel.messages.fetch(this.messageId)
 				await message.reply(this.content)
 				
@@ -38,10 +41,12 @@ export default class Message {
 					content: this.content,
 					channel: channel
 				}
+				break
 			default:
 				return {
 					success: false
 				}
+				break
 		}
 	
 	}
@@ -61,20 +66,26 @@ export default class Message {
 					user: user,
 					content: this.content
 				}
+				break
 			case 'guild':
 				guild = await this.client.guilds.cache.get(this.serverId)
+
 				channel = await guild.channels.fetch(this.channelId)
+
 				await channel.send(this.content)
+
 				return {
 					success: true,
 					message: 'Başarılı',
 					channel: channel,
 					content: this.content
 				}
+				break
 			default:
 				return {
 					success: false
 				}
+				break
 		}
 		
 		

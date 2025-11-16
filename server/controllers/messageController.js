@@ -8,7 +8,6 @@ const { getBotById } = botService
 const CreateMessage = async(req, res) => {
     const { botId } = req.params;
     const { userId, messageId, serverId, channelId, content, type, genre } = req.body;
-
     try {
 
         const bot = await getBotById(botId);
@@ -30,9 +29,13 @@ const CreateMessage = async(req, res) => {
 
         switch (type) {
             case 'send':
-                message.send(genre)
+                await message.send(genre)
+                break
             case 'reply':
-                message.reply(genre)
+                await message.reply(genre)
+                break
+            default:
+                break
         }
 
         return res.status(200).json({
