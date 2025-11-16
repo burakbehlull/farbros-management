@@ -83,5 +83,9 @@ JWT_REFRESH_SECRET=your_refresh_secret
 | **/one** | Create one bot feature | botId, feature | POST |
 | **/many** | Create many bot feature | botId, data | POST |
 
-
+### **/messages**
+| Route | About | Values | Request |
+| -------- | -------- | -------- | -------- |
+| **/:botId** | Pulls messages | userId, serverId, channelId, type | POST |
+| **/:botId/create** | Sends messages, replies | userId, messageId, serverId, channelId, content, type, genre | POST |
 
