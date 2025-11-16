@@ -8,8 +8,8 @@
 	"server"
   ],
   "scripts": {
-    "server:start":"cd server && npm run start",
-    "client:dev":"cd client && npm run dev",
+    "server:start":"npm start -w server",
+    "client:dev": "npm run dev -w client",
     "start": "concurrently \"npm run client:dev\" \"npm run server:start\""
   },
   "keywords": [],

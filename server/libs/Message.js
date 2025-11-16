@@ -11,7 +11,7 @@ export default class Message {
 		this.content = config?.content || null
 	}
 	
-	reply(choose){
+	async reply(choose){
 		
 		let user, dm, message, guild, channel;
 		switch(choose){
@@ -38,7 +38,7 @@ export default class Message {
 					content: this.content,
 					channel: channel
 				}
-			default '':
+			default:
 				return {
 					success: false
 				}
@@ -46,11 +46,11 @@ export default class Message {
 	
 	}
 
-	send(choose){
+	async send(choose){
+		let user, guild, channel
 		
 		switch(choose){
 			
-			let user, guild, channel
 			
 			case 'dm':
 				user = await this.client.users.cache.get(this.userId)
@@ -80,9 +80,9 @@ export default class Message {
 		
 	}
 	
-	getMessages(choose){
+	async getMessages(choose){
+		let dm, user, messages, guild, channel
 		switch(choose){
-			let dm, user, messages, guild, channel
 			case 'dm':
 				user = await this.client.users.cache.get(this.userId)
 				dm = await user.createDM()
