@@ -5,7 +5,7 @@
   "main": "index.js",
   "workspaces": [
     "client",
-	"server"
+	  "server"
   ],
   "scripts": {
     "server:start":"npm start -w server",

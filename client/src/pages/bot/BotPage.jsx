@@ -182,11 +182,18 @@ export default function BotPage() {
                     
 					</Group>
 					
-					<Group mt={10} gap={6} display="block">
+					<Group mt={10} display="block">
                         <ButtonUI onClick={()=>navigate('panel')}
 							bg="red.500"
 							_hover={{bg:"red.600"}}
 						>Dashboard</ButtonUI>
+
+                        <ButtonUI 
+                            ml={3}
+                            onClick={()=>navigate('message-panel')}
+							bg="blue.500"
+							_hover={{bg:"blue.600"}}
+						>Message Panel</ButtonUI>
 					</Group>
 					
 					<Flex

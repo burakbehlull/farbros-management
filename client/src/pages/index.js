@@ -12,6 +12,7 @@ import BotPage from "./bot/BotPage"
 import Settings from "./Settings"
 import BotFeatures from "./bot/BotFeatures"
 import BotPanel from "./bot/BotPanel"
+import BotMessagePanel from "./bot/BotMessagePanel"
 
 
 export {
@@ -27,5 +28,6 @@ export {
     BotPage,
     Settings,
     BotFeatures,
-	BotPanel
+	BotPanel,
+    BotMessagePanel
 };

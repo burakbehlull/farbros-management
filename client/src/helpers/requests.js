@@ -29,13 +29,13 @@ const botAPI = {
 	
     presence: (id, data, config) => API.post(`/bots/${id}/presence`, data, config),
 	
-    servers: (id) => API.get(`/bots/${id}/servers`)
-	
+    servers: (id) => API.get(`/bots/${id}/servers`),
+    getBotData: (id, guildId) => API.get(`/bots/${id}/server/${guildId}`),	
 };
 
 const messageAPI = {
     getMessages: (botId, data) => API.post(`/messages/${botId}`, data),
-    createMessage: (botId, data) => API.post(`/messages/${botId}/create`, data,),
+    createMessage: (botId, data) => API.post(`/messages/${botId}/create`, data),
 }
 
 const botFeatureAPI = {

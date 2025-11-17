@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
-import { Flex, Box, Group, Highlight } from '@chakra-ui/react'
+import { Box, Group, Highlight, Flex } from '@chakra-ui/react'
 import { BiLeftArrowAltIcon } from "@icons";
 
-import { messageAPI } from '@requests'
+import { messageAPI, botAPI } from '@requests'
 import { TextUI, InputAndTextUI, ButtonUI, SelectUI } from '@ui'
 
 import { showToast } from "@partials"
@@ -14,10 +14,18 @@ export default function BotMessagePanel() {
 	const navigate = useNavigate()
 	
 	const [botDetail, setBotDetail] = useState(null);
-	const [config, setConfig] = useState({
-		presenceName: '',
-		presenceType: '',
-		status: ''
+    const [servers, setServers] = useState([]);
+    const [channels, setChannels] = useState([]);
+    const [users, setUsers] = useState([]);
+    const [messageData, setMessageData] = useState([]);
+	const [message, setMessage] = useState({
+		text: '',
+		server: '',
+		channel: '',
+        user: '',
+        msg: '',
+        type: '',
+        genre: ''
 	});
 	
 	const fetchBotDetails = async (id) => {
@@ -31,10 +39,28 @@ export default function BotMessagePanel() {
 	
 	async function handleSubmit(){
 		const result = await messageAPI.createMessage(botId,{
-			presenceName: config.presenceName,
-			presenceType: config.presenceType[0],
-			status: config.status[0]
-		})
+			content: message.text,
+			serverId: message.server[0],
+			channelId: message.channel[0],
+            userId: message.user,
+            type: message.type[0],
+            genre: message.genre[0],
+            messageId: message.msg[0]
+        })
+
+        console.log(`
+Submitting message with data: ${JSON.stringify({
+            content: message.text,
+            serverId: message.server[0],
+            channelId: message.channel[0],
+            userId: message.user,
+            type: message.type[0],
+            genre: message.genre[0],
+            messageId: message.msg[0]
+        })}
+        `)
+
+        console.log(result)
 		
 		if(!result?.status){
 			showToast({
@@ -54,10 +80,68 @@ export default function BotMessagePanel() {
 		
 	}
 	
+    async function fetchData(){
+	
+        const result = await botAPI.servers(botId);
+
+        const serversData = result?.data?.map((server) => ({
+            label: server.name,
+            value: server.id
+        }));
+
+        setServers(serversData)
+    }
+
+    async function getServerData(){
+	
+        const result = await botAPI.getBotData(botId, message?.server[0]);
+
+
+        const serverChannelData = result?.data?.channels?.map((server) => ({
+            label: server.name,
+            value: server.id
+        }));
+
+        setChannels(serverChannelData)
+
+        const serverUserData = result?.data?.members?.map((server) => ({
+            label: server.displayName,
+            value: server.userId
+        }));
+
+        setUsers(serverUserData)
+    }
+
+    async function getMessagesData(){
+        const result = await messageAPI.getMessages(botId,{
+            userId: message?.user,
+            serverId: message?.server[0],
+            channelId: message?.channel[0],
+            type: message?.type[0]
+        });
+
+        const targetMessageData = result?.data?.messages?.map((message) => ({
+            label: message.content,
+            value: message.id
+        }));
+
+        setMessageData(targetMessageData)
+    }
+
+
 	useEffect(() => {
         fetchBotDetails(botId);
+		fetchData();
     }, [botId]);
-	
+
+    useEffect(() => {
+        getServerData()
+    }, [message?.server]);
+    
+    useEffect(() => {
+        getMessagesData()
+    }, [message?.channel, message?.user, message?.type]);
+
     return (
         <>
 		  <Group mb={4}>
@@ -70,8 +154,8 @@ export default function BotMessagePanel() {
             }}>
                 <TextUI fontSize="2xl" fontWeight="bold" mb={4}>
                     <Highlight query={botDetail?.username ? botDetail.username : "  "}
-                        styles={{ px: "1.5", bg: "yellow.300", borderRadius: "sm"}}
-                    >{botDetail?.username ? botDetail.username : "  "}</Highlight> Bot Paneli
+                        styles={{ px: "1.5", bg: "blue.200", borderRadius: "sm"}}
+                    >{botDetail?.username ? botDetail.username : "  "}</Highlight> Bot Mesage Paneli
                 </TextUI>
             </Group>
 			
@@ -83,28 +167,79 @@ export default function BotMessagePanel() {
                 flexDirection={"column"}
             >
                 <InputAndTextUI 
-					value={config?.presenceName}
-					onChange={(e)=> setConfig({...config, presenceName: e.target.value})}
-                    label="Bot Durumu" 
-                    placeholder="Bot durumu giriniz.."
+					value={message?.text}
+					onChange={(e)=> setMessage({...message, text: e.target.value})}
+                    label="Mesaj İçeriği" 
+                    placeholder="Mesaj..."
 					
                 />
+
+                <Flex gap={4}>
+                    <SelectUI
+                        value={message?.type}
+                        title="Tür Seçin:  "
+                        items={[
+                            {label: 'Sunucu', value: 'guild'},
+                            {label: 'Kullanıcı', value: 'dm'}
+                        ]}
+                        setValue={(val) => setMessage({...message, type: val})}
+                    />
+
+                    <SelectUI
+                        value={message?.type}
+                        title="Gönderim Türü:  "
+                        items={[
+                            {label: 'Direkt Gönder', value: 'send'},
+                            {label: 'Mesajı Yanıtla', value: 'reply'}
+                        ]}
+                        setValue={(val) => setMessage({...message, genre: val})}
+                    />
+                </Flex>
+
+                <Flex gap={4}>
+                    <SelectUI
+                        value={message?.server}
+                        title="Bir sunucu seçin: "
+                        items={servers}
+                        setValue={(val) => setMessage({...message, server: val})}
+                    />
+                    
+                    <SelectUI
+                        value={message?.channel}
+                        title="Bir Kanal seçin: "
+                        items={channels}
+                        setValue={(val) => setMessage({...message, channel: val})}
+                    />
+
+                    <SelectUI
+                        value={message?.msg}
+                        title="Yanıtlanacak Mesajı seçin: "
+                        items={messageData ? messageData : []}
+                        setValue={(val) => setMessage({...message, msg: val})}
+                    />
+                </Flex>
+
+                
+
+                {/*
                 <SelectUI
-                    value={config?.presenceType}
-                    title="Bir aksiyon seçin: "
-                    items={presenceFlags}
-                    setValue={(val) => setConfig({...config, presenceType: val})}
+                    value={message?.user}
+                    title="Bir Kullanıcı seçin: "
+                    items={users}
+                    setValue={(val) => setMessage({...message, user: val})}
                 />
-				
-				<SelectUI
-                    value={config?.status}
-                    title="Bir bot durum seçin: "
-                    items={statusFlags}
-                    setValue={(val) => setConfig({...config, status: val})}
+                */  }
+
+                <InputAndTextUI 
+					value={message?.user}
+					onChange={(e)=> setMessage({...message, user: e.target.value})}
+                    label="Kullanıcı ID'si" 
+                    placeholder="ID..."
+					
                 />
 					
                 <Group>
-                    <ButtonUI onClick={handleSubmit}>Güncelle</ButtonUI>
+                    <ButtonUI onClick={handleSubmit}>Gönder</ButtonUI>
                 </Group>
             </Box>
         </>

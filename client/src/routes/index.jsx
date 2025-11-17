@@ -1,6 +1,6 @@
 import { useRoutes } from 'react-router-dom'
 import { Home, Authentication, DashboardLayout, BotCreatePage, 
-    BotsPage, Dashboard, AddFeatureToBot, BotPage, Settings, BotFeatures, BotPanel } from '@pages'
+    BotsPage, Dashboard, AddFeatureToBot, BotPage, Settings, BotFeatures, BotPanel, BotMessagePanel } from '@pages'
     
 export default function Routes(){
 
@@ -47,6 +47,10 @@ export default function Routes(){
 						{
                             path: 'bots/:botId/panel',
                             element: <BotPanel />
+                        },
+                        {
+                            path: 'bots/:botId/message-panel',
+                            element: <BotMessagePanel />
                         }
                         
                     ]
